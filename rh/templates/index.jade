@@ -1,0 +1,51 @@
+extends 'base'
+
+block scripts
+  script.
+    document.addEventListener('DOMContentLoaded', function(e) {
+      var fadeInQuotient = 0.18;
+      var navDelayOffset = 0.75;
+      var cards = document.querySelectorAll('#grid-view .heroine-card');
+      for (var i = 0; i < cards.length; i++) {
+        var card = cards[i];
+        card.style.transitionDelay = navDelayOffset + (i*fadeInQuotient) + 's';
+        card.classList.remove('animated-out');
+        var portrait = card.querySelector('.portrait');
+        portrait.style.transitionDelay = navDelayOffset + (i*fadeInQuotient) + 's';
+        var nameplate = card.querySelector('.nameplate');
+        nameplate.style.transitionDelay = navDelayOffset + ((i+1)*(fadeInQuotient*2)) + 's';
+      }
+
+      function clearDelays() {
+        var cards = document.querySelectorAll('#grid-view .heroine-card');
+        for (var i = 0; i < cards.length; i++) {
+          var card = cards[i];
+          card.style.transitionDelay = null;
+          var portrait = card.querySelector('.portrait');
+          portrait.style.transitionDelay = null;
+          var nameplate = card.querySelector('.nameplate');
+          nameplate.style.transitionDelay = null;
+        }
+      }
+
+      setTimeout(clearDelays, navDelayOffset+(cards.length*fadeInQuotient));
+    });
+
+block content
+  .clearfix
+  #views
+    #grid-view.container
+      for h in heroines
+        .heroine-card.animated-out.three.columns(data-id='{{h.slug}}')
+          .portrait
+            img(src='{{h.grid_image_thumbnail.url}}')
+          .diamonds
+            .left-line.diamond-line
+            .diamond1.diamond-small
+            .diamond2.diamond-large
+            .diamond3.diamond-small
+            .right-line.diamond-line
+          .clearfix
+          .nameplate {{h.name}}
+
+      

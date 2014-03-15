@@ -1,4 +1,17 @@
+.DS_Store
+Thumbs.db
+desktop.ini
+
 *.log
 *.pot
 *.pyc
+
 local_settings.py
+
+env
+rh/static/media/CACHE
+rh/static/media/heroines/portraits/*
+rh/static/css/layout.css
+rh/static/js/rh.js
+
+node_modules
