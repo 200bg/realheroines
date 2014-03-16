@@ -15,3 +15,4 @@ rh/static/css/layout.css
 rh/static/js/rh.js
 
 node_modules
+/assets
