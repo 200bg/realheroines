@@ -144,18 +144,26 @@ body {
     text-align: center;
     margin-top: 0;
     opacity: 1.0;
-    .transition(all 1.0s);
+    .transition(all 0.5s);
 
     .portrait {
       background-color: @rh-yellow;
       border-radius: 50%;
-      width: 150px;
-      height: 150px;
+      width: 219px;
+      height: 219px;
       overflow: hidden;
       opacity: 1.0;
       margin: 0 auto;
       margin-top: 0;
-      .transition(all 1.0s);
+      padding: 0px;
+      .transition(all 0.5s);
+
+      img {
+        width: 219px;
+        height: 219px;
+        border-radius: 50%;
+        overflow: hidden;
+      }
     }
 
     .nameplate {
@@ -183,7 +191,7 @@ body {
         min-width: 16px;
         background: @rh-grey-middle;
         vertical-align: middle;
-        .transition(0.5s);
+        .transition(0.66s);
       }
       .diamond-small {
         display: inline-block;
@@ -191,8 +199,10 @@ body {
         width: 0px;
         height: 0px;
         border: 1px solid transparent;
+        margin-left: -2px;
+        margin-right: -2px;
         .rotate(0rad);
-        .transition(0.5s);
+        .transition(0.66s);
       }
       .diamond-large {
         display: inline-block;
@@ -200,8 +210,10 @@ body {
         width: 0px;
         height: 0px;
         border: 1px solid transparent;
+        margin-left: -2px;
+        margin-right: -2px;
         .rotate(0rad);
-        .transition(0.5s);
+        .transition(0.66s);
       }
 
       .left-line {
@@ -218,13 +230,13 @@ body {
       .transition-delay(0s) !important;
 
       .portrait {
-        margin-top: -3px;
-        margin-bottom: 16px;
+        // margin-top: -3px;
+        // margin-bottom: 16px;
+        //padding: 5px;
         .transition-delay(0s) !important;
       }
 
       .nameplate {
-        margin-top: 8px;
         .transition-delay(0s) !important;
       }
 
@@ -242,14 +254,16 @@ body {
           height: 4px;
           border: 1px solid @rh-grey-middle;
           .rotate(0.785rad);
-          margin: 0;
+          margin-left: -1px;
+          margin-right: -1px;
         }
 
         .diamond-large {
           width: 5px;
           height: 5px;
           border: 1px solid @rh-grey-middle;
-          margin: 0;
+          margin-left: -1px;
+          margin-right: -1px;
           .rotate(0.785rad);
         }
       }

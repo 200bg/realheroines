@@ -13,7 +13,7 @@ block scripts
         var portrait = card.querySelector('.portrait');
         portrait.style.transitionDelay = navDelayOffset + (i*fadeInQuotient) + 's';
         var nameplate = card.querySelector('.nameplate');
-        nameplate.style.transitionDelay = navDelayOffset + ((i+1)*(fadeInQuotient*2)) + 's';
+        nameplate.style.transitionDelay = navDelayOffset + ((i+0.25)*(fadeInQuotient*2)) + 's';
       }
 
       function clearDelays() {
@@ -36,7 +36,7 @@ block content
   #views
     #grid-view.container
       for h in heroines
-        .heroine-card.animated-out.three.columns(data-id='{{h.slug}}')
+        .heroine-card.animated-out.four.columns(data-id='{{h.slug}}')
           .portrait
             img(src='{{h.grid_image_thumbnail.url}}')
           .diamonds
