@@ -12,6 +12,7 @@ class Migration(SchemaMigration):
         db.create_table('rh_heroine', (
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=140)),
+            ('title', self.gf('django.db.models.fields.CharField')(max_length=140)),
             ('nickname', self.gf('django.db.models.fields.CharField')(max_length=140)),
             ('slug', self.gf('django.db.models.fields.SlugField')(max_length=150)),
             ('birthdate', self.gf('django.db.models.fields.DateField')()),
@@ -44,6 +45,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_public': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '140'}),
+            'title': ('django.db.models.fields.CharField', [], {'max_length': '140'}),
             'nickname': ('django.db.models.fields.CharField', [], {'max_length': '140'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '150'})
         }

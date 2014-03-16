@@ -18,6 +18,7 @@ def unescape(text):
 class Heroine(models.Model):
   """All the data for a heroine goes here."""
   name = models.CharField(max_length=140)
+  title = models.CharField(max_length=140)
   nickname = models.CharField(max_length=140)
   slug = models.SlugField(max_length=150)
   birthdate = models.DateField()

@@ -1,0 +1,16 @@
+
+.global-nav nav {
+  text-align: center;
+}
+
+.global-nav nav a.link-home {
+  margin: auto;
+  border-right: none;
+  float: none;
+
+  padding: 0px;
+}
+
+#error-view {
+  text-align: center;
+}
