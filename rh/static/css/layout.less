@@ -141,6 +141,7 @@ body {
 
 body.about {
   background-color: @rh-black;
+  #views { top: 106px+108px; }
 
   #grid-view { display: none; }
   #portrait-view { display: none; }
@@ -149,6 +150,8 @@ body.about {
 }
 
 body.grid {
+  background-color: white;
+
   #grid-view { display: block; }
   #portrait-view { display: none; }
   #timeline-view { display: none; }
@@ -156,6 +159,7 @@ body.grid {
 }
 
 body.portrait {
+  background-color: white;
   #grid-view { display: none; }
   #portrait-view { display: block; }
   #timeline-view { display: none; }
@@ -163,6 +167,7 @@ body.portrait {
 }
 
 body.timeline {
+  background-color: white;
   #grid-view { display: none; }
   #portrait-view { display: none; }
   #timeline-view { display: block; }
@@ -176,9 +181,8 @@ body.timeline {
 #views {
   width: 100%;
   height: auto;
-  background-color: @rh-black; 
   position: absolute;
-  top: 106px+108px;
+  top: 106px;
   right: 0;
   bottom: 0;
   left: 0;
