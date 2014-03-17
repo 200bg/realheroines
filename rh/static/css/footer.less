@@ -1,0 +1,112 @@
+body.about footer {
+  position: absolute;
+  top: 106px;
+
+  #about-link .control:after {
+    top: 0px;
+    .rotate(2.355rad);
+  }
+}
+
+
+footer {
+  position: fixed;
+  bottom: 0;
+  height: 108px;
+  width: 100%;
+  border-top: 2px solid @rh-grey-middle;
+  border-bottom: 2px solid @rh-grey-middle;
+  background-color: #ffffff;
+
+  #about-link {
+    position: absolute;
+    top: 36px;
+    display: block;
+    width: 160px;
+    line-height: 42px;
+    height: 40px;
+    border-radius: 3px;
+    overflow: hidden;
+    color: white;
+    font-size: 14px;
+    background-color: @rh-green;
+    white-space: nowrap;
+
+    .text {
+      float: left;
+      width: 109px;
+      height: 40px;
+      text-align: center;
+      background-color: @rh-green-light;
+    }
+
+    .control {
+      float: right;
+      width: 51px;
+      height: 40px;
+      position: relative;
+
+      &:after {
+        position: absolute;
+        top: 6px;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: block;
+        content: "";
+        margin: auto;
+        width: 10px;
+        height: 10px;
+        border-top: 1px solid white;
+        border-right: 1px solid white;
+        .rotate(-0.785);
+      }
+    }
+  }
+
+  .copyright {
+    float: right;
+    position: relative;
+    top: 36px;
+    width: 50%;
+    height: 40px;
+
+    .legal {
+      float: left;
+      width: 83%;
+      height: 40px;
+      line-height: 40px;
+      text-align: right;
+      border-right: 1px solid @rh-grey-faded;
+      padding-right: 10px;
+      margin-right: 10px;
+
+      .actual {
+        margin-top: 7px;
+        font-size: 10px;
+        line-height: 14px;
+        color: @rh-grey;
+        text-transform: uppercase;
+      }
+
+      .subtitle {
+        font-size: 10px;
+        line-height: 14px;
+        color: @rh-grey-faded;
+        text-transform: none;
+      }
+    }
+
+    .footer-logo {
+      float: left;
+      margin-top: 6px;
+      width: 10%;
+      overflow: visible;
+      text-transform: uppercase;
+      font-size: 14px;
+      line-height: 16px;
+      color: @rh-grey;
+      font-family: 'Fanwood Text', Georgia, serif;
+    }
+  }
+}
