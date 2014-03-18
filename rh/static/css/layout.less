@@ -1,19 +1,3 @@
-/*
-* Skeleton V1.2
-* Copyright 2011, Dave Gamache
-* www.getskeleton.com
-* Free to use under the MIT license.
-* http://www.opensource.org/licenses/mit-license.php
-* 6/20/2012
-*/
-
-/* Table of Content
-==================================================
-  #Site Styles
-  #Page Styles
-  #Media Queries
-  #Font-Face */
-
 // modularized
 @import url(http://fonts.googleapis.com/css?family=Muli:300,400,400italic,300italic|Fanwood+Text:400,400italic);
 @import 'colors.less';
@@ -55,6 +39,21 @@ body {
   width: 100%;
 }
 
+.real-heroines-logo-small {
+  width: 162px;
+  height: 65px;
+}
+
+.real-heroines-logo-smallest {
+  width: 78px;
+  height: 30px;
+}
+
+.real-heroines-logo-large {
+  width: 432px;
+  height: 180px;
+}
+
 .global-nav {
   display: block;
   margin: 0;
@@ -65,13 +64,13 @@ body {
   border-bottom: 2px solid @rh-grey-middle;
 
   nav {
-    height: 106px/2;
-    line-height: 106px/2;
+    height: 65px;
+    line-height: 65px;
     overflow: hidden;
-    margin-top: 106px/4;
+    margin-top: 18px;
 
     a {
-      margin-top: 0px;
+      margin-top: 27px;
       display: block;
       float: left;
       font-family: 'Mulu', Verdana, Arial, sans-serif;
@@ -79,6 +78,9 @@ body {
       color: @rh-grey-middle;
       text-decoration: none;
       padding: 0px 0px 0px 16px;
+      vertical-align: bottom;
+      height: 40px;
+      line-height: 40px;
 
       .transition(color 0.5s, opacity 1.4s, margin-top 0.75s, height 1.0s, line-height 1.0s);
     }
@@ -87,13 +89,24 @@ body {
       font-family: 'Fanwood Text', Georgia, serif;
       font-size: 24px;
       color: @rh-grey;
-      height: 106px/2;
+      height: 65px;
 
-      border-right: 1px solid @rh-grey-middle;
+      // border-right: 1px solid @rh-grey-middle;
       padding-right: 16px;
       padding-left: 0px;
-      line-height: 106px/2;
+      line-height: 65px;
       margin-top: 0px;
+      vertical-align: top;
+      opacity: 0.8;
+    }
+
+    .divider {
+      margin-top: 27px;
+      float: left;
+      height: 40px;
+      width: 1px;
+      background-color: @rh-grey-middle;
+      vertical-align: bottom;
     }
 
     a:hover,
@@ -139,9 +152,13 @@ body {
 /* #Page Styles
 ================================================== */
 
+body {
+  .transition(background-color 0.5s);
+}
+
 body.about {
   background-color: @rh-black;
-  #views { top: 106px+108px; }
+  #views { top: 106px+108px; bottom: 112px; }
 
   #grid-view { display: none; }
   #portrait-view { display: none; }
@@ -159,7 +176,7 @@ body.grid {
 }
 
 body.portrait {
-  background-color: white;
+  background-color: @rh-grey-middle;
   #grid-view { display: none; }
   #portrait-view { display: block; }
   #timeline-view { display: none; }
@@ -186,6 +203,7 @@ body.timeline {
   right: 0;
   bottom: 0;
   left: 0;
+  overflow: auto;
 }
 
 .diamonds {
@@ -240,286 +258,10 @@ body.timeline {
   }
 }
 
-#grid-view {
-  position: relative;
-  top: 50px;
 
-  .heroine-card {
-    text-align: center;
-    margin-top: 0;
-    opacity: 1.0;
-    .transition(all 0.5s);
-
-    .portrait {
-      background-color: @rh-yellow;
-      border-radius: 50%;
-      width: 219px;
-      height: 219px;
-      overflow: hidden;
-      opacity: 1.0;
-      margin: 0 auto;
-      margin-top: 0;
-      padding: 0px;
-      .transition(all 0.5s);
-
-      img {
-        width: 219px;
-        height: 219px;
-        border-radius: 50%;
-        overflow: hidden;
-      }
-    }
-
-    .nameplate {
-      opacity: 1.0;
-      margin-top: 0;
-      margin-bottom: 0;
-      .transition(all 1.0s);
-    }
-
-    .diamonds {
-      margin: 1em auto;
-      padding: 0;
-      width: 100%;
-      // width: 0.1%;
-      overflow: hidden;
-      white-space: nowrap;
-      height: 18px;
-      line-height: 18px;
-      text-align: center;
-
-      .diamond-line {
-        display: inline-block;
-        height: 1px;
-        width: 5%;
-        min-width: 16px;
-        background: @rh-grey-middle;
-        vertical-align: middle;
-        .transition(0.66s);
-      }
-      .diamond-small {
-        display: inline-block;
-        vertical-align: middle;
-        width: 0px;
-        height: 0px;
-        border: 1px solid transparent;
-        margin-left: -2px;
-        margin-right: -2px;
-        .rotate(0rad);
-        .transition(0.66s);
-      }
-      .diamond-large {
-        display: inline-block;
-        vertical-align: middle;
-        width: 0px;
-        height: 0px;
-        border: 1px solid transparent;
-        margin-left: -2px;
-        margin-right: -2px;
-        .rotate(0rad);
-        .transition(0.66s);
-      }
-
-      .left-line {
-        margin-right: -12px;
-      }
-
-      .right-line {
-        margin-left: -12px;
-      }
-    }
-
-    &:hover,
-    &.active {
-      .transition-delay(0s) !important;
-
-      .portrait {
-        // margin-top: -3px;
-        // margin-bottom: 16px;
-        //padding: 5px;
-        .transition-delay(0s) !important;
-      }
-
-      .nameplate {
-        .transition-delay(0s) !important;
-      }
-
-      .diamonds {
-        .left-line {
-          margin-right: -2px;
-        }
-
-        .right-line {
-          margin-left: -2px;
-        }
-
-        .diamond-small {
-          width: 4px;
-          height: 4px;
-          border: 1px solid @rh-grey-middle;
-          .rotate(0.785rad);
-          margin-left: -1px;
-          margin-right: -1px;
-        }
-
-        .diamond-large {
-          width: 5px;
-          height: 5px;
-          border: 1px solid @rh-grey-middle;
-          margin-left: -1px;
-          margin-right: -1px;
-          .rotate(0.785rad);
-        }
-      }
-    }
-
-    &.passive {
-      .portrait {
-        width: 85%;
-      }
-      .nameplate {
-        opacity: 0.5;
-      }
-    }
-
-
-    &.animated-out {
-      opacity: 0.0;
-
-      .portrait {
-        margin-top: 2.0em;
-        opacity: 0.0;
-      }
-      .nameplate {
-        opacity: 0.0;
-        margin-top: -1em;
-      }
-    }
-  }
-}
-
-#about-view {
-  position: relative;
-  top: 34px;
-  width: 100%;
-  background-color: @rh-black;
-
-  .about-container {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-
-    .about-details {
-      width: 98%;
-      min-height: 800px;
-      margin: 0px 1%;
-      border: 1px solid @rh-blacker;
-      margin-bottom: 34px;
-      text-align: center;
-
-      img.world-icon {
-        margin: 20px auto 0px;
-
-      }
-
-      header {
-        margin-top: 50px;
-        margin-bottom: 60px;
-
-        h1 {
-          display: inline-block;
-          font-family: 'Fanwood Text', Georgia, serif;
-          font-size: 72px;
-          color: @rh-yellow;
-          width: 70%;
-          margin: 0 auto;
-
-          &:before {
-            content:"";
-            display: inline-block;
-            width: 76px;
-            height: 57px;
-            margin-right: 10px;
-            background: transparent url('../img/leaf-right.png') top left;
-          }
-
-          &:after {
-            content:"";
-            display: inline-block;
-            width: 76px;
-            height: 57px;
-            margin-left: 10px;
-            background: transparent url('../img/leaf-right.png') top left;
-            .scaleX(-1);
-          }
-        }
-      }
-
-      .about-copy {
-        width: 80%;
-        margin: 0 auto;
-
-        h2 {
-          font-family: 'Mulu', Verdana, Arial, sans-serif;
-          font-size: 13px;
-          color: @rh-grey-faded;
-          text-transform: uppercase;
-        }
-
-        p {
-          font-size: 13px;
-          color: @rh-grey-faded;
-
-          a {
-            color: @rh-grey-faded;
-          }
-        }
-      }
-
-
-      .dedication {
-        position: relative;
-        width: 85%;
-        height: 100px;
-        border: 1px solid @rh-grey-faded;
-        margin: 50px auto 0px;
-        color: @rh-grey-faded;
-        h3 {
-          color: @rh-grey-faded;
-          font-size: 22px;
-          text-transform: uppercase;
-          line-height: 100px;
-        }
-
-        &:before {
-          display: block;
-          position: absolute;
-          top: 4px;
-          left: 3px;
-          content: "";
-          border-left: 1px solid @rh-grey-faded;
-          width: 18px;
-          height: 18px;
-          .rotate(0.785rad);
-        }
-
-        &:after {
-          display: block;
-          position: absolute;
-          bottom: 4px;
-          right: 3px;
-          content: "";
-          border-right: 1px solid @rh-grey-faded;
-          width: 18px;
-          height: 18px;
-          .rotate(0.785rad);
-        }
-      }
-    }
-  }
-}
+@import 'grid.less';
+@import 'portrait.less';
+@import 'about.less';
 
 
 /* #Media Queries
