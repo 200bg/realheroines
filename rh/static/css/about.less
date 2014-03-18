@@ -1,0 +1,135 @@
+#about-view {
+  position: relative;
+  top: 34px;
+  width: 100%;
+  background-color: @rh-black;
+
+  .about-container {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+
+    .about-details {
+      width: 98%;
+      min-height: 800px;
+      margin: 0px 1%;
+      border: 1px solid @rh-blacker;
+      margin-bottom: 34px;
+      text-align: center;
+
+      img.world-icon {
+        margin: 20px auto 0px;
+
+      }
+
+      header {
+        margin-top: 50px;
+        margin-bottom: -10px;
+
+        h1 {
+          display: inline-block;
+          width: 70%;
+
+          .real-heroines-logo-large {
+            display: inline-block;
+            font-family: 'Fanwood Text', Georgia, serif;
+            font-size: 72px;
+            color: @rh-yellow;
+            margin: 0 auto;
+          }
+
+          &:before {
+            content:"";
+            position: absolute;
+            top: auto;
+            left: auto;
+            margin-left: -48px;
+            margin-top: 35px;
+            display: inline-block;
+            width: 76px;
+            height: 57px;
+            margin-right: 10px;
+            background: transparent url('../img/leaf-right.png') top left;
+          }
+
+          &:after {
+            content:"";
+            display: inline-block;
+            position: absolute;
+            top: auto;
+            left: auto;
+            width: 76px;
+            height: 57px;
+            margin-left: 10px;
+            margin-top: 88px;
+            background: transparent url('../img/leaf-right.png') top left;
+            .scaleX(-1);
+          }
+        }
+      }
+
+      .about-copy {
+        width: 80%;
+        margin: 0 auto;
+
+        h2 {
+          font-family: 'Mulu', Verdana, Arial, sans-serif;
+          font-size: 13px;
+          color: @rh-grey-faded;
+          text-transform: uppercase;
+        }
+
+        p {
+          font-size: 13px;
+          color: @rh-grey-faded;
+
+          a {
+            color: @rh-grey-faded;
+          }
+        }
+      }
+
+
+      .dedication {
+        position: relative;
+        width: 85%;
+        height: 100px;
+        border: 1px solid @rh-grey-faded;
+        margin: 50px auto 0px;
+        color: @rh-grey-faded;
+        h3 {
+          color: @rh-grey-faded;
+          font-size: 22px;
+          text-transform: uppercase;
+          line-height: 100px;
+        }
+
+        &:before {
+          display: block;
+          position: absolute;
+          top: 4px;
+          left: 3px;
+          content: "";
+          border-left: 1px solid @rh-grey-faded;
+          width: 18px;
+          height: 18px;
+          .rotate(0.785rad);
+        }
+
+        &:after {
+          display: block;
+          position: absolute;
+          bottom: 4px;
+          right: 3px;
+          content: "";
+          border-right: 1px solid @rh-grey-faded;
+          width: 18px;
+          height: 18px;
+          .rotate(0.785rad);
+        }
+      }
+    }
+  }
+}

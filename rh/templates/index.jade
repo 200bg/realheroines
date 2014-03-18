@@ -47,13 +47,29 @@ block content
             .right-line.diamond-line
           .clearfix
           .nameplate {{h.name}}
+          .title {{h.title}}
+
+    #portrait-view.container
+      .portrait-container
+        .portrait-frame
+          .portrait-image.six.columns
+            img(src='{{h.hero_image.url}}')
+          .portrait-details.seven.columns &nbsp;
 
     #about-view.fullwidth
       .about-container.container
         .about-details
           img.world-icon(src='{{STATIC_URL}}img/world-icon.png')
           header
-            h1 Real Heroines
+            h1
+              img.real-heroines-logo-large(src='{{STATIC_URL}}img/real-heroines-logo-larg.svg')
+
+          .diamonds
+            .left-line.diamond-line
+            .diamond1.diamond-small
+            .diamond2.diamond-large
+            .diamond3.diamond-small
+            .right-line.diamond-line
           .about-copy
             h2 A real heroine is not a mythical goddess, flawless celebrity or animated princess.
             p 
@@ -74,13 +90,6 @@ block content
               | trying to find inspiration from the actions of their
               | predicessors. Let’s change the portrait of a heroine, and
               | encourage a future of strong innovative thinkers and leaders! 
-
-            .diamonds
-              .left-line.diamond-line
-              .diamond1.diamond-small
-              .diamond2.diamond-large
-              .diamond3.diamond-small
-              .right-line.diamond-line
 
           .dedication
             h3 Dedicated to the women of the past, present, and future
