@@ -1,9 +1,11 @@
 #portrait-view {
+  height: 100%;
 
   .portrait-container {
     position: relative;
     width: 85%;
-    height: 766px;
+    height: 100%;
+    min-height: 766px;
     background-color: @rh-grey-light;
     margin: 0 auto;
 
@@ -15,8 +17,279 @@
       left: 0;
       width: 96.3414%;
       height: 96.3414%;
-      border: 1px solid @rh-grey;
+      border: 1px solid @rh-grey-middle;
       margin: auto;
+
+      .portrait-image {
+        position: relative;
+        top: 40px;
+        left: 0.95%;
+        height: 340px;
+        text-align: center;
+
+        .portrait-circle {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          width: 82.64%;
+          height: 82.64%;
+          margin: auto;
+          border-radius: 50%;
+          background-color: #fcca2b;
+          background: #fcca2b url('../img/portrait-overlay.png') center center repeat-x;
+          overflow: hidden;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          width: 60.29411%;
+          height: 84.11764%;
+          margin: auto;
+        }
+
+        .portrait-ornament {
+          margin-top: 70%;
+          width: 88.235294%;
+          height: 33.529411%;
+        }
+      }
+
+      .corner-loop {
+        background: transparent url('../img/corner-loop.png') center center no-repeat;
+        width: 13px;
+        height: 13px;
+      }
+
+      .corner-ellipse {
+        background: transparent url('../img/corner-ellipse.png') center center no-repeat;
+        width: 30px;
+        height: 30px;
+      }
+
+      .loop-top-left {
+        position: absolute;
+        top: -13px;
+        left: -13px;
+        .scaleX(-1.0);
+      }
+
+      .loop-top-right {
+        position: absolute;
+        top: -13px;
+        right: -13px;
+      }
+
+      .loop-bottom-left {
+        position: absolute;
+        bottom: -13px;
+        left: -13px;
+        .scale(-1.0);
+      }
+
+      .loop-bottom-right {
+        position: absolute;
+        bottom: -13px;
+        right: -13px;
+        .scaleY(-1.0);
+      }
+
+      .ellipse-top-left {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+      }
+
+      .ellipse-bottom-right {
+        position: absolute;
+        bottom: 0px;
+        right: 0px;
+        .scale(-1.0);
+      }
+
+
+
+      .portrait-details {
+        position: relative;
+        top: 68px;
+        min-height: 300px;
+        color: @rh-grey;
+
+        h1 {
+          font-family: 'Fanwood Text', Georgia, serif;
+          font-size: 32px;
+          color: @rh-grey;
+          margin: 0 auto;
+        }
+
+        .portrait-title {
+          font-family: 'Muli', Verdana, Arial, sans-serif;
+          font-size: 14px;
+          color: @rh-grey-faded;
+          margin: 0 auto;
+        }
+
+        .portrait-data {
+          width: 100%;
+          margin-top: 18px;
+          border-top: 1px solid @rh-grey-faded;
+          border-bottom: 1px solid @rh-grey-faded;
+
+          &:after {
+            content: "";
+            position: absolute;
+            display: block;
+            width: 100%;
+            height: 5px;
+            border-bottom: 1px solid @rh-grey-faded;
+          }
+
+          .portrait-data-item {
+            float: left;
+            width: 33%;
+            min-height: 70px;
+            line-height: 18px;
+
+            .portrait-data-item-label {
+              text-transform: uppercase;
+              font-size: 12px;
+              color: @rh-grey;
+              margin-top: 17px;
+            }
+
+            .portrait-data-item-value {
+              font-family: 'Fanwood Text', Georgia, serif;
+              font-size: 14px;
+              text-align: oblique;
+              color: @rh-yellow;
+            }
+          }
+
+          .portrait-data-item-birth {
+            border-right: 1px solid @rh-grey-faded;
+          }
+          .portrait-data-item-death {
+            border-right: 1px solid @rh-grey-faded;
+
+            .portrait-data-item-label,
+            .portrait-data-item-value {
+              margin-left: 16px;
+            }
+          }
+          .portrait-data-item-nationality {
+            .portrait-data-item-label,
+            .portrait-data-item-value {
+              margin-left: 16px;
+            }
+          }
+        }
+
+        .portrait-copy {
+          margin-top: 28px;
+          min-height: 430px;
+          overflow: auto;
+          margin: 28px auto 0px;
+
+          h3 {
+            font-family: 'Fanwood Text', Georgia, serif;
+            font-size: 18px;
+            color: @rh-grey;
+          }
+
+          p {
+            margin: auto;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  #portrait-view {
+    .portrait-container {
+      .portrait-frame {
+        .portrait-image {
+          height: 268px;
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  #portrait-view {
+    .portrait-container {
+      width: 100%;
+
+      .portrait-frame  {
+        width: 100%;
+        height: auto;
+        border: none;
+
+        .corner-loop,
+        .corner-ellipse {
+          display: none;
+        }
+
+
+        .portrait-image {
+          left: 0;
+          width: 100%;
+          height: 405px;
+        }
+        .portrait-details {
+          width: 100%;
+          height: auto;
+          min-height: 0;
+
+          h1 {
+            width: 91%;
+          }
+          .portrait-title {
+            width: 91%;
+          }
+
+          .portrait-data-item-birth {
+            .portrait-data-item-label,
+            .portrait-data-item-value {
+              margin-left: 16px;
+            }
+          }
+
+          .portrait-copy {
+            width: 91%;
+            height: auto;
+            min-height: 0;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 479px) {
+  #portrait-view {
+    .portrait-container {
+      width: 100%;
+
+      .portrait-frame {
+        .portrait-image {
+          left: 0;
+          width: 100%;
+          height: 289px;
+        }
+        .portrait-details {
+          width: 100%;
+        }
+      }
     }
   }
 }

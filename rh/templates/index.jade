@@ -36,7 +36,7 @@ block content
   #views
     #grid-view.container
       for h in heroines
-        .heroine-card.animated-out.four.columns(data-id='{{h.slug}}')
+        a.heroine-card.animated-out.four.columns(data-id='{{h.slug}}',href="{% url 'heroine' h.slug %}")
           .portrait
             img(src='{{h.grid_image_thumbnail.url}}')
           .diamonds
@@ -52,12 +52,46 @@ block content
     #portrait-view.container
       .portrait-container
         .portrait-frame
+          .corner-loop.loop-top-left
+          .corner-ellipse.ellipse-top-left
+          .corner-loop.loop-top-right
+          .corner-loop.loop-bottom-left
+          .corner-loop.loop-bottom-right
+          .corner-ellipse.ellipse-bottom-right
+
           .portrait-image.six.columns
-            img(src='{{h.hero_image.url}}')
+            .portrait-circle
+            //- img(src='{{selected_heroine.hero_image.url}}')
+            img(src='{{STATIC_URL}}img/sample.png')
+            img.portrait-ornament(src='{{STATIC_URL}}img/portrait-ornaments.png')
           .portrait-details.seven.columns &nbsp;
+            h1 {{selected_heroine.name}}
+            .portrait-title {{selected_heroine.title}}
+            .portrait-data
+              .portrait-data-item.portrait-data-item-birth
+                .portrait-data-item-label Birth
+                .portrait-data-item-value {{selected_heroine.birthdate}}
+
+              .portrait-data-item.portrait-data-item-death
+                .portrait-data-item-label Death
+                .portrait-data-item-value {{selected_heroine.deathdate}}
+
+              .portrait-data-item.portrait-data-item-nationality
+                .portrait-data-item-label Nationality
+                .portrait-data-item-value {{selected_heroine.country}}
+
+              .clearfix
+
+            .portrait-copy
+              h3 What makes her <em>heroine</em>?
+              | {{selected_heroine.description_html|safe}}
+
+              .clearfix
+              
+
 
     #about-view.fullwidth
-      .about-container.container
+      .about-container
         .about-details
           img.world-icon(src='{{STATIC_URL}}img/world-icon.png')
           header
@@ -90,7 +124,7 @@ block content
               | trying to find inspiration from the actions of their
               | predicessors. Let’s change the portrait of a heroine, and
               | encourage a future of strong innovative thinkers and leaders! 
-
+          .clearfix
           .dedication
             h3 Dedicated to the women of the past, present, and future
 
