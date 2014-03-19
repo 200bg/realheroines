@@ -49,6 +49,15 @@ block content
           .nameplate {{h.name}}
           .title {{h.title}}
 
+    #portrait-navigation.fullwidth
+      #previous-button
+        .button-label Prev
+        .button-title {{previous_heroine.name}}
+      #next-button
+        .button-label Next
+        .button-title {{next_heroine.name}}
+      #grid-button
+
     #portrait-view.container
       .portrait-container
         .portrait-frame
@@ -87,7 +96,7 @@ block content
               | {{selected_heroine.description_html|safe}}
 
               .clearfix
-              
+
 
 
     #about-view.fullwidth
