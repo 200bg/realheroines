@@ -1,7 +1,50 @@
 #portrait-navigation {
-  height: 70px;
-  background-color: #ffffff;
   position: relative;
+  height: 68px;
+  background-color: #ffffff;
+
+  .arrow {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 36px;
+    height: 1px;
+    margin: auto;
+    background-color: @rh-grey-middle;
+
+    &:before {
+      content: "";
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin-top: -10px;
+      border-top: 1px solid @rh-grey-middle;
+      border-left: 1px solid @rh-grey-middle;
+      .rotate(-0.785rad);
+    }
+  }
+
+  .arrow-button {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    .button-label {
+      position: absolute;
+      top: 14px;
+      left: 100px;
+      font-family: 'Fanwood Text', Georgia, serif;
+      font-size: 16px;
+      color: @rh-grey;
+    }
+    .button-title {
+      position: absolute;
+      top: 34px;
+      left: 100px;
+      font-family: 'Muli', Verdana, Arial, sans-serif;
+      font-size: 14px;
+      color: @rh-grey-faded;
+    }
+  }
 
   #previous-button {
     position: absolute;
@@ -9,7 +52,11 @@
     left: 0;
     bottom: 0;
     width: 33%;
-    height: 70px;
+    height: 68px;
+
+    .arrow {
+      left: 40px;
+    }
   }
 
   #next-button {
@@ -18,8 +65,29 @@
     right: 0;
     bottom: 0;
     width: 33%;
-    height: 70px;
+    height: 68px;
     text-align: right;
+
+    .button-label {
+      text-align: right;
+      left: 0;
+      right: 100px;
+    }
+    .button-title {
+      text-align: right;
+      left: 0;
+      right: 100px;
+    }
+
+    .arrow {
+      right: 40px;
+
+      &:before {
+        position: relative;
+        left: 12px;
+        .rotate(2.355rad);
+      }
+    }
   }
 
   #grid-button {
@@ -28,22 +96,42 @@
     right: 0;
     bottom: 0;
     left: 0;
-    width: 50px;
-    height: 50px;
+    width: 34px;
+    height: 34px;
     margin: auto;
-    background-color: rgba(255,0,0,0.5);
+    overflow: hidden;
+    cursor: pointer;
+    .transition(all 0.5s);
+
+    .grid-block {
+      float: left;
+      width: 26.4705%;
+      height: 26.4705%;
+      margin-left: 2px;
+      margin-bottom: 2px;
+      opacity: 0.25;
+      background-color: @rh-grey-middle;
+      .transition(all 0.25s);
+    }
+
+    &:hover {
+      .grid-block {
+        opacity: 1.0;
+      }
+    }
   }
 }
 
 #portrait-view {
   margin-top: 30px;
-  height: 100%;
+  margin-bottom: 30px;
+  // height: 100%;
 
   .portrait-container {
     position: relative;
     width: 85%;
     height: 100%;
-    min-height: 766px;
+    min-height: 640px;
     background-color: @rh-grey-light;
     margin: 0 auto;
 
@@ -53,15 +141,17 @@
       right: 0;
       bottom: 0;
       left: 0;
-      width: 96.3414%;
-      height: 96.3414%;
+      width: auto;
+      height: auto;
       border: 1px solid @rh-grey-middle;
-      margin: auto;
+      margin: 20px;
 
       .portrait-image {
         position: relative;
+        float: left;
         top: 40px;
         left: 0.95%;
+        width: 340px;
         height: 340px;
         text-align: center;
 
@@ -82,17 +172,22 @@
 
         img {
           position: absolute;
-          top: 0;
+          top: -18px;
           right: 0;
           left: 0;
           bottom: 0;
-          width: 60.29411%;
-          height: 84.11764%;
+          width: 100%;
+          height: 100%;
           margin: auto;
+          image-rendering: -moz-crisp-edges;         /* Firefox */
+          image-rendering:   -o-crisp-edges;         /* Opera */
+          image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+          image-rendering: crisp-edges;
+          -ms-interpolation-mode: nearest-neighbor;
         }
 
         .portrait-ornament {
-          margin-top: 70%;
+          margin-top: 75%;
           width: 88.235294%;
           height: 33.529411%;
         }
@@ -154,6 +249,8 @@
 
       .portrait-details {
         position: relative;
+        float: left;
+        width: 55%;
         top: 68px;
         min-height: 300px;
         color: @rh-grey;
@@ -255,7 +352,11 @@
     .portrait-container {
       .portrait-frame {
         .portrait-image {
+          width: 268px;
           height: 268px;
+          img {
+            top: -14px;
+          }
         }
       }
     }
@@ -263,9 +364,17 @@
 }
 
 @media only screen and (max-width: 767px) {
+  #container {
+    margin-bottom: 110px;
+  }
+
   #portrait-view {
+    margin: 0 auto;
+    height: 100%;
+
     .portrait-container {
       width: 100%;
+      height: 100%;
 
       .portrait-frame  {
         width: 100%;
@@ -280,11 +389,11 @@
 
         .portrait-image {
           left: 0;
-          width: 100%;
-          height: 405px;
+          width: 380px;
+          height: 380px;
         }
         .portrait-details {
-          width: 100%;
+          width: 380px;
           height: auto;
           min-height: 0;
 
@@ -321,11 +430,15 @@
       .portrait-frame {
         .portrait-image {
           left: 0;
-          width: 100%;
-          height: 289px;
+          width: 260px;
+          height: 260px;
+
+          img {
+            top: -12px;
+          }
         }
         .portrait-details {
-          width: 100%;
+          width: 260px;
         }
       }
     }

@@ -112,6 +112,7 @@ body {
     a:hover,
     &[data-active="grid"] a.link-grid,
     &[data-active="portrait"] a.link-portrait,
+    &[data-active="heroine"] a.link-portrait,
     &[data-active="timeline"] a.link-timeline,
     &[data-active="home"] a.link-grid,
     {
@@ -209,14 +210,15 @@ body.timeline {
 
 #views {
   width: 100%;
-  height: 100%;
   position: absolute;
   top: 106px;
   right: 0;
   bottom: 0;
   left: 0;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
+
 
 .diamonds {
   margin: 1em auto;
@@ -290,15 +292,25 @@ body.timeline {
     #views {
       position: relative;
       top: 0px;
-      overflow: visible;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: visible;
     }
   }
 
   /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
-  @media only screen and (min-width: 480px) and (max-width: 767px) {}
+  @media only screen and (min-width: 480px) and (max-width: 767px) {
+    #views {
+      overflow-y: hidden;
+    }
+  }
 
   /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
-  @media only screen and (max-width: 479px) {}
+  @media only screen and (max-width: 479px) {
+    #views {
+      overflow-y: hidden;
+    }
+  }
 
 
 /* #Font-Face
