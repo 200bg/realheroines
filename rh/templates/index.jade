@@ -38,6 +38,7 @@ block content
       for h in heroines
         a.heroine-card.animated-out.four.columns(data-id='{{h.slug}}',href="{% url 'heroine' h.slug %}")
           .portrait
+            .circle
             img(src='{{h.grid_image_thumbnail.url}}')
           .diamonds
             .left-line.diamond-line
@@ -50,13 +51,31 @@ block content
           .title {{h.title}}
 
     #portrait-navigation.fullwidth
-      #previous-button
+      a#previous-button.arrow-button(href="{{previous_heroine.get_absolute_url}}",style='{% if not previous_heroine %}display: none{% endif %}')
         .button-label Prev
         .button-title {{previous_heroine.name}}
-      #next-button
+        .arrow
+      a#next-button.arrow-button(href="{{next_heroine.get_absolute_url}}",style='{% if not next_heroine %}display: none{% endif %}')
         .button-label Next
         .button-title {{next_heroine.name}}
-      #grid-button
+        .arrow
+      a#grid-button(href="{% url 'grid' %}")
+        .grid-block
+        .grid-block
+        .grid-block
+        .grid-block
+        .grid-block
+        .grid-block
+        .grid-block
+        .grid-block
+        .grid-block
+        script.
+          var gridBlocks = document.querySelectorAll('#grid-button .grid-block');
+          for (var i = 0; i < gridBlocks.length; i++) {
+            var block = gridBlocks[i];
+            block.style.webkitTransitionDelay = (i*0.05)+'s';
+            block.style.transitionDelay = (i*0.05)+'s';
+          }
 
     #portrait-view.container
       .portrait-container
@@ -68,12 +87,12 @@ block content
           .corner-loop.loop-bottom-right
           .corner-ellipse.ellipse-bottom-right
 
-          .portrait-image.six.columns
+          .portrait-image
             .portrait-circle
-            //- img(src='{{selected_heroine.hero_image.url}}')
-            img(src='{{STATIC_URL}}img/sample.png')
+            img(src='{{selected_heroine.hero_image.url}}')
+            //- img(src='{{STATIC_URL}}img/sample.png')
             img.portrait-ornament(src='{{STATIC_URL}}img/portrait-ornaments.png')
-          .portrait-details.seven.columns &nbsp;
+          .portrait-details &nbsp;
             h1 {{selected_heroine.name}}
             .portrait-title {{selected_heroine.title}}
             .portrait-data

@@ -2,6 +2,7 @@ import markdown
 import json
 
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.html import strip_tags
 from imagekit.models import ImageSpecField
@@ -32,7 +33,7 @@ class Heroine(models.Model):
 
   # TODO: make these composite from the layers
   grid_image_thumbnail = ImageSpecField(source='hero_image',
-                                      processors=[ResizeToFill(150, 150)],
+                                      processors=[ResizeToFill(440, 440)],
                                       format='PNG',
                                       options={'quality': 100})
 
@@ -49,6 +50,12 @@ class Heroine(models.Model):
 
   def __str__(self):
     return self.name
+
+  def get_absolute_url(self):
+    if self.slug:
+      return reverse('heroine', None, [self.slug])
+    else:
+      return reverse('grid', None)
 
   def save(self, *args, **kwargs):
     self.description_html = markdown.markdown(self.description, extensions=['extra', 'admonition', 'headerid', 'sane_lists'])
