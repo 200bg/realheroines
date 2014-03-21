@@ -127,7 +127,7 @@ PIPELINE_CSS = {
 
 PIPELINE_JS = {
   'rh': {
-    'source_filenames': ('js/lib.js','js/rh.coffee',),
+    'source_filenames': ('js/lib.js','js/easypeasy.coffee','js/rh.coffee',),
     'output_filename': 'js/rh.js',
   },
 }

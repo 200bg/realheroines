@@ -2,6 +2,7 @@ extends 'base'
 
 block scripts
   script.
+    var app;
     document.addEventListener('DOMContentLoaded', function(e) {
       var fadeInQuotient = 0.18;
       var navDelayOffset = 0.75;
@@ -29,6 +30,9 @@ block scripts
       }
 
       setTimeout(clearDelays, navDelayOffset+(cards.length*fadeInQuotient));
+
+
+      app = new rh.App();
     });
 
 block content
@@ -89,7 +93,15 @@ block content
 
           .portrait-image
             .portrait-circle
-            img(src='{{selected_heroine.hero_image.url}}')
+              canvas(width='340',height='340')
+            .portrait-animation
+              img.portrait-still(src='{{selected_heroine.hero_image.url}}')
+              img.portrait-hair.part(style='display:none;')
+              img.portrait-torso.part(style='display:none;')
+              img.portrait-head.part(style='display:none;')
+              img.portrait-mouth.part(style='display:none;')
+              img.portrait-eyes-opened.part(style='display:none;')
+              img.portrait-eyes-closed.part(style='display:none;')
             //- img(src='{{STATIC_URL}}img/sample.png')
             img.portrait-ornament(src='{{STATIC_URL}}img/portrait-ornaments.png')
           .portrait-details &nbsp;
@@ -111,7 +123,7 @@ block content
               .clearfix
 
             .portrait-copy
-              h3 What makes her <em>heroine</em>?
+              h3 What makes her a <em>heroine</em>?
               | {{selected_heroine.description_html|safe}}
 
               .clearfix
