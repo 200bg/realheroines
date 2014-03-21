@@ -133,40 +133,91 @@ block content
     #about-view.fullwidth
       .about-container
         .about-details
-          img.world-icon(src='{{STATIC_URL}}img/world-icon.png')
-          header
-            h1
-              img.real-heroines-logo-large(src='{{STATIC_URL}}img/real-heroines-logo-larg.svg')
+          img.world-icon(src='{{STATIC_URL}}img/world-icon-dark.png')
+          .about-project.container
+            header
+              h2 About the Project
+              .subtitle Why and what for?
 
-          .diamonds
-            .left-line.diamond-line
+            .one.column &nbsp;
+
+            .left-side.seven.columns
+              img.left-image(src='{{STATIC_URL}}img/about-left-side.png',width='100%')
+
+            .one.column &nbsp;
+
+            .right-side.six.columns.about-copy
+              p
+                | “Real Heroines” is an ongoing project by <a href="http://200bg.com/">200 Billion Galaxies</a>
+                | that compiles notable women from the past for those who are
+                | interested in learning more about women’s history and 
+                | trying to find inspiration from the actions of their
+                | predecessors. 
+              p 
+                | A real heroine is not a mythical goddess, flawless celebrity or animated princess.
+              p 
+                | She is an individual that values her mind and noble actions. 
+                | She is an individual that finds inner strength to overcome 
+                | adversity and defy social conventions. She is a real-life 
+                | woman &mdash; a real-life heroine. 
+              p 
+                | Unfortunately, it has become increasingly difficult to find
+                | such role models in our current society. Today we all are
+                | taught that a girl’s and a woman’s self-worth is
+                | determined by their appearance, popularity, and/or
+                | material wealth.
+              p 
+                | Let’s change the portrait of a heroine, and
+                | encourage a future of strong innovative thinkers and leaders! 
+
+            .one.column &nbsp;
+
+            .clearfix
+          .clearfix
+
+          .diamonds.dark-diamonds.container
+            .left-line.diamond-line.long-line 
             .diamond1.diamond-small
             .diamond2.diamond-large
             .diamond3.diamond-small
-            .right-line.diamond-line
-          .about-copy
-            h2 A real heroine is not a mythical goddess, flawless celebrity or animated princess.
-            p 
-              | She is an individual that values her mind and noble actions. 
-              | She is an individual that finds inner strength to overcome 
-              | adversity and defy social conventions. She is a real-life 
-              | woman &mdash; a real-life heroine. 
-            p 
-              | Unfortunately, it has become increasingly difficult to find
-              | such role models in our current society. Today we all are
-              | taught that a girl’s and a woman’s self-worth is
-              | determined by their appearance, popularity, and/or
-              | material wealth.
-            p
-              | “Real Heroines” is an ongoing project by <a href="http://200bg.com/">200 Billion Galaxies</a>
-              | that compiles notable women from the past for those who are
-              | interested in learning more about women’s history and 
-              | trying to find inspiration from the actions of their
-              | predicessors. Let’s change the portrait of a heroine, and
-              | encourage a future of strong innovative thinkers and leaders! 
+            .right-line.diamond-line.long-line 
+          
           .clearfix
-          .dedication
-            h3 Dedicated to the women of the past, present, and future
+
+          .about-us.container
+            header
+              h2 About Us
+              .subtitle Who's behind Real Heroines?
+
+            .one.column &nbsp;
+            .moni-block.bio-block.six.columns 
+              .bio-image
+              h4.bio-name Moni Yael Garcia
+              .bio-role Designer &amp; Illustrator
+              p.bio-about
+                | Passionate about women's rights and the education for all. 
+                | Associates smells with colors and tastes with places. 
+                | Describes her designs best through sound effects. Soon to 
+                | marry Mr. Perfectly Amazing on the right.
+
+            .two.columns &nbsp;
+            .oli-block.bio-block.six.columns
+              .bio-image
+              h4.bio-name Oliver Wilkerson
+              .bio-role Programmer
+              p.bio-about
+                | Believes technical-based classes should be taught in 
+                | schools. Makes Star Trek: TNG and obscure Jurassic Park 
+                | references regardless of whether they will be recognized.
+                | Solves code conumdrums through his dreams. <br>
+                | Asked his true love on the left to marry him.
+
+            .one.column &nbsp;
+
+            .clearfix
+          .clearfix
+
+
 
       .clearfix
 
