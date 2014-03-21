@@ -238,6 +238,10 @@ body.timeline {
     background: @rh-grey-middle;
     vertical-align: middle;
     .transition(0.66s);
+
+    &.long-line {
+      width: 45%;
+    }
   }
   .diamond-small {
     width: 4px;
@@ -269,6 +273,17 @@ body.timeline {
 
   .right-line {
     margin-left: -2px;
+  }
+
+  &.dark-diamonds {
+    .diamond-line {
+      background: @rh-blacker;
+    }
+
+    .diamond-small, .diamond-large {
+      border: 1px solid @rh-blacker;
+    }
+
   }
 }
 

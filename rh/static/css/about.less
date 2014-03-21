@@ -24,10 +24,23 @@
 
       }
 
-      header {
-        margin-top: 10px;
-        margin-bottom: 10px;
+      .about-project {
+        margin: auto;
+      }
 
+      header {
+        margin-top: 30px;
+        margin-bottom: 60px;
+        color: @rh-grey-faded;
+
+        h2 {
+          color: white;
+        }
+        .subtitle {
+          font-size: 12px;
+        }
+
+        // legacy
         h1 {
           display: inline-block;
           width: 70%;
@@ -70,70 +83,85 @@
         }
       }
 
+      .left-side, .right-side {
+        margin: 0px auto 60px;
+      }
+
       .about-copy {
-        width: 80%;
-        margin: 50px auto;
+        font-family: 'Muli', Verdana, Arial, sans-serif;
+        text-align: left;
 
         h2 {
-          font-family: 'Muli', Verdana, Arial, sans-serif;
           font-family: 'Fanwood Text', Georgia, serif;
           font-size: 32px;
           font-style: oblique;
-          line-height: 46px;
           color: @rh-grey-faded;
           text-transform: uppercase;
           margin-bottom: 1em;
         }
 
+        p:first-child {
+          font-size: 16px;
+        }
+
         p {
-          font-size: 20px;
-          line-height: 38px;
+          font-size: 12px;
+          line-height: 166%;
           color: @rh-grey-faded;
 
           a {
-            color: @rh-grey-faded;
+            color: white;
+            text-decoration: none;
+            font-style: oblique;
           }
         }
       }
 
+      .us-block {
+        max-width: 824px;
+        margin: 0 auto;
+      }
 
-      .dedication {
-        position: relative;
-        width: 85%;
-        height: 100px;
-        border: 1px solid @rh-grey-faded;
-        margin: 20px auto 0px;
+      .about-us {
+        margin-top: 24px;
+      }
+
+      .bio-block {
+        text-align: left;
         color: @rh-grey-faded;
-        h3 {
-          color: @rh-grey-faded;
-          font-size: 22px;
-          text-transform: uppercase;
-          line-height: 100px;
+        font-family: 'Muli', Verdana, Arial, sans-serif;
+
+        .bio-image {
+          width: 100%;
+          height: 206px;
+          border: 1px solid @rh-blacker;
+          margin-bottom: 36px;
         }
 
-        &:before {
-          display: block;
-          position: absolute;
-          top: 4px;
-          left: 3px;
-          content: "";
-          border-left: 1px solid @rh-grey-faded;
-          width: 18px;
-          height: 18px;
-          .rotate(0.785rad);
+        .bio-name {
+          font-family: 'Muli', Verdana, Arial, sans-serif;
+          font-size: 16px; 
+          color: white;
+          margin: 0;
         }
 
-        &:after {
-          display: block;
-          position: absolute;
-          bottom: 4px;
-          right: 3px;
-          content: "";
-          border-right: 1px solid @rh-grey-faded;
-          width: 18px;
-          height: 18px;
-          .rotate(0.785rad);
+        .bio-role {
+          font-size: 12px; 
+          font-style: oblique;
         }
+
+        p {
+          margin-top: 18px;
+          font-size: 12px;
+        }
+      }
+
+      .oli-block {
+
+      }
+
+      .moni-block {
+        
       }
     }
   }
