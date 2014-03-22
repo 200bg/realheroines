@@ -191,10 +191,114 @@ class rh.HeroineFace
 
 
 class rh.App
-  constructor: (@element) ->
+  constructor: (@element, @heroinesUrl) ->
+    # proxy setups
+    @onPortraitClickProxy = @onPortraitClick.bind(@)
+    window.addEventListener('popstate', @onHistoryPopState.bind(@))
+
+    # ui elements
+    @gridView = @element.querySelector('#grid-view')
+    @portraitNav = @element.querySelector('#portrait-navigation')
+    @portraitView = @element.querySelector('#portrait-view')
+    @aboutView = @element.querySelector('#about-view')
+
+    @aboutFooter = document.querySelector('footer')
+    @aboutLink = document.querySelector('#about-link')
+
+    @aboutLink.addEventListener('click', @onAboutClick.bind(@))
+
+    # load the heroines json synchronously.
+    @loadJson()
+
+    @captureGrid()
+    return
+
+  loadJson: ->
+    request = null
+    if (window.XDomainRequest)
+      request = new XDomainRequest()
+    else
+      request = new XMLHttpRequest()
+
+    request.onload = ((e) ->
+      @heroinesData = JSON.parse(request.responseText)
+    ).bind(@)
+
+    request.onerror = (e) ->
+      console.log('Couldn\'t load heroines data. Falling back to traditional links.');
+
+    request.open("get", @heroinesUrl, false)
+    request.send()
+
+  switchSection: (section, options={}, pushState=false) ->
+    switch section
+      when 'portrait'
+        @gridView.classList.add('animated-out')
+        @aboutView.classList.add('animated-out')
+        @portraitNav.classList.remove('animated-out')
+        @portraitView.classList.remove('animated-out')
+        @aboutFooter.style.bottom = null
+        @aboutFooter.classList.add('animated-out')
+        if pushState
+          history.pushState({'section': 'portrait', 'slug': options['slug']}, null, "/portrait/#{options['slug']}/")
+      when 'about'
+        @aboutView.classList.remove('animated-out')
+        @aboutFooter.style.bottom = (document.body.clientHeight - 105 - 112) + 'px'
+        @aboutFooter.classList.remove('animated-out')
+        @gridView.classList.add('animated-out')
+        @portraitNav.classList.add('animated-out')
+        @portraitView.classList.add('animated-out')
+        if pushState
+          history.pushState({'section': 'about'}, null, '/about/')
+      when '/' or 'grid'
+        @gridView.classList.remove('animated-out')
+        @aboutView.classList.add('animated-out')
+        @portraitNav.classList.add('animated-out')
+        @portraitView.classList.add('animated-out')
+        @aboutFooter.style.bottom = null
+        @aboutFooter.classList.add('animated-out')
+        if pushState
+          history.pushState({'section': 'grid'}, null, '/')
+
+
     return
 
   loadPortrait: ->
     # juana-ines for debugging
     @currentFace = new rh.HeroineFace(document.querySelector('#portrait-view .portrait-image'), 'juana-ines')
     @currentFace.load()
+
+  captureGrid: ->
+    @portraitElements = document.querySelectorAll('#grid-view .heroine-card')
+
+    for portrait in @portraitElements
+      portrait.addEventListener('click', @onPortraitClickProxy)
+
+  onPortraitClick: (e) ->
+    e.preventDefault()
+    heroineName = e.currentTarget.getAttribute('data-id')
+    @switchSection('portrait', {'slug': heroineName}, true)
+
+  onResize: (e) ->
+    @aboutView.style.bottom = (window.clientHeight - 105) + 'px'
+
+  onAboutClick: (e) ->
+    e.preventDefault()
+    if window.location.pathname.indexOf('/about/') == 0
+      parts = @previousUrl.split('/')
+      console.log(parts)
+      previousSection = parts[1]
+      slug = parts[2]
+      console.log(previousSection)
+      @switchSection(previousSection, {'slug': slug}, true)
+    else
+      @previousUrl = window.location.pathname
+      @switchSection('about', {}, true)
+
+  onHistoryPopState: (e) ->
+    if (e.state && e.state['section'])
+      @switchSection(e.state['section'], e.state, false)
+
+      
+
+

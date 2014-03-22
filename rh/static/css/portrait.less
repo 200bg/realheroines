@@ -1,7 +1,16 @@
 #portrait-navigation {
-  position: relative;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
   height: 68px;
   background-color: #ffffff;
+  margin-top: 0;
+  .transition(all 0.66s);
+
+  &.animated-out {
+    margin-top: -120px;
+  }
 
   .arrow {
     position: absolute;
@@ -125,15 +134,35 @@
 #portrait-view {
   margin-top: 30px;
   margin-bottom: 30px;
+  position: absolute;
+  top: 80px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin-left: 0;
+  opacity: 1.0;
+  background-color: @rh-grey-middle;
+  .transition(all 0.5s);
   // height: 100%;
+
+  &.animated-out {
+    opacity: 0.0;
+    margin-left: 100%;
+
+    .portrait-container {
+      left: 100%;
+    }
+  }
 
   .portrait-container {
     position: relative;
+    left: 0;
     width: 85%;
     height: 100%;
     min-height: 640px;
     background-color: @rh-grey-light;
     margin: 0 auto;
+    .transition(all 0.5s);
 
     .portrait-frame {
       position: absolute;
