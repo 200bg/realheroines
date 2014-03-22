@@ -24,15 +24,17 @@ html
     script(type='text/javascript').
       // declare rh in the global namespace
       window.rh = {};
-
-      document.addEventListener('DOMContentLoaded', function(e) {
+      function queueLoadedAnimations() {
         // basic css-triggered animations on nav
         var gridLinks = document.querySelectorAll('.global-nav nav a');
         for (i = gridLinks.length - 1; i >= 0; i--) {
           link = gridLinks[i];
           link.classList.remove('animated-out');
         };
+      }
 
+      document.addEventListener('DOMContentLoaded', function(e) {
+        setTimeout(queueLoadedAnimations, 150);
       });
 
     - compressed_js 'rh'
@@ -57,7 +59,7 @@ html
           //- a.animated-out.link-timeline(href="{% url 'timeline' %}") TIMELINE
       block content
       .clearfix
-    footer
+    footer.animated-out
       .footer-container.container
         a#about-link(href="{% url 'about' %}")
           .text ABOUT

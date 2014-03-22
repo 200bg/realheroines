@@ -3,6 +3,10 @@ extends 'base'
 block scripts
   script.
     var app;
+    function gridLoadAnimation() {
+      var grid = document.querySelector('#grid-view');
+      grid.classList.remove('animated-out');
+    }
     document.addEventListener('DOMContentLoaded', function(e) {
       var fadeInQuotient = 0.18;
       var navDelayOffset = 0.75;
@@ -10,7 +14,6 @@ block scripts
       for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
         card.style.transitionDelay = navDelayOffset + (i*fadeInQuotient) + 's';
-        card.classList.remove('animated-out');
         var portrait = card.querySelector('.portrait');
         portrait.style.transitionDelay = navDelayOffset + (i*fadeInQuotient) + 's';
         var nameplate = card.querySelector('.nameplate');
@@ -29,16 +32,17 @@ block scripts
         }
       }
 
-      setTimeout(clearDelays, navDelayOffset+(cards.length*fadeInQuotient));
+      setTimeout(gridLoadAnimation, 150);
+      //- setTimeout(clearDelays, 333 + navDelayOffset+(cards.length*fadeInQuotient));
 
 
-      app = new rh.App();
+      app = new rh.App(document.getElementById('views'), '{{MEDIA_URL}}heroines.json');
     });
 
 block content
   .clearfix
   #views
-    #grid-view.container
+    #grid-view.container.animated-out
       for h in heroines
         a.heroine-card.animated-out.four.columns(data-id='{{h.slug}}',href="{% url 'heroine' h.slug %}")
           .portrait
@@ -54,7 +58,7 @@ block content
           .nameplate {{h.name}}
           .title {{h.title}}
 
-    #portrait-navigation.fullwidth
+    #portrait-navigation.fullwidth.animated-out
       a#previous-button.arrow-button(href="{{previous_heroine.get_absolute_url}}",style='{% if not previous_heroine %}display: none{% endif %}')
         .button-label Prev
         .button-title {{previous_heroine.name}}
@@ -81,7 +85,7 @@ block content
             block.style.transitionDelay = (i*0.05)+'s';
           }
 
-    #portrait-view.container
+    #portrait-view.container.animated-out
       .portrait-container
         .portrait-frame
           .corner-loop.loop-top-left
@@ -130,7 +134,7 @@ block content
 
 
 
-    #about-view.fullwidth
+    #about-view.fullwidth.animated-out
       .about-container
         .about-details
           img.world-icon(src='{{STATIC_URL}}img/world-icon-dark.png')
