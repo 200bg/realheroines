@@ -46,11 +46,11 @@ html
       
     block scripts
 
-  body(class='{{current_page}}')
+  body(class='{{current_page}}',data-initial='{{current_page}}')
     #container.fullwidth
       .global-nav.fullwidth
         .clearfix
-        nav.container(data-active="{{current_page}}")
+        nav.container
           a.animated-out.link-home(href="{% url 'home' %}")
             img.real-heroines-logo-small(src='{{STATIC_URL}}img/real-heroines-logo-small.svg')
           .divider

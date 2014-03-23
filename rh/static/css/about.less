@@ -1,7 +1,14 @@
+body[data-initial='about'] #about-view.animated-out {
+  top: 110px;
+}
+
+body.about #grid-view {
+  opacity: 0.0;
+}
+
 #about-view {
   position: absolute;
   top: 110px;
-  padding-top: 28px;
   width: 100%;
   height: 100%;
   background-color: @rh-black;
@@ -13,7 +20,7 @@
 
   .about-container {
     position: absolute;
-    top: 0px;
+    top: 28px;
     right: 0px;
     bottom: 0px;
     left: 0px;

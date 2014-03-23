@@ -3,10 +3,10 @@ extends 'base'
 block scripts
   script.
     var app;
-    function gridLoadAnimation() {
-      var grid = document.querySelector('#grid-view');
-      grid.classList.remove('animated-out');
-    }
+    //- function gridLoadAnimation() {
+    //-   var grid = document.querySelector('#grid-view');
+    //-   grid.classList.remove('animated-out');
+    //- }
     document.addEventListener('DOMContentLoaded', function(e) {
       var fadeInQuotient = 0.18;
       var navDelayOffset = 0.75;
@@ -32,7 +32,7 @@ block scripts
         }
       }
 
-      setTimeout(gridLoadAnimation, 150);
+      //- setTimeout(gridLoadAnimation, 150);
       //- setTimeout(clearDelays, 333 + navDelayOffset+(cards.length*fadeInQuotient));
 
 
@@ -59,11 +59,11 @@ block content
           .title {{h.title}}
 
     #portrait-navigation.fullwidth.animated-out
-      a#previous-button.arrow-button(href="{{previous_heroine.get_absolute_url}}",style='{% if not previous_heroine %}display: none{% endif %}')
+      a#previous-button.arrow-button(href="{{previous_heroine.get_absolute_url}}",data-direction='previous',style='{% if not previous_heroine %}opacity: 0.0{% endif %}')
         .button-label Prev
         .button-title {{previous_heroine.name}}
         .arrow
-      a#next-button.arrow-button(href="{{next_heroine.get_absolute_url}}",style='{% if not next_heroine %}display: none{% endif %}')
+      a#next-button.arrow-button(href="{{next_heroine.get_absolute_url}}",data-direction='next',style='{% if not next_heroine %}opacity: 0.0{% endif %}')
         .button-label Next
         .button-title {{next_heroine.name}}
         .arrow
@@ -85,7 +85,7 @@ block content
             block.style.transitionDelay = (i*0.05)+'s';
           }
 
-    #portrait-view.container.animated-out
+    .portrait-view.container.animated-out
       .portrait-container
         .portrait-frame
           .corner-loop.loop-top-left
@@ -128,7 +128,8 @@ block content
 
             .portrait-copy
               h3 What makes her a <em>heroine</em>?
-              | {{selected_heroine.description_html|safe}}
+              .portrait-copy-text
+                | {{selected_heroine.description_html|safe}}
 
               .clearfix
 

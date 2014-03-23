@@ -1,3 +1,7 @@
+body.portrait #grid-view {
+  opacity: 0.0;
+}
+
 #portrait-navigation {
   position: absolute;
   top: 0;
@@ -131,24 +135,43 @@
   }
 }
 
-#portrait-view {
-  margin-top: 30px;
+.portrait-view {
+  margin-top: 0px;
   margin-bottom: 30px;
+  padding-top: 30px;
   position: absolute;
-  top: 80px;
+  top: 68px;
   right: 0;
   bottom: 0;
   left: 0;
-  margin-left: 0;
+  margin-left: auto;
+  margin-right: auto;
   opacity: 1.0;
-  background-color: @rh-grey-middle;
   .transition(all 0.5s);
   // height: 100%;
 
   &.animated-out {
-    opacity: 0.0;
+    opacity: 1.0;
     margin-left: 100%;
 
+    .portrait-container {
+      left: 100%;
+    }
+  }
+
+  &.animated-out-left {
+    .portrait-container {
+      left: -100%;
+    }
+  }
+
+  &.animated-unload-next {
+    .portrait-container {
+      left: -100%;
+    }
+  }
+
+  &.animated-unload-previous {
     .portrait-container {
       left: 100%;
     }
@@ -206,9 +229,9 @@
 
         .portrait-animation {
           position: absolute;
-          top: -18px;
+          top: -12px;
           right: 0;
-          left: 0;
+          left: -1px;
           bottom: 0;
           width: 100%;
           height: 100%;
@@ -394,7 +417,7 @@
 
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
-  #portrait-view {
+  .portrait-view {
     .portrait-container {
       .portrait-frame {
         .portrait-image {
@@ -414,7 +437,7 @@
     margin-bottom: 110px;
   }
 
-  #portrait-view {
+  .portrait-view {
     margin: 0 auto;
     height: 100%;
 
@@ -469,7 +492,7 @@
 }
 
 @media only screen and (max-width: 479px) {
-  #portrait-view {
+  .portrait-view {
     .portrait-container {
       width: 100%;
 
