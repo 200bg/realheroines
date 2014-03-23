@@ -1,8 +1,13 @@
 body.about footer,
+body.about footer.animated-out,
+footer.animated-out {
+  top: 106px;
+
+}
 footer.animated-out {
   #about-link .control:after {
-    top: 0px;
-    .rotate(2.355rad);
+    top: 6px;
+    .rotate(-0.785rad);
   }
 }
 
@@ -10,6 +15,7 @@ footer.animated-out {
 footer {
   position: fixed;
   height: 108px;
+  margin-top: 0px;
   width: 100%;
   border-top: 2px solid @rh-grey-middle;
   border-bottom: 2px solid @rh-grey-middle;
@@ -17,7 +23,8 @@ footer {
   .transition(all 0.5s);
 
   &.animated-out {
-    bottom: 0;
+    margin-top: -106px;
+    top: 100%;
   }
 
   #about-link {
@@ -50,7 +57,6 @@ footer {
 
       &:after {
         position: absolute;
-        top: 6px;
         right: 0;
         bottom: 0;
         left: 0;
@@ -61,8 +67,10 @@ footer {
         height: 10px;
         border-top: 1px solid white;
         border-right: 1px solid white;
-        .rotate(-0.785rad);
+        top: 0px;
+        .rotate(2.355rad);
         .transition(all 0.66s);
+        .transition-delay(0.33s);
       }
     }
   }

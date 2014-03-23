@@ -1,5 +1,8 @@
 import markdown
 import json
+import zipfile
+import os
+import os.path
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -28,8 +31,12 @@ class Heroine(models.Model):
   country = models.CharField(max_length=100)
   is_public = models.BooleanField(default=False)
 
+  top_offset = models.FloatField(null=True,blank=True,default='-12')
+
+  animation_pack = models.FileField(upload_to='packs',help_text='A zip with all the layers for animation.',null=True,blank=True)
+
   # TODO: break this into layers
-  hero_image = models.ImageField(upload_to='heroines/portraits',help_text='The image in portrait mode.')
+  hero_image = models.ImageField(upload_to='portraits',help_text='The image in grid mode (non-animating).')
 
   # TODO: make these composite from the layers
   grid_image_thumbnail = ImageSpecField(source='hero_image',
@@ -66,6 +73,40 @@ class Heroine(models.Model):
 
     super(Heroine, self).save(*args, **kwargs)
 
+    # unzip the file, then delete it
+    if self.animation_pack is not None:
+      if zipfile.is_zipfile(self.animation_pack.path):
+        packs_dir = os.path.join(settings.MEDIA_ROOT, 'packs', self.slug)
+        if not os.path.exists(packs_dir):
+          os.mkdir(packs_dir)
+        pack_zip = zipfile.ZipFile(self.animation_pack.path)
+        files = pack_zip.namelist()
+        # if it's in a subfolder, remove the subfolder
+        allowed_files = [
+          'eyes-closed.png',
+          'eyes-opened.png',
+          'torso.png',
+          'head.png',
+          'mouth.png',
+          'hair.png',
+        ]
+        for f in files:
+          for allowed_file in allowed_files:
+            if f.endswith(allowed_file):
+              source = pack_zip.open(f)
+              contents = source.read()
+              print(contents)
+              target_path = os.path.join(packs_dir, allowed_file)
+              target = open(target_path, 'wb')
+              target.write(contents)
+              target.close()
+              source.close()
+              
+        pack_zip.close()
+
+        #delete the file.
+        os.unlink(self.animation_pack.path)
+
     heroines = Heroine.objects.all()
     public_heroines = []
     all_heroines = []
@@ -76,18 +117,22 @@ class Heroine(models.Model):
         birthdate_string = h.birthdate.strftime('%Y-%m-%d')
       deathdate_string = None
       if h.deathdate:
-        deathdate_string = h.birthdate.strftime('%Y-%m-%d')
+        deathdate_string = h.deathdate.strftime('%Y-%m-%d')
 
       heroine_object = {
         'name': h.name,
+        'title': h.title,
         'nickname': h.nickname,
         'slug': h.slug,
+        'topOffset': h.top_offset,
         'birthdate': birthdate_string,
         'deathdate': deathdate_string,
         'country': h.country,
-        'hero_image': h.hero_image.url,
-        'grid_image_thumbnail': h.grid_image_thumbnail.url,
-        'timeline_image_thumbnail': h.timeline_image_thumbnail.url,
+        'descriptionHtml': h.description_html,
+        'descriptionText': h.description_text,
+        'heroImage': h.hero_image.url,
+        'gridImageThumbnail': h.grid_image_thumbnail.url,
+        'timelineImageThumbnail': h.timeline_image_thumbnail.url,
       }
 
       if h.is_public:

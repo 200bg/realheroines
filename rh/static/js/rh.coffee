@@ -42,6 +42,7 @@ class rh.HeroineFace
     @imagesLoaded = 0
     @imagesTotal = 6
     @onImageLoadedProxy = @onImageLoaded.bind(@)
+    @onImageErrorProxy = @onImageError.bind(@)
     @onImageProgressProxy = @onImageProgress.bind(@)
     @forceBlinkProxy = @forceBlink.bind(@)
     @tickProxy = @tick.bind(@)
@@ -63,27 +64,53 @@ class rh.HeroineFace
     @currentTime = 0
     @lastForcedBlink = @currentTime
 
+    @lastRequestId = 0
+
   load: ->
     # hide still
     @stillImage.style.display = 'none'
     @circleLoader.style.backgroundColor = 'rgba(252, 202, 43, 0.0)'
     @ctx.clearRect(0, 0, @circleCanvas.width, @circleCanvas.height)
 
-    prefix = "#{rh.MEDIA_URL}heroines/packs/#{@packName}/"
-    @headImage.src = prefix + 'head.png'
+    prefix = "#{rh.MEDIA_URL}packs/#{@packName}/"
     @headImage.addEventListener('load', @onImageLoadedProxy)
-    @eyesOpenedImage.src = prefix + 'eyes-opened.png'
+    @headImage.addEventListener('error', @onImageErrorProxy)
+    @headImage.src = prefix + 'head.png'
     @eyesOpenedImage.addEventListener('load', @onImageLoadedProxy)
-    @eyesClosedImage.src = prefix + 'eyes-closed.png'
+    @eyesOpenedImage.addEventListener('error', @onImageErrorProxy)
+    @eyesOpenedImage.src = prefix + 'eyes-opened.png'
     @eyesClosedImage.addEventListener('load', @onImageLoadedProxy)
-    @mouthImage.src = prefix + 'mouth.png'
+    @eyesClosedImage.addEventListener('error', @onImageErrorProxy)
+    @eyesClosedImage.src = prefix + 'eyes-closed.png'
     @mouthImage.addEventListener('load', @onImageLoadedProxy)
-    @torsoImage.src = prefix + 'torso.png'
+    @mouthImage.addEventListener('error', @onImageErrorProxy)
+    @mouthImage.src = prefix + 'mouth.png'
     @torsoImage.addEventListener('load', @onImageLoadedProxy)
-    @hairImage.src = prefix + 'hair.png'
+    @torsoImage.addEventListener('error', @onImageErrorProxy)
+    @torsoImage.src = prefix + 'torso.png'
     @hairImage.addEventListener('load', @onImageLoadedProxy)
+    @hairImage.addEventListener('error', @onImageErrorProxy)
+    @hairImage.src = prefix + 'hair.png'
 
     @eyesOpenedImage.addEventListener('mouseenter', @forceBlinkProxy)
+
+  unload: ->
+    @headImage.removeEventListener('load', @onImageLoadedProxy)
+    @headImage.removeEventListener('error', @onImageErrorProxy)
+    @eyesOpenedImage.removeEventListener('load', @onImageLoadedProxy)
+    @eyesOpenedImage.removeEventListener('error', @onImageErrorProxy)
+    @eyesClosedImage.removeEventListener('load', @onImageLoadedProxy)
+    @eyesClosedImage.removeEventListener('error', @onImageErrorProxy)
+    @mouthImage.removeEventListener('load', @onImageLoadedProxy)
+    @mouthImage.removeEventListener('error', @onImageErrorProxy)
+    @torsoImage.removeEventListener('load', @onImageLoadedProxy)
+    @torsoImage.removeEventListener('error', @onImageErrorProxy)
+    @hairImage.removeEventListener('load', @onImageLoadedProxy)
+    @hairImage.removeEventListener('error', @onImageErrorProxy)
+    @eyesOpenedImage.removeEventListener('mouseenter', @forceBlinkProxy)
+
+    cancelAnimationFrame(@lastRequestId)
+
 
   forceBlink: ->
     if @currentTime - @lastForcedBlink < BLINK_FORCE_LIMIT then return
@@ -94,7 +121,7 @@ class rh.HeroineFace
 
   tick: (t) ->
     @currentTime = t
-    requestAnimationFrame(@tickProxy)
+    @lastRequestId = requestAnimationFrame(@tickProxy)
 
     # breathOutg
     if @breathFrame >= @breathDuration
@@ -115,18 +142,20 @@ class rh.HeroineFace
     @torsoImage.style.webkitTransform = "scale(#{x}, #{y})"
     @torsoImage.style.transform = "scale(#{x}, #{y})"
 
-    @headImage.style.webkitTransform = "translate(0px, #{breathProgress*-4.00}px)"
-    @headImage.style.transform = "translate(0px, #{breathProgress*-4.00}px)"
+    translation = "translate(0px, #{breathProgress*-4.00}px)"
 
-    @mouthImage.style.webkitTransform = "translate(0px, #{breathProgress*-4.00}px)"
-    @mouthImage.style.transform = "translate(0px, #{breathProgress*-4.00}px)"
-    @eyesOpenedImage.style.webkitTransform = "translate(0px, #{breathProgress*-4.00}px)"
-    @eyesOpenedImage.style.transform = "translate(0px, -#{breathProgress*-4.00}px)"
-    @eyesClosedImage.style.webkitTransform = "translate(0px, #{breathProgress*-4.00}px)"
-    @eyesClosedImage.style.transform = "translate(0px, #{breathProgress*-4.00}px)"
+    @headImage.style.webkitTransform = translation
+    @headImage.style.transform = translation
 
-    @hairImage.style.webkitTransform = "translate(0px, #{breathProgress*-4.00}px)"
-    @hairImage.style.transform = "translate(0px, #{breathProgress*-4.00}px)"
+    @mouthImage.style.webkitTransform = translation
+    @mouthImage.style.transform = translation
+    @eyesOpenedImage.style.webkitTransform = translation
+    @eyesOpenedImage.style.transform = translation
+    @eyesClosedImage.style.webkitTransform = translation
+    @eyesClosedImage.style.transform = translation
+
+    @hairImage.style.webkitTransform = translation
+    @hairImage.style.transform = translation
 
     if not @isBlinking and t >= @nextBlink
        @startBlink(t)
@@ -163,55 +192,120 @@ class rh.HeroineFace
 
 
   onLoadComplete: ->
-    @headImage.style.display = 'block'
-    @eyesOpenedImage.style.display = 'block'
-    @eyesClosedImage.style.display = 'none'
-    @mouthImage.style.display = 'block'
-    @torsoImage.style.display = 'block'
-    @hairImage.style.display = 'block'
+    # @headImage.style.display = 'block'
+    # @eyesOpenedImage.style.display = 'block'
+    # @eyesClosedImage.style.display = 'none'
+    # @mouthImage.style.display = 'block'
+    # @torsoImage.style.display = 'block'
+    # @hairImage.style.display = 'block'
+
+    # set the background color
+    @circleLoader.style.backgroundColor = 'rgba(252, 202, 43, 1.0)'
 
     # start animating
     requestAnimationFrame(@tickProxy)
 
+  onImageError: (e) ->
+    e.preventDefault()
+    e.currentTarget.style.display = 'none'
+    @imagesLoaded++
+    @onImageProgress()
 
   onImageLoaded: (e) ->
     @imagesLoaded++
+    if (e.currentTarget.src.indexOf('eyes-closed')) == -1
+      e.currentTarget.style.display = 'block'
+    @onImageProgress()
 
+  onImageProgress: (e) ->
+    center = @circleCanvas.width/2
     @ctx.beginPath()
-    @ctx.arc(@circleCanvas.width/2, @circleCanvas.height/2, 170, 0, (@imagesLoaded/@imagesTotal)*TAU)
+    @ctx.moveTo(center, center)
+    @ctx.lineTo(170*2, center)
+    @ctx.arc(center, center, 170, 0, (@imagesLoaded/@imagesTotal)*TAU)
     @ctx.closePath()
+    @ctx.fillStyle = 'rgba(252, 202, 43, 1.0)'
     @ctx.fill()
-
     if @imagesLoaded == @imagesTotal
       @onLoadComplete()
 
-  onImageProgress: (e) ->
-    return
-    # console.log e.lengthComputable
+
+class rh.PortraitView
+  constructor: (@element, @heroine) ->
+    # juana-ines for debugging
+    @containerElement = @element.querySelector('.portrait-image')
+    @animationElement = @containerElement.querySelector('.portrait-animation')
+    @animationElement.style.top = @heroine.topOffset + 'px'
+    @currentFace = null
+    @currentFace = new rh.HeroineFace(@containerElement, @heroine.slug)
+    @currentFace.load()
+
+    @nameElement = @element.querySelector('.portrait-details h1')
+    @titleElement = @element.querySelector('.portrait-details .portrait-title')
+    @birthElement = @element.querySelector('.portrait-details .portrait-data-item-birth .portrait-data-item-value')
+    @deathElement = @element.querySelector('.portrait-details .portrait-data-item-death .portrait-data-item-value')
+    @nationalityElement = @element.querySelector('.portrait-details .portrait-data-item-nationality .portrait-data-item-value')
+    @copyElement = @element.querySelector('.portrait-details .portrait-copy-text')
+
+
+    @nameElement.innerHTML = @heroine.name
+    @titleElement.innerHTML = @heroine.title
+    @birthElement.innerHTML = @heroine.birthdate
+    @deathElement.innerHTML = @heroine.deathdate
+    @nationalityElement.innerHTML = @heroine.country
+    @copyElement.innerHTML = @heroine.descriptionHtml
 
 
 class rh.App
   constructor: (@element, @heroinesUrl) ->
     # proxy setups
     @onPortraitClickProxy = @onPortraitClick.bind(@)
+    @onGridButtonClickProxy = @onGridButtonClick.bind(@)
     window.addEventListener('popstate', @onHistoryPopState.bind(@))
+
+    @viewsContainer = document.querySelector('#views')
 
     # ui elements
     @gridView = @element.querySelector('#grid-view')
     @portraitNav = @element.querySelector('#portrait-navigation')
-    @portraitView = @element.querySelector('#portrait-view')
+    @portraitView = @element.querySelector('.portrait-view')
+    @previousPortraitView = null
     @aboutView = @element.querySelector('#about-view')
 
     @aboutFooter = document.querySelector('footer')
     @aboutLink = document.querySelector('#about-link')
 
+    @gridLink = document.querySelector('a.link-grid')
+    @portraitLink = document.querySelector('a.link-portrait')
+    @gridButton = document.querySelector('#grid-button')
+
+    @nextButton = document.querySelector('#next-button')
+    @previousButton = document.querySelector('#previous-button')
+
     @aboutLink.addEventListener('click', @onAboutClick.bind(@))
+    @portraitLink.addEventListener('click', @onPortraitLinkClick.bind(@))
+    @gridLink.addEventListener('click', @onGridButtonClickProxy)
+    @gridButton.addEventListener('click', @onGridButtonClickProxy)
+
+    @nextButton.addEventListener('click', @onPortraitClickProxy)
+    @previousButton.addEventListener('click', @onPortraitClickProxy)
+
+    @portraitCleanupTimerId = 0
 
     # load the heroines json synchronously.
     @loadJson()
 
     @captureGrid()
+
+    # initially delay the switch
+    setTimeout(@init.bind(@), 150);
     return
+
+  init: ->
+    # autoswitch to the appropriate section
+    state = @getSectionFromUrl()
+    @switchSection(state['section'], state, false)
+    document.body.setAttribute('data-initial', '')
 
   loadJson: ->
     request = null
@@ -239,34 +333,124 @@ class rh.App
         @portraitView.classList.remove('animated-out')
         @aboutFooter.style.bottom = null
         @aboutFooter.classList.add('animated-out')
+        heroine = @getHeroineBySlug(options.slug)
+        previous = @getPreviousHeroineBySlug(options.slug)
+        next = @getNextHeroineBySlug(options.slug)
+        document.body.className = section
+        document.title = 'Real Heroines - ' + heroine.name
+        @loadPortrait(heroine, options['direction'])
+        @updatePortaitNavButton(@previousButton, previous)
+        @updatePortaitNavButton(@nextButton, next)
+        @currentHeroine = heroine
         if pushState
-          history.pushState({'section': 'portrait', 'slug': options['slug']}, null, "/portrait/#{options['slug']}/")
+          history.pushState({'section': 'portrait', 'slug': heroine.slug}, null, "/portrait/#{heroine.slug}/")
       when 'about'
         @aboutView.classList.remove('animated-out')
-        @aboutFooter.style.bottom = (document.body.clientHeight - 105 - 112) + 'px'
+        # @aboutFooter.style.bottom = (document.body.clientHeight - 105 - 112) + 'px'
         @aboutFooter.classList.remove('animated-out')
         @gridView.classList.add('animated-out')
         @portraitNav.classList.add('animated-out')
         @portraitView.classList.add('animated-out')
+        document.body.className = section
+        document.title = 'Real Heroines - About'
         if pushState
           history.pushState({'section': 'about'}, null, '/about/')
-      when '/' or 'grid'
+      when '', 'grid'
         @gridView.classList.remove('animated-out')
         @aboutView.classList.add('animated-out')
         @portraitNav.classList.add('animated-out')
         @portraitView.classList.add('animated-out')
         @aboutFooter.style.bottom = null
         @aboutFooter.classList.add('animated-out')
+        document.body.className = section
+        document.title = 'Real Heroines - Grid View'
         if pushState
           history.pushState({'section': 'grid'}, null, '/')
 
 
     return
 
-  loadPortrait: ->
-    # juana-ines for debugging
-    @currentFace = new rh.HeroineFace(document.querySelector('#portrait-view .portrait-image'), 'juana-ines')
-    @currentFace.load()
+  getSectionFromUrl: (pathname=window.location.pathname)->
+    parts = pathname.split('/')
+    section = parts[1]
+    if parts.length > 2
+      slug = parts[2]
+    else
+      slug = null
+
+    return {'section': section, 'slug': slug}
+
+  getHeroineBySlug: (slug) ->
+    heroine = null
+    for heroineData in @heroinesData
+      if heroineData['slug'] == slug
+        heroine = heroineData
+        break
+
+    return heroine
+
+  getPreviousHeroineBySlug: (slug) ->
+    lastHeroine = null
+    for heroineData in @heroinesData
+      if heroineData['slug'] == slug
+        break
+      lastHeroine = heroineData
+
+    return lastHeroine
+
+  getNextHeroineBySlug: (slug) ->
+    heroine = null
+    stopAtNext = false
+    for heroineData in @heroinesData
+      if stopAtNext
+        heroine = heroineData
+        break
+      if heroineData['slug'] == slug
+        stopAtNext = true
+
+    return heroine
+
+  portraitHousekeeping: ->
+    inactiveViews = document.querySelectorAll('.portrait-view.animated-out,.portrait-view.animated-out-left,.portrait-view.animated-unload-next,.portrait-view.animated-unload-previous')
+    for inactiveView in inactiveViews
+      if (inactiveView.portrait)
+        # not sure if this matters, but I'm trying to force a gc
+        inactiveView.potrait = null
+      inactiveView.parentNode.removeChild(inactiveView)
+
+  updatePortaitNavButton: (button, heroine) ->
+    if not heroine
+      button.style.opacity = 0.0
+      button.setAttribute('data-id', '')
+      return
+    else
+      button.style.opacity = 1.0
+
+    button.setAttribute('data-id', heroine.slug)
+    button.href = "/portrait/#{heroine.slug}/"
+    button.querySelector('.button-title').innerHTML = heroine.name
+
+  loadPortrait: (heroine, direction) ->
+    @previousPortraitView = @portraitView
+    clone = @previousPortraitView.cloneNode(true)
+    @portraitView = clone
+    @viewsContainer.insertBefore(@portraitView, @aboutView)
+    @portraitView.classList.remove('animated-unload-next')
+    @portraitView.classList.remove('animated-unload-previous')
+    if direction == 'next'
+      @portraitView.classList.add('animated-out')
+      @previousPortraitView.classList.add('animated-unload-next')
+    else
+      @portraitView.classList.add('animated-out-left')
+      @previousPortraitView.classList.add('animated-unload-previous')
+    @currentPortrait = new rh.PortraitView(@portraitView, heroine)
+    # force dom stuff
+    document.body.clientWidth
+    @portraitView.classList.remove('animated-out')
+    @portraitView.classList.remove('animated-out-left')
+    @portraitView.portrait = @currentPortrait
+
+    @portraitCleanupTimerId = setTimeout(@portraitHousekeeping.bind(@), 1000)
 
   captureGrid: ->
     @portraitElements = document.querySelectorAll('#grid-view .heroine-card')
@@ -274,10 +458,26 @@ class rh.App
     for portrait in @portraitElements
       portrait.addEventListener('click', @onPortraitClickProxy)
 
+  onPortraitLinkClick: (e) ->
+    e.preventDefault()
+    if @currentHeroine != null
+      heroine = @currentHeroine
+    else
+      heroine = @heroinesData[0]
+    
+    @switchSection('portrait', {'slug': heroine.slug, 'direction': null}, true)
+
+  onGridButtonClick: (e) ->
+    e.preventDefault()
+    @switchSection('grid', {'slug': null}, true)
+
   onPortraitClick: (e) ->
     e.preventDefault()
     heroineName = e.currentTarget.getAttribute('data-id')
-    @switchSection('portrait', {'slug': heroineName}, true)
+    if heroineName.length == 0
+      return
+    direction = e.currentTarget.getAttribute('data-direction')
+    @switchSection('portrait', {'slug': heroineName, 'direction': direction}, true)
 
   onResize: (e) ->
     @aboutView.style.bottom = (window.clientHeight - 105) + 'px'
@@ -285,12 +485,12 @@ class rh.App
   onAboutClick: (e) ->
     e.preventDefault()
     if window.location.pathname.indexOf('/about/') == 0
-      parts = @previousUrl.split('/')
-      console.log(parts)
-      previousSection = parts[1]
-      slug = parts[2]
-      console.log(previousSection)
-      @switchSection(previousSection, {'slug': slug}, true)
+      if @previousUrl
+        state = @getSectionFromUrl(@previousUrl)
+      else
+        state = {'section': 'grid', 'slug': null} 
+      console.log(state)
+      @switchSection(state['section'], state, true)
     else
       @previousUrl = window.location.pathname
       @switchSection('about', {}, true)

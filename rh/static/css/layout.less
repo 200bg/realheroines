@@ -109,19 +109,12 @@ body {
       vertical-align: bottom;
     }
 
-    a:hover,
-    &[data-active="grid"] a.link-grid,
-    &[data-active="portrait"] a.link-portrait,
-    &[data-active="heroine"] a.link-portrait,
-    &[data-active="timeline"] a.link-timeline,
-    &[data-active="home"] a.link-grid,
-    {
+    a:hover {
       color: @rh-grey;
       .transition-delay(0);
     }
 
     a.link-home {
-      overflow: hidden;
       .transition-delay(0s);
     }
 
@@ -142,10 +135,10 @@ body {
     }
 
     a.link-home.animated-out {
-      margin-top: 106px/4;
-      opacity: 1.0;
-      height: 1px;
-      line-height: 10px;
+      margin-top: 0;
+      opacity: 0.0;
+      height: 65px;
+      line-height: 100%;
     }
   }
 }
@@ -155,11 +148,25 @@ body {
 
 body {
   .transition(background-color 0.5s);
+
+  #views {
+    .transition(all 0.33s);
+  }
+}
+
+
+body.grid .global-nav nav a.link-grid,
+body.portrait .global-nav nav a.link-portrait,
+body.heroine .global-nav nav a.link-portrait,
+body.timeline .global-nav nav a.link-timeline,
+body.home .global-nav nav a.link-grid {
+  color: @rh-grey;
+  .transition-delay(0);
 }
 
 body.about {
-  background-color: @rh-black;
-  #views { top: 106px+108px; }
+  // background-color: @rh-black;
+  #views { top: 106px; }
 
   // #grid-view { display: none; }
   // #portrait-navigation { display: none; }
