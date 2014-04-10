@@ -59,31 +59,32 @@ block content
           .title {{h.title}}
 
     #portrait-navigation.fullwidth.animated-out
-      a#previous-button.arrow-button(href="{{previous_heroine.get_absolute_url}}",data-direction='previous',style='{% if not previous_heroine %}opacity: 0.0{% endif %}')
-        .button-label Prev
-        .button-title {{previous_heroine.name}}
-        .arrow
-      a#next-button.arrow-button(href="{{next_heroine.get_absolute_url}}",data-direction='next',style='{% if not next_heroine %}opacity: 0.0{% endif %}')
-        .button-label Next
-        .button-title {{next_heroine.name}}
-        .arrow
-      a#grid-button(href="{% url 'grid' %}")
-        .grid-block
-        .grid-block
-        .grid-block
-        .grid-block
-        .grid-block
-        .grid-block
-        .grid-block
-        .grid-block
-        .grid-block
-        script.
-          var gridBlocks = document.querySelectorAll('#grid-button .grid-block');
-          for (var i = 0; i < gridBlocks.length; i++) {
-            var block = gridBlocks[i];
-            block.style.webkitTransitionDelay = (i*0.05)+'s';
-            block.style.transitionDelay = (i*0.05)+'s';
-          }
+      .portrait-navigation-container
+        a#previous-button.arrow-button(href="{{previous_heroine.get_absolute_url}}",data-direction='previous',style='{% if not previous_heroine %}opacity: 0.0{% endif %}')
+          .button-label Prev
+          .button-title {{previous_heroine.name}}
+          .arrow
+        a#next-button.arrow-button(href="{{next_heroine.get_absolute_url}}",data-direction='next',style='{% if not next_heroine %}opacity: 0.0{% endif %}')
+          .button-label Next
+          .button-title {{next_heroine.name}}
+          .arrow
+        a#grid-button(href="{% url 'grid' %}")
+          .grid-block
+          .grid-block
+          .grid-block
+          .grid-block
+          .grid-block
+          .grid-block
+          .grid-block
+          .grid-block
+          .grid-block
+          script.
+            var gridBlocks = document.querySelectorAll('#grid-button .grid-block');
+            for (var i = 0; i < gridBlocks.length; i++) {
+              var block = gridBlocks[i];
+              block.style.webkitTransitionDelay = (i*0.05)+'s';
+              block.style.transitionDelay = (i*0.05)+'s';
+            }
 
     .portrait-view.container.animated-out
       .portrait-container
