@@ -90,6 +90,7 @@ body {
       font-size: 24px;
       color: @rh-grey;
       height: 65px;
+      width: 162px;
 
       // border-right: 1px solid @rh-grey-middle;
       padding-right: 16px;
@@ -98,6 +99,28 @@ body {
       margin-top: 0px;
       vertical-align: top;
       opacity: 0.8;
+
+      img {
+        position: absolute;
+      }
+
+      .real-heroines-logo-small-over {
+        opacity: 0.0;
+        .transition(opacity 0.5s);
+      }
+
+      &:hover .real-heroines-logo-small-over {
+        opacity: 1.0;
+      }
+
+      .real-heroines-logo-small {
+        opacity: 1.0;
+        .transition(opacity 0.5s);
+      }
+
+      &:hover .real-heroines-logo-small {
+        opacity: 0.0;
+      }
     }
 
     .divider {
@@ -124,8 +147,11 @@ body {
     a.link-portrait {
       .transition-delay(0.20s);
     }
-    a.link-timeline {
+    a.link-about {
       .transition-delay(0.25s);
+    }
+    a.link-timeline {
+      .transition-delay(0.30s);
     }
 
     // animations at load

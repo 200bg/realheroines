@@ -52,24 +52,27 @@ html
         .clearfix
         nav.container
           a.animated-out.link-home(href="{% url 'home' %}")
-            img.real-heroines-logo-small(src='{{STATIC_URL}}img/real-heroines-logo-small.svg')
+            img.real-heroines-logo-small(src='{{STATIC_URL}}img/real-heroines-logo-small.svg',width='162',height='65')
+            img.real-heroines-logo-small-over(src='{{STATIC_URL}}img/real-heroines-logo-small-over.svg',width='162',height='65')
+            //- object#logo-vector.real-heroines-logo-small(data='{{STATIC_URL}}img/real-heroines-logo-small.svg',type='image/svg+xml',width='162',height='65')
           .divider
           a.animated-out.link-grid(href="{% url 'grid' %}") GRID
           a.animated-out.link-portrait(href="{% url 'portrait' %}") PORTRAIT
+          a.animated-out.link-about(href="{% url 'about' %}") ABOUT
           //- a.animated-out.link-timeline(href="{% url 'timeline' %}") TIMELINE
       block content
       .clearfix
-    footer.animated-out
-      .footer-container.container
-        a#about-link(href="{% url 'about' %}")
-          .text ABOUT
-          .control
-        .copyright
-          .legal
-            .actual &copy; Copyright 2014, Real Heroines. All Rights Reserved.
-            .subtitle Made with love and lots of tea by Moni and Oliver from 200BG
-          .footer-logo
-            img.real-heroines-logo-smallest(src='{{STATIC_URL}}img/real-heroines-logo-small.svg')
+    //- footer.animated-out
+    //-   .footer-container.container
+    //-     a#about-link(href="{% url 'about' %}")
+    //-       .text ABOUT
+    //-       .control
+    //-     .copyright
+    //-       .legal
+    //-         .actual &copy; Copyright 2014, Real Heroines. All Rights Reserved.
+    //-         .subtitle Made with love and lots of tea by Moni and Oliver from 200BG
+    //-       .footer-logo
+    //-         img.real-heroines-logo-smallest(src='{{STATIC_URL}}img/real-heroines-logo-small.svg')
 
     script.
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

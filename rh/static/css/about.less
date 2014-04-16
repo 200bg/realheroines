@@ -1,5 +1,5 @@
 body[data-initial='about'] #about-view.animated-out {
-  top: 110px;
+  top: 0px;
 }
 
 body.about #grid-view {
@@ -8,34 +8,29 @@ body.about #grid-view {
 
 #about-view {
   position: absolute;
-  top: 110px;
+  top: 0px;
   width: 100%;
   height: 100%;
-  background-color: @rh-black;
+  background-color: white;
   .transition(all 0.5s);
 
   &.animated-out {
-    top: 100%;
+    
   }
 
   .about-container {
     position: absolute;
-    top: 28px;
+    top: 0px;
     right: 0px;
     bottom: 0px;
     left: 0px;
 
     .about-details {
-      width: auto;
-      min-height: 800px;
-      margin: 0px 28px;
-      border: 1px solid @rh-blacker;
-      margin-bottom: 34px;
       text-align: center;
+      width: 100%;
 
       img.world-icon {
         margin: 20px auto 0px;
-
       }
 
       .about-project {
@@ -43,56 +38,28 @@ body.about #grid-view {
       }
 
       header {
-        margin-top: 30px;
-        margin-bottom: 60px;
-        color: @rh-grey-faded;
+        background-color: @rh-green;
+        // min-height: 470px;
 
-        h2 {
-          color: white;
-        }
-        .subtitle {
-          font-size: 12px;
-        }
+        .mugs {
+          // max-width: 960px;
+          margin: auto;
+          white-space: none;
 
-        // legacy
-        h1 {
-          display: inline-block;
-          width: 70%;
+          img.mug {
+            width: 14.2857%;
+            // width: 137px;
+            // max-height: 157px;
+            overflow: none;
+            margin: 0;
+            padding: 0;
+            vertical-align: top;
+            opacity: 1.0;
+            .transition(opacity 1.5s);
 
-          .real-heroines-logo-large {
-            display: inline-block;
-            font-family: 'Fanwood Text', Georgia, serif;
-            font-size: 72px;
-            color: @rh-yellow;
-            margin: 0 auto;
-          }
-
-          &:before {
-            content:"";
-            position: absolute;
-            top: auto;
-            left: auto;
-            margin-left: -48px;
-            margin-top: 35px;
-            display: inline-block;
-            width: 76px;
-            height: 57px;
-            margin-right: 10px;
-            background: transparent url('../img/leaf-right.png') top left;
-          }
-
-          &:after {
-            content:"";
-            display: inline-block;
-            position: absolute;
-            top: auto;
-            left: auto;
-            width: 76px;
-            height: 57px;
-            margin-left: 10px;
-            margin-top: 88px;
-            background: transparent url('../img/leaf-right.png') top left;
-            .scaleX(-1);
+            &.animated-out {
+              opacity: 0.0;
+            }
           }
         }
       }

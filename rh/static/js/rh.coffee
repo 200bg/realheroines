@@ -255,6 +255,48 @@ class rh.PortraitView
     @nationalityElement.innerHTML = @heroine.country
     @copyElement.innerHTML = @heroine.descriptionHtml
 
+class rh.AboutView
+  constructor: (@element) ->
+    #.mug-shots
+    @facesContainer = @element.querySelector('.mugs')
+
+    @imagesLoaded = 0
+    @imagesTotal = 20
+    @images = []
+    @onImageLoadedProxy = @onImageLoaded.bind(@)
+
+    @setupMugs()
+
+  setupMugs: ->
+    for i in [1..@imagesTotal+1]
+      if i < 10
+        imageName = '0'+i+'.png'
+      else
+        imageName = i+'.png'
+
+      img = document.createElement('img')
+      img.className = 'mug animated-out'
+      img.addEventListener('load', @onImageLoadedProxy)
+      transitionTime = i
+      img.style.webkitTransitionDelay = (0.15*transitionTime) + 's'
+      img.style.mozTransitionDelay = (0.15*transitionTime) + 's'
+      img.style.transitionDelay = (0.15*transitionTime) + 's'
+      img.src = rh.STATIC_URL + 'img/about/' + imageName
+      @images.push(img)
+
+      @facesContainer.appendChild(img)
+    
+
+  onImageLoaded: (e) ->
+    @imagesLoaded++
+    if @imagesLoaded >= @imagesTotal
+      @onAllFacesLoaded()
+
+  onAllFacesLoaded: ->
+    for i in [0..@imagesTotal]
+      @images[i].classList.remove('animated-out')
+
+  
 
 class rh.App
   constructor: (@element, @heroinesUrl) ->
@@ -270,13 +312,13 @@ class rh.App
     @portraitNav = @element.querySelector('#portrait-navigation')
     @portraitView = @element.querySelector('.portrait-view')
     @previousPortraitView = null
-    @aboutView = @element.querySelector('#about-view')
+    @aboutView = new rh.AboutView(@element.querySelector('#about-view'))
 
-    @aboutFooter = document.querySelector('footer')
-    @aboutLink = document.querySelector('#about-link')
+    # @aboutFooter = document.querySelector('footer')
 
     @gridLink = document.querySelector('a.link-grid')
     @portraitLink = document.querySelector('a.link-portrait')
+    @aboutLink = document.querySelector('a.link-about')
     @gridButton = document.querySelector('#grid-button')
 
     @nextButton = document.querySelector('#next-button')
@@ -328,11 +370,11 @@ class rh.App
     switch section
       when 'portrait'
         @gridView.classList.add('animated-out')
-        @aboutView.classList.add('animated-out')
+        @aboutView.element.classList.add('animated-out')
         @portraitNav.classList.remove('animated-out')
         @portraitView.classList.remove('animated-out')
-        @aboutFooter.style.bottom = null
-        @aboutFooter.classList.add('animated-out')
+        # @aboutFooter.style.bottom = null
+        # @aboutFooter.classList.add('animated-out')
         heroine = @getHeroineBySlug(options.slug)
         previous = @getPreviousHeroineBySlug(options.slug)
         next = @getNextHeroineBySlug(options.slug)
@@ -345,9 +387,9 @@ class rh.App
         if pushState
           history.pushState({'section': 'portrait', 'slug': heroine.slug}, null, "/portrait/#{heroine.slug}/")
       when 'about'
-        @aboutView.classList.remove('animated-out')
+        @aboutView.element.classList.remove('animated-out')
         # @aboutFooter.style.bottom = (document.body.clientHeight - 105 - 112) + 'px'
-        @aboutFooter.classList.remove('animated-out')
+        # @aboutFooter.classList.remove('animated-out')
         @gridView.classList.add('animated-out')
         @portraitNav.classList.add('animated-out')
         @portraitView.classList.add('animated-out')
@@ -357,11 +399,11 @@ class rh.App
           history.pushState({'section': 'about'}, null, '/about/')
       when '', 'grid'
         @gridView.classList.remove('animated-out')
-        @aboutView.classList.add('animated-out')
+        @aboutView.element.classList.add('animated-out')
         @portraitNav.classList.add('animated-out')
         @portraitView.classList.add('animated-out')
-        @aboutFooter.style.bottom = null
-        @aboutFooter.classList.add('animated-out')
+        # @aboutFooter.style.bottom = null
+        # @aboutFooter.classList.add('animated-out')
         document.body.className = section
         document.title = 'Real Heroines - Grid View'
         if pushState
@@ -434,7 +476,7 @@ class rh.App
     @previousPortraitView = @portraitView
     clone = @previousPortraitView.cloneNode(true)
     @portraitView = clone
-    @viewsContainer.insertBefore(@portraitView, @aboutView)
+    @viewsContainer.insertBefore(@portraitView, @aboutView.element)
     @portraitView.classList.remove('animated-unload-next')
     @portraitView.classList.remove('animated-unload-previous')
     if direction == 'next'
@@ -480,7 +522,7 @@ class rh.App
     @switchSection('portrait', {'slug': heroineName, 'direction': direction}, true)
 
   onResize: (e) ->
-    @aboutView.style.bottom = (window.clientHeight - 105) + 'px'
+    @aboutView.element.style.bottom = (window.clientHeight - 105) + 'px'
 
   onAboutClick: (e) ->
     e.preventDefault()
