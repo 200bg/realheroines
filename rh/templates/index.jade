@@ -42,12 +42,13 @@ block scripts
 block content
   .clearfix
   #views
-    #grid-view.container.animated-out
+    #grid-view.animated-out
       for h in heroines
-        a.heroine-card.animated-out.four.columns(data-id='{{h.slug}}',href="{% url 'heroine' h.slug %}")
+        a.heroine-card.animated-out(data-id='{{h.slug}}',href="{% url 'heroine' h.slug %}")
           .portrait
             .circle
-            img(src='{{h.grid_image_thumbnail.url}}')
+            .grid-portrait(style='background-image: url({{h.grid_image_thumbnail.url}})')
+          canvas.grid-portrait-ornament(width='300',height='113')
           .diamonds
             .left-line.diamond-line
             .diamond1.diamond-small
@@ -87,13 +88,16 @@ block content
             }
 
     .portrait-view.container.animated-out
+      .mugs
       .portrait-container
         .portrait-frame
           .corner-loop.loop-top-left
           .corner-ellipse.ellipse-top-left
+          .corner-ellipse.ellipse-top-right
           .corner-loop.loop-top-right
           .corner-loop.loop-bottom-left
           .corner-loop.loop-bottom-right
+          .corner-ellipse.ellipse-bottom-left
           .corner-ellipse.ellipse-bottom-right
 
           .portrait-image
@@ -141,20 +145,26 @@ block content
         .about-details
           header
             .mugs
-            .quote-of-the-month
+              .quote-of-the-month
+                .background
+                .leaves
+                  .leaf.leaf-left
+                  .leaf.leaf-right
+                h3 QUOTE OF THE MONTH
+                .quote(style='{{quote.styles}}')
+                  | {{quote.what}}
+                  | "I AM NOT AFRAID OF STORMS FOR I AM LEARNING TO SAIL MY SHIP."
+                .attribution
+                  | {{quote.who}}
+                  | &ndash; Louisa May Alcott
+
           .about-project.container
 
             .clearfix
-            img.world-icon(src='{{STATIC_URL}}img/world-icon-dark.png')    
+            canvas#world-icon(width='218',height='52')    
+            //- img.world-icon(src='{{STATIC_URL}}img/world-icon-wide.png')
 
-            .one.column &nbsp;
-
-            .left-side.seven.columns
-              img.left-image(src='{{STATIC_URL}}img/about-left-side.png',width='100%')
-
-            .one.column &nbsp;
-
-            .right-side.six.columns.about-copy
+            .right-side.sixteen.columns.about-copy
               p
                 | “Real Heroines” is an ongoing project by <a href="http://200bg.com/">200 Billion Galaxies</a>
                 | that compiles notable women from the past for those who are
@@ -178,26 +188,10 @@ block content
                 | Let’s change the portrait of a heroine, and
                 | encourage a future of strong innovative thinkers and leaders! 
 
-            .one.column &nbsp;
-
             .clearfix
           .clearfix
 
-          .diamonds.dark-diamonds.container
-            .left-line.diamond-line.long-line 
-            .diamond1.diamond-small
-            .diamond2.diamond-large
-            .diamond3.diamond-small
-            .right-line.diamond-line.long-line 
-          
-          .clearfix
-
           .about-us.container
-            header
-              h2 About Us
-              .subtitle Who's behind Real Heroines?
-
-            .one.column &nbsp;
             .moni-block.bio-block.six.columns 
               .bio-image
               h4.bio-name Moni Yael Garcia
@@ -208,7 +202,10 @@ block content
                 | Describes her designs best through sound effects. Soon to 
                 | marry Mr. Perfectly Amazing on the right.
 
-            .two.columns &nbsp;
+            .four.columns
+              .who-made-this 
+                .who-part WHO
+                .made-this MADE THIS
             .oli-block.bio-block.six.columns
               .bio-image
               h4.bio-name Oliver Wilkerson
@@ -219,8 +216,6 @@ block content
                 | references regardless of whether they will be recognized.
                 | Solves code conumdrums through his dreams. <br>
                 | Asked his true love on the left to marry him.
-
-            .one.column &nbsp;
 
             .clearfix
           .clearfix

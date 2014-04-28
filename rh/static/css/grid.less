@@ -8,7 +8,8 @@
   overflow: hidden;
   margin: auto;
   width: 100%;
-  max-width: 960px;
+  // max-width: 960px;
+  text-align: center;
   .transition(all 0.5s);
 
   &.animated-out .heroine-card {
@@ -25,22 +26,28 @@
   }
 
   .heroine-card {
+    display: inline-block;
     text-align: center;
     margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
     opacity: 1.0;
+    width: 23%;
     text-decoration: none;
     .transition(all 0.5s);
 
     .portrait {
       position: relative;
-      width: 219px;
-      height: 219px;
+      width: 100%;
+      height: 100%;
+      max-width: 320px;
+      max-height: 320px;
       overflow: hidden;
       opacity: 1.0;
       margin: 0 auto;
       margin-top: 0;
       padding: 0px;
-      .transition(all 0.5s);
+      .transition(all 1.0s);
 
       .circle {
         content: "";
@@ -56,9 +63,10 @@
 
         background-color: @rh-yellow;
         border-radius: 50%;
+        // .transition(all 0.33s);
       }
 
-      img {
+      img, .grid-portrait {
         position: absolute;
         top: -6px;
         right: 0;
@@ -73,6 +81,11 @@
         image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
         image-rendering: crisp-edges;
         -ms-interpolation-mode: nearest-neighbor;
+        // -webkit-filter: grayscale(100%);
+        // -moz-filter: grayscale(100%);
+        // filter: grayscale(100%);
+        background-size: cover;
+        .transition(all 0.66s);
       }
     }
 
@@ -80,16 +93,34 @@
       opacity: 1.0;
       margin-top: 0;
       margin-bottom: 0;
+      font-family: 'Roboto Slab', 'Ubuntu';
+      font-weight: 400;
+      color: @rh-grey;
       .transition(all 1.0s);
     }
 
     .title {
-      font-size: 12px;
       color: @rh-grey-faded;
+      margin-bottom: 0px;
+
+      font-family: 'Ubuntu', Verdana, Arial, sans-serif;
+      font-weight: 400;
+      font-size: 10px;
+      text-transform: uppercase;
+
+      .transition(margin-bottom 1s);
+    }
+
+    .grid-portrait-ornament {
+      margin-top: -80px;
+      opacity: 0;
+
+      .transition(all 1.0s);
     }
 
     .diamonds {
       margin: 1em auto;
+      margin-top: -30px;
       padding: 0;
       width: 100%;
       // width: 0.1%;
@@ -98,6 +129,8 @@
       height: 18px;
       line-height: 18px;
       text-align: center;
+
+      .transition(margin-top 1s);
 
       .diamond-line {
         display: inline-block;
@@ -145,17 +178,38 @@
       .transition-delay(0s) !important;
 
       .portrait {
-        // margin-top: -3px;
+        margin-top: -14px;
         // margin-bottom: 16px;
         //padding: 5px;
         .transition-delay(0s) !important;
+
+        img {
+          -webkit-filter: grayscale(0%);
+          -moz-filter: grayscale(0%);
+          filter: grayscale(0%);
+        }
+      }
+
+      .circle {
+        background-color: @rh-yellow;
       }
 
       .nameplate {
         .transition-delay(0s) !important;
       }
 
+      .grid-portrait-ornament {
+        margin-top: -113px;
+        opacity: 1.0;
+      }
+
+      .title {
+        margin-bottom: 30px;
+      }
+
       .diamonds {
+        margin-top: 30px;
+
         .left-line {
           margin-right: -2px;
         }

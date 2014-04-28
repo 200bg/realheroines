@@ -1,5 +1,6 @@
 // modularized
-@import url(http://fonts.googleapis.com/css?family=Muli:300,400,400italic,300italic|Fanwood+Text:400,400italic);
+@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:100,400,700&subset=latin,latin-ext);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,700&subset=latin,latin-ext);
 @import 'colors.less';
 @import 'mixins.less';
 @import 'footer.less';
@@ -31,7 +32,7 @@ html, body {
 
 body {
   background: #ffffff;
-  font-family: 'Muli',Verdana,Arial,Helvetica,sans-serif;
+  font-family: 'Ubuntu',Verdana,Arial,Helvetica,sans-serif;
 }
 
 .fullwidth {
@@ -58,59 +59,123 @@ body {
   display: block;
   margin: 0;
   padding: 0;
-  background: @rh-grey-light;
+  // background: @rh-grey-faded;
+  background: white;
   width: 100%;
   height: 106px;
-  border-bottom: 2px solid @rh-grey-middle;
+  // border-bottom: 2px solid @rh-grey-middle;
+  border-bottom: 1px solid @rh-grey-thin;
+  z-index: 4;
 
   nav {
-    height: 65px;
-    line-height: 65px;
+    height: 106px;
+    line-height: 106px;
     overflow: hidden;
-    margin-top: 18px;
+    margin-top: 0px;
+
+    .top-line {
+      position: absolute;
+      top: 0px;
+      left: 14.2857%;
+      right: 0px;
+      width: 100-14.2857%;
+      height: 8px;
+      background-color: @rh-green;
+    }
+
+    .active-indicator {
+      position: absolute;
+      top: 2px;
+      left: 14.2857%;
+      width: 10px;
+      height: 10px;
+      background-color: @rh-green;
+      .rotate(45deg);
+
+      .transition(all 0.5s);
+      .transition-delay(1.5s);
+
+      &.animated-out {
+        top: -15px;
+      }
+    }
 
     a {
-      margin-top: 27px;
+      margin-top: 8px;
       display: block;
       float: left;
-      font-family: 'Muli', Verdana, Arial, sans-serif;
+      font-family: 'Ubuntu', Verdana, Arial, sans-serif;
+      font-weight: 300;
       font-size: 14px;
-      color: @rh-grey-middle;
+      color: @rh-grey-faded;
       text-decoration: none;
-      padding: 0px 0px 0px 16px;
+      padding: 4px 16px 0px 16px;
+      padding-top: 4px;
       vertical-align: bottom;
-      height: 40px;
-      line-height: 40px;
+      height: 106px;
+      line-height: 106px;
+      background-color: white;
 
-      .transition(color 0.5s, opacity 1.4s, margin-top 0.75s, height 1.0s, line-height 1.0s);
+      box-sizing: border-box;
+      border-right: 1px solid @rh-grey-thin;
+
+      .transition(color 0.5s, opacity 1.4s, padding-top 0.75s, height 1.0s, line-height 1.0s, background-color 0.5s);
     }
 
     a.link-home {
-      font-family: 'Fanwood Text', Georgia, serif;
+      font-family: 'Roboto Slab', Georgia, serif;
       font-size: 24px;
       color: @rh-grey;
-      height: 65px;
-      width: 162px;
+      height: 106px;
+      width: 14.2857%;
+      text-align: center;
 
       // border-right: 1px solid @rh-grey-middle;
-      padding-right: 16px;
+      padding-right: 0px;
       padding-left: 0px;
       line-height: 65px;
       margin-top: 0px;
       vertical-align: top;
-      opacity: 0.8;
+      opacity: 1.0;
 
-      img {
+      // this guy is also a loading bar
+      .top-line {
         position: absolute;
+        top: 0px;
+        left: 0;
+        right: 0px;
+        width: 14.2857%;
+        height: 8px;
+        background-color: @rh-black-logo;
+        .transition(background-color 0.5s);
       }
 
-      .real-heroines-logo-small-over {
+      img {
+        position: relative;
+        top: 20px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+      }
+
+      .real-heroines-logo-small-over,
+      .real-heroines-logo-icon-over {
         opacity: 0.0;
         .transition(opacity 0.5s);
       }
 
-      &:hover .real-heroines-logo-small-over {
-        opacity: 1.0;
+      &:hover {
+        background-color: white;
+
+        .top-line {
+          background-color: @rh-yellow;
+        }
+
+        .real-heroines-logo-small-over,
+        .real-heroines-logo-icon-over {
+          opacity: 0.0;
+        }
       }
 
       .real-heroines-logo-small {
@@ -118,8 +183,13 @@ body {
         .transition(opacity 0.5s);
       }
 
-      &:hover .real-heroines-logo-small {
-        opacity: 0.0;
+      // &:hover .real-heroines-logo-small {
+      //   opacity: 0.0;
+      // }
+
+      .real-heroines-logo-icon,
+      .real-heroines-logo-icon-over {
+        display: none;
       }
     }
 
@@ -133,7 +203,16 @@ body {
     }
 
     a:hover {
-      color: @rh-grey;
+      color: @rh-black-logo;
+      background-color: @rh-grey-light;
+      -webkit-transition-delay: 0 !important;
+       -moz-transition-delay: 0 !important;
+         -o-transition-delay: 0 !important;
+          transition-delay: 0 !important;
+    }
+
+    a:visited {
+      color: black;
       .transition-delay(0);
     }
 
@@ -146,6 +225,11 @@ body {
     }
     a.link-portrait {
       .transition-delay(0.20s);
+
+      &.animated-out {
+        overflow: hidden;
+        width: 0px;
+      }
     }
     a.link-about {
       .transition-delay(0.25s);
@@ -156,15 +240,16 @@ body {
 
     // animations at load
     a.animated-out {
-      margin-top: 106px;
+      margin-top: 8px;
+      padding-top: 26px;
       opacity: 0.0;
     }
 
     a.link-home.animated-out {
-      margin-top: 0;
+      margin-top: 0px;
       opacity: 0.0;
-      height: 65px;
-      line-height: 100%;
+      height: 106px;
+      line-height: 106px;
     }
   }
 }
@@ -186,8 +271,19 @@ body.portrait .global-nav nav a.link-portrait,
 body.heroine .global-nav nav a.link-portrait,
 body.timeline .global-nav nav a.link-timeline,
 body.home .global-nav nav a.link-grid {
-  color: @rh-grey;
+  color: black;
   .transition-delay(0);
+}
+
+body.grid .global-nav nav .active-indicator {
+  margin-left: 32-5px;
+}
+body.portrait .global-nav nav .active-indicator,
+body.heroine .global-nav nav .active-indicator {
+  margin-left: 64+50-5px;
+}
+body.about .global-nav nav .active-indicator {
+  margin-left: 64+100+40-5px;
 }
 
 body.about {
@@ -216,6 +312,7 @@ body.grid {
 body.heroine,
 body.portrait {
   background-color: @rh-grey-middle;
+  background: url('../img/chalky-pattern.jpg');
   #views { bottom: 112px; }
 
   // #grid-view { display: none; }
@@ -333,10 +430,28 @@ body.timeline {
   @media only screen and (max-width: 959px) {}
 
   /* Tablet Portrait size to standard 960 (devices and browsers) */
-  @media only screen and (min-width: 768px) and (max-width: 959px) {}
+  @media only screen and (min-width: 768px) and (max-width: 959px) {
+    .global-nav nav a.link-home .real-heroines-logo-icon,
+    .global-nav nav a.link-home .real-heroines-logo-icon-over {
+      display: block;
+    }
+    .global-nav nav a.link-home .real-heroines-logo-small,
+    .global-nav nav a.link-home .real-heroines-logo-small-over {
+      display: none;
+    }
+  }
 
   /* All Mobile Sizes (devices and browser) */
   @media only screen and (max-width: 767px) {
+    .global-nav nav a.link-home .real-heroines-logo-icon,
+    .global-nav nav a.link-home .real-heroines-logo-icon-over {
+      display: block;
+    }
+    .global-nav nav a.link-home .real-heroines-logo-small,
+    .global-nav nav a.link-home .real-heroines-logo-small-over {
+      display: none;
+    }
+
     #views {
       position: relative;
       top: 0px;
@@ -348,6 +463,15 @@ body.timeline {
 
   /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
   @media only screen and (min-width: 480px) and (max-width: 767px) {
+    .global-nav nav a.link-home .real-heroines-logo-icon,
+    .global-nav nav a.link-home .real-heroines-logo-icon-over {
+      display: block;
+    }
+    .global-nav nav a.link-home .real-heroines-logo-small,
+    .global-nav nav a.link-home .real-heroines-logo-small-over {
+      display: none;
+    }
+
     #views {
       overflow-y: hidden;
     }
@@ -355,8 +479,57 @@ body.timeline {
 
   /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
   @media only screen and (max-width: 479px) {
+    .global-nav nav a.link-home .real-heroines-logo-icon,
+    .global-nav nav a.link-home .real-heroines-logo-icon-over {
+      display: none;
+    }
+
+    .global-nav {
+      height: 100px;
+      nav {
+        a.link-home {
+          width: 100%;
+          height: 65px;
+
+          .real-heroines-logo-small,
+          .real-heroines-logo-small-over {
+            display: block;
+            width: 121px;
+            height: 50px;
+            top: 8px;
+            left: 50%;
+            margin-left: -60px; 
+          }
+        }
+        a.link-grid {
+          display: none;
+        }
+        a.link-portrait {
+          display: none;
+        }
+        a.link-about {
+          position: absolute;
+          top: 65px;
+          width: 100%;
+          height: 35px;
+          line-height: 35px;
+          text-align: center;
+          padding: 0;
+          margin-top: 0;
+        }
+      }
+    }
+
     #views {
       overflow-y: hidden;
+    }
+
+    /* Grid view */
+    #grid-view {
+      a.heroine-card {
+        float: none;
+        height: 320px;
+      }
     }
   }
 

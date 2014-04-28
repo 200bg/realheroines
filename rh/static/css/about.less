@@ -1,5 +1,5 @@
 body[data-initial='about'] #about-view.animated-out {
-  top: 0px;
+  top: 100%;
 }
 
 body.about #grid-view {
@@ -15,7 +15,11 @@ body.about #grid-view {
   .transition(all 0.5s);
 
   &.animated-out {
-    
+    z-index: 0;
+    opacity: 0.0;
+    height: 0;
+    overflow: hidden;
+    top: 100%;
   }
 
   .about-container {
@@ -29,8 +33,8 @@ body.about #grid-view {
       text-align: center;
       width: 100%;
 
-      img.world-icon {
-        margin: 20px auto 0px;
+      #world-icon {
+        margin: 40px auto;
       }
 
       .about-project {
@@ -43,6 +47,7 @@ body.about #grid-view {
 
         .mugs {
           // max-width: 960px;
+          position: relative;
           margin: auto;
           white-space: none;
 
@@ -55,10 +60,100 @@ body.about #grid-view {
             padding: 0;
             vertical-align: top;
             opacity: 1.0;
-            .transition(opacity 1.5s);
+            // .transition(opacity 1.5s);
 
             &.animated-out {
               opacity: 0.0;
+            }
+          }
+
+          .quote-of-the-month {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 42.578125%;
+            height: 51.666%;
+            margin: auto;
+            opacity: 0.9;
+            border: 20px solid rgba(255,255,255,0.5);
+            box-sizing: content-box;
+            font-size: 12px;
+
+            h3 {
+              position: absolute;
+              top: 26.206%;
+              left: 0;
+              right: 0;
+              font-family: 'Ubuntu', Verdana, Arial, sans-serif;
+              font-size: 100%;
+              z-index: 5;
+              color: white;
+            }
+
+            .leaf {
+              position: absolute;
+              background: top left url('../img/leaf-right.png') no-repeat;
+              width: 84px;
+              height: 60px;
+              z-index: 5;
+            }
+
+            .leaves {
+              position: absolute;
+              top: 21%;
+              left: 0;
+              right: 0;
+              width: 56%;
+              margin: auto;
+
+              .leaf-left {
+                left: 0px;
+              }
+
+              .leaf-right {
+                right: 0px;
+                .scaleX(-1.0);
+              }
+            }
+
+            .quote {
+              position: absolute;
+              top: 43%;
+              left: 0;
+              right: 0;
+              width: 80%;
+              margin: auto;
+              font-family: 'Roboto Slab', 'Ubuntu', Arial, sans-serif;
+              line-height: 32px;
+              font-size: 20px;
+              font-weight: 400;
+              color: white;
+              z-index: 5;
+            }
+
+            .attribution {
+              position: absolute;
+              top: 71%;
+              left: 0;
+              right: 0;
+              width: 80%;
+              margin: auto;
+              font-family: 'Ubuntu', Verdana, Arial, sans-serif;
+              font-size: 10px;
+              font-weight: 400;
+              color: white;
+              text-transform: uppercase;
+              z-index: 5;
+            }
+
+            .background {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              z-index: 3;
+              background: url('../img/chalky-pattern.jpg');
             }
           }
         }
@@ -69,11 +164,11 @@ body.about #grid-view {
       }
 
       .about-copy {
-        font-family: 'Muli', Verdana, Arial, sans-serif;
+        font-family: 'Ubuntu', Verdana, Arial, sans-serif;
         text-align: left;
 
         h2 {
-          font-family: 'Fanwood Text', Georgia, serif;
+          font-family: 'Roboto Slab', Georgia, serif;
           font-size: 32px;
           font-style: oblique;
           color: @rh-grey-faded;
@@ -81,17 +176,14 @@ body.about #grid-view {
           margin-bottom: 1em;
         }
 
-        p:first-child {
-          font-size: 16px;
-        }
-
         p {
-          font-size: 12px;
+          font-size: 14px;
           line-height: 166%;
-          color: @rh-grey-faded;
+          color: @rh-grey;
+          text-align: center;
 
           a {
-            color: white;
+            color: @rh-green;
             text-decoration: none;
             font-style: oblique;
           }
@@ -108,21 +200,22 @@ body.about #grid-view {
       }
 
       .bio-block {
-        text-align: left;
+        text-align: center;
         color: @rh-grey-faded;
-        font-family: 'Muli', Verdana, Arial, sans-serif;
+        font-family: 'Ubuntu', Verdana, Arial, sans-serif;
 
         .bio-image {
-          width: 100%;
-          height: 206px;
+          width: 216px;
+          height: 216px;
           border: 1px solid @rh-blacker;
-          margin-bottom: 36px;
+          .border-radius(50%);
+          margin: 0 auto 36px auto;
         }
 
         .bio-name {
-          font-family: 'Muli', Verdana, Arial, sans-serif;
+          font-family: 'Ubuntu', Verdana, Arial, sans-serif;
           font-size: 16px; 
-          color: white;
+          color: @rh-grey;
           margin: 0;
         }
 
@@ -137,6 +230,24 @@ body.about #grid-view {
         }
       }
 
+      .who-made-this {
+        margin-top: 76px;
+
+        .who-part {
+          font-family: 'Roboto Slab', Georgia, serif;
+          font-weight: 100;
+          font-size: 48px;
+          line-height: 48px;
+          color: @rh-grey-faded;
+        }
+
+        .made-this {
+          font-family: 'Ubuntu', Verdana, Arial, sans-serif;
+          color: @rh-grey-faded;
+          font-size: 14px;
+        }
+      }
+
       .oli-block {
 
       }
@@ -147,3 +258,37 @@ body.about #grid-view {
     }
   }
 }
+
+/* Smaller than standard 960 (devices and browsers) */
+@media only screen and (max-width: 959px) {
+
+}
+/* Tablet Portrait size to standard 960 (devices and browsers) */
+@media only screen and (min-width: 1281px) and (max-width: 1919px) {
+  #about-view .about-container .about-details header .mugs .quote-of-the-month {
+    h3 {
+      font-size: 18px;
+    }
+
+    .quote {
+      font-size: 28px;
+    }
+
+    .attribution {
+      font-size: 18px;
+    }
+  }
+}
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+
+}
+/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+@media only screen and (min-width: 480px) and (max-width: 767px) {
+
+}
+/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+@media only screen and (max-width: 479px) {
+
+}
+
