@@ -255,7 +255,7 @@ class rh.PortraitView
     @nationalityElement.innerHTML = @heroine.country
     @copyElement.innerHTML = @heroine.descriptionHtml
 
-class rh.AboutView
+class rh.MugsView
   constructor: (@element) ->
     #.mug-shots
     @facesContainer = @element.querySelector('.mugs')
@@ -278,9 +278,9 @@ class rh.AboutView
       img.className = 'mug animated-out'
       img.addEventListener('load', @onImageLoadedProxy)
       transitionTime = i
-      img.style.webkitTransitionDelay = (0.15*transitionTime) + 's'
-      img.style.mozTransitionDelay = (0.15*transitionTime) + 's'
-      img.style.transitionDelay = (0.15*transitionTime) + 's'
+      # img.style.webkitTransitionDelay = (0.15*transitionTime) + 's'
+      # img.style.mozTransitionDelay = (0.15*transitionTime) + 's'
+      # img.style.transitionDelay = (0.15*transitionTime) + 's'
       img.src = rh.STATIC_URL + 'img/about/' + imageName
       @images.push(img)
 
@@ -296,10 +296,108 @@ class rh.AboutView
     for i in [0..@imagesTotal]
       @images[i].classList.remove('animated-out')
 
+class rh.AboutView
+  constructor: (@element) ->
+    @mugs = new rh.MugsView(@element)
+    @viewsContainer = document.getElementById('views')
+
+    worldIconSpriteSheetData = 
+      images: [rh.STATIC_URL + 'img/animations/world-icon.png']
+      framerate: 60
+      frames: {width:218, height:52}
+      animations: {load: [0,47,null]}
+    console.log(worldIconSpriteSheetData)
+    # adobe's easel
+    worldIconSpriteSheet = new createjs.SpriteSheet(worldIconSpriteSheetData)
+    @worldIcon = new createjs.Sprite(worldIconSpriteSheet, 'load')
+    @worldIcon.stop()
+    worldIconCanvas = document.getElementById('world-icon')
+    @worldIconStage = new createjs.Stage(worldIconCanvas)
+    @worldIconStage.addChild(@worldIcon)
+
+    @isActive = false
+    @worldAnimated = false
+    @tickProxy = @tick.bind(@)
+    createjs.Ticker.addEventListener('tick', @worldIconStage)
+
+  listen: ->
+    @worldAnimated = false
+    @isActive = true
+    createjs.Ticker.addEventListener('tick', @tickProxy)
+
+  stop: ->
+    @isActive = false
+    @worldAnimated = false
+    @worldIcon.gotoAndStop(0)
+    createjs.Ticker.removeEventListener('tick', @tickProxy)
+
+  tick: (e) ->
+    if (@worldAnimated == false and @viewsContainer.scrollTop > (@mugs.facesContainer.clientHeight/3))
+      @worldAnimated = true
+      @worldIcon.gotoAndStop(0)
+      @worldIcon.gotoAndPlay('load')
+    else if @viewsContainer.scrollTop < (@mugs.facesContainer.clientHeight/3)
+      @worldIcon.gotoAndStop(0)
+      @worldAnimated = false
+
+class rh.GridItem
+  constructor: (@element) ->
+    @portrait = @element.querySelector('.portrait')
+
+    ornamentSpriteSheetData = 
+      images: [rh.STATIC_URL + 'img/animations/portrait-leaf.png']
+      framerate: 120
+      frames: {width:300, height:113}
+      animations: {over: [0,89,null], out: [89,0,null]}
+    # adobe's easel
+    ornamentSpriteSheet = new createjs.SpriteSheet(ornamentSpriteSheetData)
+    @ornament = new createjs.Sprite(ornamentSpriteSheet, 'over')
+    @ornament.stop()
+    @ornamentCanvas = @element.querySelector('canvas.grid-portrait-ornament')
+    @ornamentStage = new createjs.Stage(@ornamentCanvas)
+    @ornamentStage.addChild(@ornament)
+    createjs.Ticker.addEventListener('tick', @ornamentStage)
+
+    @onOverProxy = @onOver.bind(@)
+    @onOutProxy = @onOut.bind(@)
+
+    @element.addEventListener('mouseenter', @onOverProxy)
+    @element.addEventListener('mouseleave', @onOutProxy)
+
+  onOver: (e) ->
+    @ornament.gotoAndStop(0)
+    @ornament.gotoAndPlay('over')
+
+  onOut: (e) ->
+    @ornament.gotoAndStop(0)
+    @ornament.gotoAndPlay('out')
+
   
+class rh.GridView
+  constructor: (@element) ->
+    gridItemElements = @element.querySelectorAll('a.heroine-card')
+    @gridItems = []
+    for e in gridItemElements
+      gridItem = new rh.GridItem(e)
+      @gridItems.push(gridItem)
+
+    @onResizeProxy = @onResize.bind(@)
+
+    document.body.addEventListener('DOMContentLoaded', @onResizeProxy)
+    document.body.addEventListener('resize', @onResizeProxy)
+
+    @onResize()
+
+  onResize: (e) ->
+    for item in @gridItems
+      item.portrait.style.height = item.portrait.clientWidth + 'px'
+    
 
 class rh.App
   constructor: (@element, @heroinesUrl) ->
+    # all animations are 30fps
+    createjs.Ticker.useRAF = true
+    createjs.Ticker.setFPS(60)
     # proxy setups
     @onPortraitClickProxy = @onPortraitClick.bind(@)
     @onGridButtonClickProxy = @onGridButtonClick.bind(@)
@@ -308,11 +406,11 @@ class rh.App
     @viewsContainer = document.querySelector('#views')
 
     # ui elements
-    @gridView = @element.querySelector('#grid-view')
+    @gridViewElement = @element.querySelector('#grid-view')
     @portraitNav = @element.querySelector('#portrait-navigation')
     @portraitView = @element.querySelector('.portrait-view')
     @previousPortraitView = null
-    @aboutView = new rh.AboutView(@element.querySelector('#about-view'))
+    @aboutView = new rh.AboutView(@element.querySelector('#about-view')); 
 
     # @aboutFooter = document.querySelector('footer')
 
@@ -338,6 +436,7 @@ class rh.App
     @loadJson()
 
     @captureGrid()
+    @gridView = new rh.GridView(@gridViewElement)
 
     # initially delay the switch
     setTimeout(@init.bind(@), 150);
@@ -369,7 +468,7 @@ class rh.App
   switchSection: (section, options={}, pushState=false) ->
     switch section
       when 'portrait'
-        @gridView.classList.add('animated-out')
+        @gridViewElement.classList.add('animated-out')
         @aboutView.element.classList.add('animated-out')
         @portraitNav.classList.remove('animated-out')
         @portraitView.classList.remove('animated-out')
@@ -384,28 +483,31 @@ class rh.App
         @updatePortaitNavButton(@previousButton, previous)
         @updatePortaitNavButton(@nextButton, next)
         @currentHeroine = heroine
+        @aboutView.stop()
         if pushState
           history.pushState({'section': 'portrait', 'slug': heroine.slug}, null, "/portrait/#{heroine.slug}/")
       when 'about'
         @aboutView.element.classList.remove('animated-out')
         # @aboutFooter.style.bottom = (document.body.clientHeight - 105 - 112) + 'px'
         # @aboutFooter.classList.remove('animated-out')
-        @gridView.classList.add('animated-out')
+        @gridViewElement.classList.add('animated-out')
         @portraitNav.classList.add('animated-out')
         @portraitView.classList.add('animated-out')
         document.body.className = section
         document.title = 'Real Heroines - About'
+        @aboutView.listen()
         if pushState
           history.pushState({'section': 'about'}, null, '/about/')
       when '', 'grid'
-        @gridView.classList.remove('animated-out')
+        @gridViewElement.classList.remove('animated-out')
         @aboutView.element.classList.add('animated-out')
         @portraitNav.classList.add('animated-out')
         @portraitView.classList.add('animated-out')
         # @aboutFooter.style.bottom = null
         # @aboutFooter.classList.add('animated-out')
-        document.body.className = section
+        document.body.className = 'grid'
         document.title = 'Real Heroines - Grid View'
+        @aboutView.stop()
         if pushState
           history.pushState({'section': 'grid'}, null, '/')
 
@@ -460,6 +562,7 @@ class rh.App
         inactiveView.potrait = null
       inactiveView.parentNode.removeChild(inactiveView)
 
+  # Navigate to the last loaded portrait or the first one we know of.
   updatePortaitNavButton: (button, heroine) ->
     if not heroine
       button.style.opacity = 0.0
@@ -502,12 +605,13 @@ class rh.App
 
   onPortraitLinkClick: (e) ->
     e.preventDefault()
-    if @currentHeroine != null
+    if @currentHeroine
       heroine = @currentHeroine
     else
       heroine = @heroinesData[0]
-    
-    @switchSection('portrait', {'slug': heroine.slug, 'direction': null}, true)
+
+    if heroine
+      @switchSection('portrait', {'slug': heroine.slug, 'direction': null}, true)
 
   onGridButtonClick: (e) ->
     e.preventDefault()

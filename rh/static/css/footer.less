@@ -1,8 +1,9 @@
 body.about footer,
-body.about footer.animated-out,
+body.about footer.animated-out {
+  display: none;
+}
 footer.animated-out {
-  top: 106px;
-
+  top: 100%;
 }
 footer.animated-out {
   #about-link .control:after {
@@ -13,17 +14,16 @@ footer.animated-out {
 
 
 footer {
-  position: fixed;
+  position: absolute;
+  top: 100%;
   height: 108px;
   margin-top: 0px;
   width: 100%;
-  border-top: 2px solid @rh-grey-middle;
-  border-bottom: 2px solid @rh-grey-middle;
+  border-top: 1px solid @rh-grey-thin;
   background-color: #ffffff;
   .transition(all 0.5s);
 
   &.animated-out {
-    margin-top: -106px;
     top: 100%;
   }
 
@@ -138,5 +138,11 @@ footer {
     .copyright {
       display: none;
     }
+  }
+}
+
+@media only screen and (min-height: 860px) {
+  footer {
+    margin-top: -110px;
   }
 }

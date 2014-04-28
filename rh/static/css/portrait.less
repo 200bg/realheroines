@@ -4,12 +4,13 @@ body.portrait #grid-view {
 
 #portrait-navigation {
   position: absolute;
-  top: 0;
+  top: 1px;
   right: 0;
   left: 0;
   height: 68px;
-  background-color: #ffffff;
+  background-color: white;
   margin-top: 0;
+  z-index: 2;
   .transition(all 0.66s);
 
   &.animated-out {
@@ -19,7 +20,7 @@ body.portrait #grid-view {
 
   .portrait-navigation-container {
     position: relative;
-    max-width: 960px;
+    // max-width: 960px;
     height: 68px;
     margin: 0 auto;
     
@@ -38,6 +39,7 @@ body.portrait #grid-view {
         width: 20px;
         height: 20px;
         margin-top: -10px;
+        margin-left: 2px;
         border-top: 1px solid @rh-grey-middle;
         border-left: 1px solid @rh-grey-middle;
         .rotate(-0.785rad);
@@ -52,7 +54,7 @@ body.portrait #grid-view {
         position: absolute;
         top: 14px;
         left: 100px;
-        font-family: 'Fanwood Text', Georgia, serif;
+        font-family: 'Roboto Slab', Georgia, serif;
         font-size: 16px;
         color: @rh-grey;
       }
@@ -60,7 +62,7 @@ body.portrait #grid-view {
         position: absolute;
         top: 34px;
         left: 100px;
-        font-family: 'Muli', Verdana, Arial, sans-serif;
+        font-family: 'Ubuntu', Verdana, Arial, sans-serif;
         font-size: 14px;
         color: @rh-grey-faded;
       }
@@ -326,6 +328,20 @@ body.portrait #grid-view {
         .scale(-1.0);
       }
 
+      .ellipse-top-right {
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        .scaleX(-1.0);
+      }
+
+      .ellipse-bottom-left {
+        position: absolute;
+        bottom: 0px;
+        left: 0px;
+        .scaleY(-1.0);
+      }
+
       .portrait-details {
         position: relative;
         float: left;
@@ -336,14 +352,14 @@ body.portrait #grid-view {
         color: @rh-grey;
 
         h1 {
-          font-family: 'Fanwood Text', Georgia, serif;
+          font-family: 'Roboto Slab', Georgia, serif;
           font-size: 32px;
           color: @rh-grey;
           margin: 0 auto;
         }
 
         .portrait-title {
-          font-family: 'Muli', Verdana, Arial, sans-serif;
+          font-family: 'Ubuntu', Verdana, Arial, sans-serif;
           font-size: 14px;
           color: @rh-grey-faded;
           margin: 0 auto;
@@ -378,7 +394,7 @@ body.portrait #grid-view {
             }
 
             .portrait-data-item-value {
-              font-family: 'Fanwood Text', Georgia, serif;
+              font-family: 'Roboto Slab', Georgia, serif;
               font-size: 14px;
               text-align: oblique;
               color: @rh-yellow;
@@ -411,7 +427,7 @@ body.portrait #grid-view {
           margin: 28px auto 0px;
 
           h3 {
-            font-family: 'Fanwood Text', Georgia, serif;
+            font-family: 'Roboto Slab', Georgia, serif;
             font-size: 18px;
             color: @rh-grey;
           }
