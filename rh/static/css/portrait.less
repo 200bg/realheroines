@@ -57,6 +57,9 @@ body.portrait #grid-view {
         font-family: 'Roboto Slab', Georgia, serif;
         font-size: 16px;
         color: @rh-grey;
+        text-overflow: ellipses;
+        white-space: nowrap;
+        overflow: hidden;
       }
       .button-title {
         position: absolute;
@@ -65,6 +68,10 @@ body.portrait #grid-view {
         font-family: 'Ubuntu', Verdana, Arial, sans-serif;
         font-size: 14px;
         color: @rh-grey-faded;
+
+        text-overflow: ellipses;
+        white-space: nowrap;
+        overflow: hidden;
       }
     }
 
@@ -349,6 +356,7 @@ body.portrait #grid-view {
         margin-left: 3%;
         top: 68px;
         min-height: 300px;
+        height: 85%;
         color: @rh-grey;
 
         h1 {
@@ -422,7 +430,7 @@ body.portrait #grid-view {
 
         .portrait-copy {
           margin-top: 28px;
-          min-height: 430px;
+          height: 60%;
           overflow: auto;
           margin: 28px auto 0px;
 
@@ -435,6 +443,7 @@ body.portrait #grid-view {
           p {
             margin: auto;
             font-size: 12px;
+            margin-bottom: 8px;
           }
         }
       }
@@ -445,6 +454,7 @@ body.portrait #grid-view {
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
   .portrait-view {
+    bottom: 0px;
     .portrait-container {
       .portrait-frame {
         .portrait-image {
@@ -459,39 +469,84 @@ body.portrait #grid-view {
   }
 }
 
+/* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
+  body.portrait {
+    overflow: hidden;
+
+    #views {
+      overflow: auto;
+    }
+  }
+
   #container {
     margin-bottom: 110px;
+  }
+
+  #portrait-navigation .portrait-navigation-container {
+    .arrow-button .arrow {
+      display: none;
+    }
+    .arrow-button .button-title {
+      font-size: 14px
+    }
+    .arrow-button .button-label {
+      font-size: 12px;
+    }
+
+    #next-button {
+      .button-title,
+      .button-label {
+        right: 10px;
+      }
+    }
+    #previous-button {
+      .button-title,
+      .button-label {
+        left: 10px;
+      }
+    }
   }
 
   .portrait-view {
     margin: 0 auto;
     height: 100%;
+    padding-top: 0px;
+    bottom: 0px;
 
     .portrait-container {
       width: 100%;
       height: 100%;
 
       .portrait-frame  {
-        width: 100%;
+        width: auto;
         height: auto;
         border: none;
+        text-align: center;
 
         .corner-loop,
         .corner-ellipse {
           display: none;
         }
 
-
         .portrait-image {
-          left: 0;
+          left: auto;
           width: 380px;
           height: 380px;
+          clear: both;
+          float: none;
+          margin: auto;
         }
+
         .portrait-details {
-          width: 380px;
+          min-width: 320px;
+          width: 80%;
           height: auto;
+          overflow: visible;
+          margin: auto;
           min-height: 0;
+          text-align: left;
+          float: none;
 
           h1 {
             width: 91%;
@@ -520,6 +575,7 @@ body.portrait #grid-view {
 
 @media only screen and (max-width: 479px) {
   .portrait-view {
+    bottom: 0px;
     .portrait-container {
       width: 100%;
 
@@ -538,5 +594,11 @@ body.portrait #grid-view {
         }
       }
     }
+  }
+}
+
+@media only screen and (max-height: 850px) {
+  .portrait-view {
+    bottom: 142px !important;
   }
 }

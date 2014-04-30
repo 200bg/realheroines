@@ -41,8 +41,11 @@ body {
 }
 
 .real-heroines-logo-small {
-  width: 162px;
-  height: 65px;
+  max-width: 162px;
+  max-height: 65px;
+
+  width: 96%;
+  height: auto;
 }
 
 .real-heroines-logo-smallest {
@@ -53,6 +56,14 @@ body {
 .real-heroines-logo-large {
   width: 432px;
   height: 180px;
+}
+
+.real-heroines-logo-icon {
+  max-width: 74px;
+  max-height: 65px;
+
+  width: 96%;
+  height: auto;
 }
 
 .global-nav {
@@ -268,9 +279,11 @@ body {
 
 body.grid .global-nav nav a.link-grid,
 body.portrait .global-nav nav a.link-portrait,
+body.about .global-nav nav a.link-about,
 body.heroine .global-nav nav a.link-portrait,
 body.timeline .global-nav nav a.link-timeline,
 body.home .global-nav nav a.link-grid {
+  background-color: @rh-grey-light;
   color: black;
   .transition-delay(0);
 }
@@ -291,8 +304,8 @@ body.about {
   #views { top: 106px; }
 
   // #grid-view { display: none; }
-  // #portrait-navigation { display: none; }
-  // #portrait-view { display: none; }
+  #portrait-navigation { display: none; }
+  .portrait-view { display: none; }
   // #timeline-view { display: none; }
   // #about-view { display: block; }
 }
@@ -302,11 +315,21 @@ body.grid {
   background-color: white;
   #views { bottom: 112px; }
 
+  .portrait-view {
+    height: 0;
+  }
+
   // #grid-view { display: block; }
   // #portrait-navigation { display: none; }
   // #portrait-view { display: none; }
   // #timeline-view { display: none; }
   // #about-view { display: none; }
+}
+
+body.about {
+  .portrait-view {
+    height: 0;
+  }
 }
 
 body.heroine,
@@ -439,6 +462,10 @@ body.timeline {
     .global-nav nav a.link-home .real-heroines-logo-small-over {
       display: none;
     }
+
+    #views {
+      bottom: 0 !important;
+    }
   }
 
   /* All Mobile Sizes (devices and browser) */
@@ -456,8 +483,14 @@ body.timeline {
       position: relative;
       top: 0px;
       height: 100%;
+      bottom: 0 !important;
       overflow-x: hidden;
       overflow-y: visible;
+    }
+
+    /* Grid view */
+    #grid-view {
+      top: 0;
     }
   }
 
@@ -474,11 +507,22 @@ body.timeline {
 
     #views {
       overflow-y: hidden;
+      bottom: 0 !important;
+    }
+
+    /* Grid view */
+    #grid-view {
+      top: 0;
     }
   }
 
   /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
   @media only screen and (max-width: 479px) {
+    .global-nav .top-line,
+    .global-nav .active-indicator {
+      display: none;
+    }
+
     .global-nav nav a.link-home .real-heroines-logo-icon,
     .global-nav nav a.link-home .real-heroines-logo-icon-over {
       display: none;
@@ -522,10 +566,13 @@ body.timeline {
 
     #views {
       overflow-y: hidden;
+      bottom: 0 !important;
     }
 
     /* Grid view */
     #grid-view {
+      top: 0;
+
       a.heroine-card {
         float: none;
         height: 320px;
@@ -551,3 +598,11 @@ body.timeline {
       font-weight: normal;
       font-style: normal; }
 */
+
+
+
+@media only screen and (min-height: 850px) {
+  #views {
+    bottom: 112px !important;
+  }
+}
