@@ -65,7 +65,7 @@ class Heroine(models.Model):
       return reverse('grid', None)
 
   def save(self, *args, **kwargs):
-    self.description_html = markdown.markdown(self.description, extensions=['extra', 'admonition', 'headerid', 'sane_lists'])
+    self.description_html = markdown.markdown(self.description, extensions=['extra', 'nl2br', 'admonition', 'headerid', 'sane_lists'])
     # Remove tags which was generated with the markup processor
     text = strip_tags(self.description_html)
     # Unescape entities which was generated with the markup processor

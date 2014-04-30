@@ -300,13 +300,15 @@ class rh.AboutView
   constructor: (@element) ->
     @mugs = new rh.MugsView(@element)
     @viewsContainer = document.getElementById('views')
+    @whoContainer = @viewsContainer.querySelector('.who-made-this')
+    @portraitContainers = @viewsContainer.querySelectorAll('.bio-block')
+    @quoteOfTheMonth = @viewsContainer.querySelector('.quote-of-the-month')
 
     worldIconSpriteSheetData = 
       images: [rh.STATIC_URL + 'img/animations/world-icon.png']
       framerate: 60
       frames: {width:218, height:52}
       animations: {load: [0,47,null]}
-    console.log(worldIconSpriteSheetData)
     # adobe's easel
     worldIconSpriteSheet = new createjs.SpriteSheet(worldIconSpriteSheetData)
     @worldIcon = new createjs.Sprite(worldIconSpriteSheet, 'load')
@@ -317,28 +319,72 @@ class rh.AboutView
 
     @isActive = false
     @worldAnimated = false
+    @whoAnimated = false
     @tickProxy = @tick.bind(@)
+    @onResizeProxy = @onResize.bind(@)
     createjs.Ticker.addEventListener('tick', @worldIconStage)
+    window.addEventListener('resize', @onResizeProxy)
+
+    @onResize()
 
   listen: ->
     @worldAnimated = false
+    @whoAnimated = false
     @isActive = true
     createjs.Ticker.addEventListener('tick', @tickProxy)
 
   stop: ->
     @isActive = false
     @worldAnimated = false
+    @whoAnimated = false
     @worldIcon.gotoAndStop(0)
     createjs.Ticker.removeEventListener('tick', @tickProxy)
 
+  onResize: (e) ->
+    if document.body.clientWidth < 767
+      @whoContainer.classList.remove('animated-out')
+      for portrait in @portraitContainers
+        portrait.classList.remove('animated-out')
+    else
+      @whoContainer.classList.remove('animated-out')
+      for portrait in @portraitContainers
+        portrait.classList.remove('animated-out')
+
+
   tick: (e) ->
-    if (@worldAnimated == false and @viewsContainer.scrollTop > (@mugs.facesContainer.clientHeight/3))
+
+    halfHeight = @mugs.facesContainer.clientHeight/3
+    scrollTop = @viewsContainer.scrollTop
+    if scrollTop < halfHeight
+      @mugs.facesContainer.style.top = -(scrollTop * easypeasy.quarticOut(scrollTop/halfHeight)) + 'px'
+      if scrollTop < (halfHeight/1.25)
+        @quoteOfTheMonth.style.top = -(scrollTop * easypeasy.quarticOut(scrollTop/(halfHeight/1.25))) + 'px'
+
+
+    if @worldAnimated == false and scrollTop > (@mugs.facesContainer.clientHeight/3)
       @worldAnimated = true
       @worldIcon.gotoAndStop(0)
       @worldIcon.gotoAndPlay('load')
-    else if @viewsContainer.scrollTop < (@mugs.facesContainer.clientHeight/3)
+    else if scrollTop < (@mugs.facesContainer.clientHeight/3)
       @worldIcon.gotoAndStop(0)
       @worldAnimated = false
+
+    if document.body.clientWidth < 767
+      return;
+
+    if (scrollTop >= @viewsContainer.scrollHeight - @viewsContainer.clientHeight - 20)
+      if @whoAnimated == false
+        @whoAnimated = true
+        @whoContainer.classList.remove('animated-out')
+        for portrait in @portraitContainers
+          portrait.classList.remove('animated-out')
+    else
+      if @whoAnimated
+        @whoContainer.classList.add('animated-out')
+        for portrait in @portraitContainers
+          portrait.classList.add('animated-out')
+      @whoAnimated = false
+
 
 class rh.GridItem
   constructor: (@element) ->
@@ -348,7 +394,7 @@ class rh.GridItem
       images: [rh.STATIC_URL + 'img/animations/portrait-leaf.png']
       framerate: 120
       frames: {width:300, height:113}
-      animations: {over: [0,89,null], out: [89,0,null]}
+      animations: {over: [0,89,null], out: {frames: [89..0], next: null}}
     # adobe's easel
     ornamentSpriteSheet = new createjs.SpriteSheet(ornamentSpriteSheetData)
     @ornament = new createjs.Sprite(ornamentSpriteSheet, 'over')
@@ -369,9 +415,8 @@ class rh.GridItem
     @ornament.gotoAndPlay('over')
 
   onOut: (e) ->
-    @ornament.gotoAndStop(0)
+    @ornament.stop()
     @ornament.gotoAndPlay('out')
-
   
 class rh.GridView
   constructor: (@element) ->
@@ -382,13 +427,21 @@ class rh.GridView
       @gridItems.push(gridItem)
 
     @onResizeProxy = @onResize.bind(@)
+    @tickProxy = @tick.bind(@)
 
-    document.body.addEventListener('DOMContentLoaded', @onResizeProxy)
-    document.body.addEventListener('resize', @onResizeProxy)
+    # document.body.addEventListener('DOMContentLoaded', @onResizeProxy)
+    # document.body.addEventListener('resize', @onResizeProxy)
 
-    @onResize()
+    # @onResize()
+    requestAnimationFrame(@tickProxy)
+
 
   onResize: (e) ->
+    for item in @gridItems
+      item.portrait.style.height = item.portrait.clientWidth + 'px'
+
+  tick: (t) ->
+    requestAnimationFrame(@tickProxy)
     for item in @gridItems
       item.portrait.style.height = item.portrait.clientWidth + 'px'
     
@@ -414,6 +467,7 @@ class rh.App
 
     # @aboutFooter = document.querySelector('footer')
 
+    @logoLink = document.querySelector('a.link-home')
     @gridLink = document.querySelector('a.link-grid')
     @portraitLink = document.querySelector('a.link-portrait')
     @aboutLink = document.querySelector('a.link-about')
@@ -425,6 +479,7 @@ class rh.App
     @aboutLink.addEventListener('click', @onAboutClick.bind(@))
     @portraitLink.addEventListener('click', @onPortraitLinkClick.bind(@))
     @gridLink.addEventListener('click', @onGridButtonClickProxy)
+    @logoLink.addEventListener('click', @onGridButtonClickProxy)
     @gridButton.addEventListener('click', @onGridButtonClickProxy)
 
     @nextButton.addEventListener('click', @onPortraitClickProxy)
@@ -466,6 +521,7 @@ class rh.App
     request.send()
 
   switchSection: (section, options={}, pushState=false) ->
+    @viewsContainer.scrollTop = 0;
     switch section
       when 'portrait'
         @gridViewElement.classList.add('animated-out')

@@ -15,7 +15,7 @@ footer.animated-out {
 
 footer {
   position: absolute;
-  top: 100%;
+  // top: 100%;
   height: 108px;
   margin-top: 0px;
   width: 100%;
@@ -136,12 +136,32 @@ footer {
     position: relative;
 
     .copyright {
-      display: none;
+      display: block;
+      float: none;
+      width: 100%;
+      text-align: center;
+
+      .legal {
+        border-right: none;
+        width: 95%;
+        margin: auto;
+        float: none;
+        text-align: center;
+
+        .actual, .subtitle {
+          margin: auto;
+          width: 80%;
+        }
+      }
+
+      .footer-logo {
+        display: none;
+      }
     }
   }
 }
 
-@media only screen and (min-height: 860px) {
+@media only screen and (min-height: 850px) {
   footer {
     margin-top: -110px;
   }

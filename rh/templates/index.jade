@@ -3,13 +3,13 @@ extends 'base'
 block scripts
   script.
     var app;
+    var fadeInQuotient = 0.18;
+    var navDelayOffset = 0.75;
     //- function gridLoadAnimation() {
     //-   var grid = document.querySelector('#grid-view');
     //-   grid.classList.remove('animated-out');
     //- }
     document.addEventListener('DOMContentLoaded', function(e) {
-      var fadeInQuotient = 0.18;
-      var navDelayOffset = 0.75;
       var cards = document.querySelectorAll('#grid-view .heroine-card');
       for (var i = 0; i < cards.length; i++) {
         var card = cards[i];
@@ -33,7 +33,7 @@ block scripts
       }
 
       //- setTimeout(gridLoadAnimation, 150);
-      //- setTimeout(clearDelays, 333 + navDelayOffset+(cards.length*fadeInQuotient));
+      setTimeout(clearDelays, 333 + navDelayOffset+(cards.length*fadeInQuotient));
 
 
       app = new rh.App(document.getElementById('views'), '{{MEDIA_URL}}heroines.json');
@@ -137,6 +137,8 @@ block content
                 | {{selected_heroine.description_html|safe}}
 
               .clearfix
+            .clearfix
+          .clearfix
 
 
 
@@ -192,8 +194,9 @@ block content
           .clearfix
 
           .about-us.container
-            .moni-block.bio-block.six.columns 
+            .moni-block.bio-block.six.columns.animated-out
               .bio-image
+                .bio-image-ring
               h4.bio-name Moni Yael Garcia
               .bio-role Designer &amp; Illustrator
               p.bio-about
@@ -203,11 +206,12 @@ block content
                 | marry Mr. Perfectly Amazing on the right.
 
             .four.columns
-              .who-made-this 
+              .who-made-this.animated-out
                 .who-part WHO
                 .made-this MADE THIS
-            .oli-block.bio-block.six.columns
+            .oli-block.bio-block.six.columns.animated-out
               .bio-image
+                .bio-image-ring
               h4.bio-name Oliver Wilkerson
               .bio-role Programmer
               p.bio-about

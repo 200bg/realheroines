@@ -74,6 +74,7 @@ body.about #grid-view {
             right: 0;
             bottom: 0;
             width: 42.578125%;
+            min-width: 300px;
             height: 51.666%;
             margin: auto;
             opacity: 0.9;
@@ -120,7 +121,7 @@ body.about #grid-view {
 
             .quote {
               position: absolute;
-              top: 43%;
+              top: 45%;
               left: 0;
               right: 0;
               width: 80%;
@@ -203,13 +204,35 @@ body.about #grid-view {
         text-align: center;
         color: @rh-grey-faded;
         font-family: 'Ubuntu', Verdana, Arial, sans-serif;
+        height: 512px;
 
         .bio-image {
+          position: relative;
           width: 216px;
           height: 216px;
-          border: 1px solid @rh-blacker;
           .border-radius(50%);
           margin: 0 auto 36px auto;
+          text-align: center;
+          opacity: 1.0;
+          margin-top: 0px;
+
+          .transition(all 1.0s);
+
+          .bio-image-ring {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            width: 94%;
+            height: 94%;
+            opacity: 1.0;
+            margin: auto;
+            border: 1px solid rgba(255,255,255,0.5);
+            .border-radius(50%);
+            .transition(all 1.0s);
+            .transition-delay(0.25s);
+          }
         }
 
         .bio-name {
@@ -217,16 +240,56 @@ body.about #grid-view {
           font-size: 16px; 
           color: @rh-grey;
           margin: 0;
+          margin-top: 0px;
+          margin-bottom: 0px;
+          opacity: 1.0;
+          .transition(all 1.0s);
+          .transition-delay(0.5s);
         }
 
         .bio-role {
           font-size: 12px; 
           font-style: oblique;
+          margin-top: 0px;
+          margin-bottom: 0px;
+          opacity: 1.0;
+          .transition(all 1.0s);
+          .transition-delay(0.75s);
         }
 
         p {
           margin-top: 18px;
           font-size: 12px;
+          opacity: 1.0;
+          .transition(all 1.0s);
+          .transition-delay(0.75s);
+        }
+
+        &.animated-out {
+          .bio-image {
+            margin-top: 20px;
+            opacity: 0.0;
+
+            .bio-image-ring {
+              width: 80%;
+              height: 80%;
+              opacity: 0.0;
+            }
+          }
+
+          .bio-name {
+            margin-top: -20px;
+            opacity: 0.0;
+          }
+
+          .bio-role {
+            margin-top: -20px;
+            opacity: 0.0;
+          }
+
+          p {
+            opacity: 0.0;
+          }
         }
       }
 
@@ -238,22 +301,46 @@ body.about #grid-view {
           font-weight: 100;
           font-size: 48px;
           line-height: 48px;
+          opacity: 1.0;
+          margin-top: 0px;
           color: @rh-grey-faded;
+          .transition(all 1.0s);
+          .transition-delay(0.25s);
         }
 
         .made-this {
           font-family: 'Ubuntu', Verdana, Arial, sans-serif;
           color: @rh-grey-faded;
           font-size: 14px;
+          margin-top: 0px;
+          opacity: 1.0;
+
+          .transition(all 1.0s);
+        }
+
+        &.animated-out {
+          .who-part {
+            margin-top: 100px;
+            opacity: 0.0;
+          }
+
+          .made-this {
+            margin-top: 50px;
+            opacity: 0.0;
+          }
         }
       }
 
       .oli-block {
-
+        .bio-image {
+          background: #009c80 url('../img/oli.png') center center no-repeat;
+        }
       }
 
       .moni-block {
-        
+        .bio-image {
+          background: #009c80 url('../img/moni.png') center center no-repeat;
+        }
       }
     }
   }
@@ -281,6 +368,41 @@ body.about #grid-view {
 }
 /* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
+  body.about {
+    overflow: hidden;
+    #views {
+      top: 0px;
+      overflow: auto;
+    }
+  }
+
+  #about-view .about-container .about-details {
+
+    header .mugs .quote-of-the-month {
+      .leaf {
+        width: 84px*0.33;
+        height: 60px*0.33;
+        background-size: cover;
+      }
+      h3 {
+        top: 20%;
+        font-size: 10px;
+      }
+
+      .quote {
+        font-size: 12px;
+        line-height: 16px;
+      }
+
+      .attribution {
+        font-size: 10px;
+      }
+    }
+
+    .who-made-this {
+      display: none;
+    }
+  }
 
 }
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */

@@ -1,12 +1,14 @@
 
 #grid-view {
   position: absolute;
-  top: 50px;
+  top: 0px;
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: 50px;
   overflow: hidden;
   margin: auto;
+  margin-left: 4%;
+  padding-top: 50px;
   width: 100%;
   // max-width: 960px;
   text-align: center;
@@ -26,7 +28,8 @@
   }
 
   .heroine-card {
-    display: inline-block;
+    display: block;
+    float: left;
     text-align: center;
     margin-top: 0;
     margin-left: auto;
@@ -47,7 +50,7 @@
       margin: 0 auto;
       margin-top: 0;
       padding: 0px;
-      .transition(all 1.0s);
+      .transition(margin-top 1.0s);
 
       .circle {
         content: "";
@@ -112,8 +115,10 @@
     }
 
     .grid-portrait-ornament {
-      margin-top: -80px;
+      margin-top: -113px;
       opacity: 0;
+      width: 100%;
+      max-width: 320px;
 
       .transition(all 1.0s);
     }
@@ -121,6 +126,7 @@
     .diamonds {
       margin: 1em auto;
       margin-top: -30px;
+      opacity: 1.0;
       padding: 0;
       width: 100%;
       // width: 0.1%;
@@ -130,7 +136,7 @@
       line-height: 18px;
       text-align: center;
 
-      .transition(margin-top 1s);
+      .transition(opacity 1s);
 
       .diamond-line {
         display: inline-block;
@@ -195,11 +201,13 @@
       }
 
       .nameplate {
+        margin-top: 14px;
         .transition-delay(0s) !important;
       }
 
       .grid-portrait-ornament {
         margin-top: -113px;
+        margin-bottom: 0px;
         opacity: 1.0;
       }
 
@@ -208,7 +216,7 @@
       }
 
       .diamonds {
-        margin-top: 30px;
+        opacity: 0;
 
         .left-line {
           margin-right: -2px;
@@ -249,6 +257,24 @@
   }
 }
 
+/* All Mobile Sizes (devices and browser) */
+@media only screen and (max-width: 767px) {
+  body.grid {
+    overflow: hidden;
+  }
+
+  #grid-view {
+    overflow: auto;
+    padding-bottom: 100px;
+    margin-left: 0;
+
+    .heroine-card {
+      width: 80%;
+      margin: 0 10%;
+      min-height: 400px;
+    }
+  }
+}
 
 @media only screen and (min-width: 768px) and (max-width: 959px) {
   #grid-view .heroine-card {
