@@ -232,7 +232,6 @@ class rh.HeroineFace
 
 class rh.PortraitView
   constructor: (@element, @heroine) ->
-    # juana-ines for debugging
     @containerElement = @element.querySelector('.portrait-image')
     @animationElement = @containerElement.querySelector('.portrait-animation')
     @animationElement.style.top = @heroine.topOffset + 'px'
@@ -254,6 +253,102 @@ class rh.PortraitView
     @deathElement.innerHTML = @heroine.deathdate
     @nationalityElement.innerHTML = @heroine.country
     @copyElement.innerHTML = @heroine.descriptionHtml
+
+    @onDownProxy = @onDown.bind(@)
+    @onMoveProxy = @onMove.bind(@)
+    @onEndProxy = @onEnd.bind(@)
+
+    @lastTouch = null
+    @startAxis = null
+    @swipableWidth = 100
+    @element.style.marginLeft = '0px'
+
+    @element.addEventListener('touchstart', @onDownProxy)
+
+  onDown: (e) ->
+    @swipableWidth = (@element.clientWidth/2) / window.devicePixelRatio
+    @lastTouch = null
+    @originalEvent = e
+    app.viewsContainer.addEventListener('touchmove', @onMoveProxy)
+    app.viewsContainer.addEventListener('touchend', @onEndProxy)
+    @element.style.webkitTransition = 'none'
+    @element.style.mozTransition = 'none'
+    @element.style.transition = 'none'
+
+  onMove: (e) ->
+    touches = e.changedTouches
+    if (touches && touches.length > 0)
+      touch = touches[0]
+      lastTouchWasNull = @lastTouch == null
+      @lastTouch = touch
+      @checkForSwipe(true, lastTouchWasNull, e)
+
+  onEnd: (e) ->
+    @element.style.webkitTransition = null
+    @element.style.mozTransition = null
+    @element.style.transition = null
+    app.viewsContainer.removeEventListener('touchmove', @onMoveProxy)
+    app.viewsContainer.removeEventListener('touchend', @onEndProxy)
+    @checkForSwipe(false, false, e)
+    @element.style.marginLeft = '0px'
+
+  #similar to quo
+  checkForSwipe: (moving, firstMove, e) ->
+    if @lastTouch
+      delta = 
+        x: (@originalEvent.touches[0].pageX - @lastTouch.pageX) / window.devicePixelRatio
+        y: (@originalEvent.touches[0].pageY - @lastTouch.pageY) / window.devicePixelRatio
+    else
+      delta =
+        x: 0
+        y: 0
+
+    if moving
+      if firstMove then @startAxis = @getAxis(delta)
+      if @startAxis isnt null
+        @onSwiping(@startAxis, @lastTouch, delta)
+    else
+      # if Math.abs(delta.y) > @element.clientHeight/3
+      #   if delta.y < 0
+      #     @onSwipe(@startAxis, -1, @lastTouch)
+      #   else
+      #     @onSwipe(@startAxis, 1, @lastTouch)
+
+      if Math.abs(delta.x) > @swipableWidth/2
+        if delta.x < 0
+          @onSwipe(@startAxis, -1, @lastTouch, delta)
+        else
+          @onSwipe(@startAxis, 1, @lastTouch, delta)
+      else
+        @element.style.marginLeft = '0px'
+
+  getAxis: (delta) ->
+    axis = null
+    if Math.round(Math.abs(delta.x / delta.y)) >= 2 then axis = "x"
+    else if Math.round(Math.abs(delta.y / delta.x)) >= 2 then axis = "y"
+    return axis
+
+  onSwiping: (axis, touch, delta) ->
+    if axis == 'x'
+      d = Math.abs(delta.x)
+      if d < @swipableWidth
+        # console.log(delta.x/@swipableWidth)
+        # console.log(easypeasy.quarticOut(delta.x/@swipableWidth))
+        # swipe = @swipableWidth * (easypeasy.quarticOut(delta.x/@swipableWidth))
+        swipe = delta.x
+        if swipe < (@swipableWidth*-1)
+          swipe = (@swipableWidth*-1)
+      else
+        swipe = @swipableWidth * (if delta.x > 0 then 1 else -1)
+      @element.style.marginLeft = (swipe*-1) + 'px'
+
+  onSwipe: (axis, direction, touch, delta) ->
+    if axis == 'x'
+      if delta.x > 0
+        app.nextButton.click()
+      else if delta.x < 0
+        app.previousButton.click()
+
 
 class rh.MugsView
   constructor: (@element) ->

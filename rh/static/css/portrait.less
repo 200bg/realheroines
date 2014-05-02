@@ -475,12 +475,21 @@ body.portrait #grid-view {
     overflow: hidden;
 
     #views {
+      height: auto;
       overflow: auto;
+      position: absolute;
+      top: 106px;
+      bottom: 108px;
+      background: @rh-grey-light;
+    }
+
+    #grid-view {
+      display: none;
     }
   }
 
   #container {
-    margin-bottom: 110px;
+    // margin-bottom: 110px;
   }
 
   #portrait-navigation .portrait-navigation-container {
