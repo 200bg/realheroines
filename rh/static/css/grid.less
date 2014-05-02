@@ -261,11 +261,21 @@
 @media only screen and (max-width: 767px) {
   body.grid {
     overflow: hidden;
+
+    #views {
+      height: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: absolute;
+      top: 106px;
+      bottom: 108px;
+    }
   }
 
   #grid-view {
-    overflow: auto;
-    padding-bottom: 100px;
+    // overflow: auto;
+    // padding-bottom: 100px;
+    bottom: auto;
     margin-left: 0;
 
     .heroine-card {
