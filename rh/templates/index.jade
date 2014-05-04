@@ -36,7 +36,7 @@ block scripts
       setTimeout(clearDelays, 333 + navDelayOffset+(cards.length*fadeInQuotient));
 
 
-      app = new rh.App(document.getElementById('views'), '{{MEDIA_URL}}heroines.json');
+      app = new rh.App(document.getElementById('views'), '{{heroines_json}}');
     });
 
 block content
@@ -58,6 +58,10 @@ block content
           .clearfix
           .nameplate {{h.name}}
           .title {{h.title}}
+
+        {% if forloop.counter|divisibleby:4 %}
+        .clearfix
+        {% endif %}
 
     #portrait-navigation.fullwidth.animated-out
       .portrait-navigation-container
@@ -119,7 +123,12 @@ block content
             .portrait-data
               .portrait-data-item.portrait-data-item-birth
                 .portrait-data-item-label Birth
-                .portrait-data-item-value {{selected_heroine.birthdate}}
+                .portrait-data-item-value 
+                  {% if selected_heroine.birthdate_is_approximate %}
+                  | c. {{selected_heroine.birthdate|date:'Y'}}
+                  {% else %}
+                  | {{selected_heroine.birthdate}}
+                  {% endif %}
 
               .portrait-data-item.portrait-data-item-death
                 .portrait-data-item-label Death

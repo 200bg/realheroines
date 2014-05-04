@@ -6,7 +6,7 @@ class HeroineAdmin(admin.ModelAdmin):
   prepopulated_fields = {'slug': ('name',)}
   fieldsets = (
     ('Details', {
-      'fields': ('name', 'slug', 'top_offset', 'title', 'nickname', 'is_public', 'birthdate', 'deathdate', 'country', 'description',),
+      'fields': ('name', 'slug', 'top_offset', 'title', 'nickname', 'is_public', 'birthdate', 'birthdate_is_approximate', 'deathdate', 'country', 'description',),
     }),
     ('Imagery', {
       'fields': ('hero_image','animation_pack'),

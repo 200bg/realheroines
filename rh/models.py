@@ -23,9 +23,10 @@ class Heroine(models.Model):
   """All the data for a heroine goes here."""
   name = models.CharField(max_length=140)
   title = models.CharField(max_length=140)
-  nickname = models.CharField(max_length=140)
+  nickname = models.CharField(max_length=140,null=True,blank=True)
   slug = models.SlugField(max_length=150)
   birthdate = models.DateField()
+  birthdate_is_approximate = models.BooleanField(default=False,help_text='Check to display the birthdate as "c. YYYY".')
   # what if they're not dead?
   deathdate = models.DateField(null=True,blank=True)
   country = models.CharField(max_length=100)
@@ -40,7 +41,7 @@ class Heroine(models.Model):
 
   # TODO: make these composite from the layers
   grid_image_thumbnail = ImageSpecField(source='hero_image',
-                                      processors=[ResizeToFill(440, 440)],
+                                      processors=[ResizeToFill(320, 320)],
                                       format='PNG',
                                       options={'quality': 100})
 
@@ -95,7 +96,6 @@ class Heroine(models.Model):
             if f.endswith(allowed_file):
               source = pack_zip.open(f)
               contents = source.read()
-              print(contents)
               target_path = os.path.join(packs_dir, allowed_file)
               target = open(target_path, 'wb')
               target.write(contents)
@@ -114,7 +114,10 @@ class Heroine(models.Model):
     for h in heroines:
       birthdate_string = None
       if h.birthdate:
-        birthdate_string = h.birthdate.strftime('%Y-%m-%d')
+        if h.birthdate_is_approximate:
+          birthdate_string = h.birthdate.strftime('c. %Y')
+        else:
+          birthdate_string = h.birthdate.strftime('%Y-%m-%d')
       deathdate_string = None
       if h.deathdate:
         deathdate_string = h.deathdate.strftime('%Y-%m-%d')
@@ -149,7 +152,7 @@ class Heroine(models.Model):
       print('Failed to write json updates for heroines at {0}'.format(public_json_filename))
 
     try:
-      fh = open(public_json_filename, 'w')
+      fh = open(private_json_filename, 'w')
       private_json_filename = json.dump(all_heroines, fh)
       fh.close()
     except IOError:
