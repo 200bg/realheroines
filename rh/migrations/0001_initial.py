@@ -13,7 +13,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=140)),
             ('title', self.gf('django.db.models.fields.CharField')(max_length=140)),
-            ('nickname', self.gf('django.db.models.fields.CharField')(max_length=140)),
+            ('nickname', self.gf('django.db.models.fields.CharField')(max_length=140,null=True,blank=True)),
             ('slug', self.gf('django.db.models.fields.SlugField')(max_length=150)),
             ('birthdate', self.gf('django.db.models.fields.DateField')()),
             ('deathdate', self.gf('django.db.models.fields.DateField')(null=True, blank=True)),
