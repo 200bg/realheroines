@@ -17,7 +17,7 @@ def home(request, slug=None):
 
   if request.user.is_staff and request.GET.get('preview', False):
     context['heroines'] = Heroine.objects.all()
-    context['heroines_json'] = settings.MEDIA_URL + 'heroines-preview.json'
+    context['heroines_json'] = '/static/media/heroines-preview.json'
     if slug is not None:
       try:
         selected_heroine = Heroine.objects.get(slug=slug)
@@ -33,7 +33,7 @@ def home(request, slug=None):
         raise Http404
   else:
     context['heroines'] = Heroine.objects.filter(is_public=True).all()
-    context['heroines_json'] = settings.MEDIA_URL + 'heroines.json'
+    context['heroines_json'] = '/static/media/heroines.json'
     if slug is not None:
       try:
         selected_heroine = Heroine.objects.get(slug=slug,is_public=True)
