@@ -47,6 +47,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'rh.middleware.MaintenanceModeMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -58,9 +59,10 @@ TEMPLATE_LOADERS = (
     )),
 )
 
-STATICFILES_DIRS = (
-    os.path.normpath('{0}/static'.format(BASE_DIR)),
-)
+# I hate STATICFILES_DIRS anyway.
+# STATICFILES_DIRS = (
+#     os.path.normpath('{0}/static'.format(BASE_DIR)),
+# )
 
 TEMPLATE_DIRS = (
     os.path.normpath('{0}/templates'.format(BASE_DIR)),
@@ -101,10 +103,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-MEDIA_ROOT = '/var/www/shared/realheroines/media/'
+STATIC_ROOT = '/var/www/realheroines.com/rh/static/'
+MEDIA_ROOT = '/var/www/realheroines.com/rh/static/media/'
 
 STATIC_URL = 'http://static.realheroines.com/'
-MEDIA_URL = 'http://static/realheroines.com/media/'
+MEDIA_URL = 'http://static.realheroines.com/media/'
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
