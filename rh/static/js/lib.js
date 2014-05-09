@@ -25,6 +25,7 @@
 }());
 
 
+(function() {
 if (!window.devicePixelRatio)
     window.devicePixelRatio = 1.0
-
+}());
