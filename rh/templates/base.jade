@@ -6,6 +6,9 @@ html
     meta(name='description', content='{% block meta_description %}{% endblock %}')
     meta(name='keywords', content='{% block meta_keywords %}{% endblock %}')
     meta(name='viewport', content='width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0')
+    script(type="text/javascript",src="//use.typekit.net/qut1qci.js")
+    script(type="text/javascript").
+      try{Typekit.load();}catch(e){}
     block extrahead
 
     //- TODO: favicon
@@ -61,8 +64,9 @@ html
           .active-indicator.animated-out
           a.animated-out.link-home(href="{% url 'home' %}")
             .top-line
-            img.real-heroines-logo-small(src='{{STATIC_URL}}img/real-heroines-logo-small.svg',width='162',height='65')
-            img.real-heroines-logo-icon(src='{{STATIC_URL}}img/real-heroines-logo-icon.svg',width='74',height='65')
+            .real-heroines-logo-small
+            .real-heroines-logo-icon(width='73',height='73')
+            .real-heroines-logo-icon.real-heroines-logo-icon-over(width='73',height='73')
             //- object#logo-vector.real-heroines-logo-small(data='{{STATIC_URL}}img/real-heroines-logo-small.svg',type='image/svg+xml',width='162',height='65')
           a.animated-out.link-grid(href="{% url 'grid' %}") GRID
           a.animated-out.link-portrait(href="{% url 'portrait' %}") PORTRAIT
