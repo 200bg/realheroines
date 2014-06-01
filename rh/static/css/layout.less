@@ -41,11 +41,15 @@ body {
 }
 
 .real-heroines-logo-small {
-  max-width: 162px;
-  max-height: 65px;
+  background: transparent url('../img/real-heroines-logo-small.svg') center center no-repeat;
+  background-size: contain;
+  max-width: 83%;
+  max-height: 106px;
 
+  margin: 2% auto 0px auto;
   width: 96%;
-  height: auto;
+  height: 100%;
+  .transition-delay(0.5s);
 }
 
 .real-heroines-logo-smallest {
@@ -59,11 +63,29 @@ body {
 }
 
 .real-heroines-logo-icon {
-  max-width: 74px;
-  max-height: 65px;
+  background: transparent url('../img/real-heroines-logo-icon.svg') center center no-repeat;
+  background-size: contain;
+  max-width: 73px;
+  margin: 0px auto 0px auto;
 
-  width: 96%;
-  height: auto;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+
+  width: 40%;
+  height: 100%;
+  opacity: 1.0;
+
+  .transition(opacity 0.5s);
+  .transition-delay(0.0s);
+}
+
+.real-heroines-logo-icon-over {
+  background: transparent url('../img/real-heroines-logo-icon-over.svg') center center no-repeat;
+  background-size: contain;
+  opacity: 0.0;
 }
 
 .global-nav {
@@ -79,6 +101,7 @@ body {
   z-index: 4;
 
   nav {
+    position: relative;
     height: 106px;
     line-height: 106px;
     overflow: hidden;
@@ -87,11 +110,12 @@ body {
     .top-line {
       position: absolute;
       top: 0px;
-      left: 14.2857%;
+      left: 21.5%;
       right: 0px;
-      width: 100-14.2857%;
+      width: 100-21.5%;
       height: 8px;
       background-color: @rh-green;
+      .transition(width 0.5s);
     }
 
     .active-indicator {
@@ -108,6 +132,38 @@ body {
 
       &.animated-out {
         top: -15px;
+      }
+    }
+
+    &.scrolled-down {
+      .top-line {
+        left: 10%;
+      }
+
+      a.link-home {
+        width: 10%;
+
+        .real-heroines-logo-small {
+          opacity: 0.0;
+          .transition-delay(0.0s);
+        }
+        .real-heroines-logo-icon {
+          opacity: 1.0;
+          .transition-delay(0.5s);
+        }
+        .real-heroines-logo-icon-over {
+          opacity: 0.0;
+        }
+      }
+    }
+
+    &.scrolled-down:hover {
+      a.link-home .real-heroines-logo-small {
+        opacity: 0.0 !important;
+        .transition-delay(0s);
+      }
+      a.link-home .real-heroines-logo-icon {
+        .transition-delay(0s);
       }
     }
 
@@ -134,20 +190,23 @@ body {
     }
 
     a.link-home {
+      position: relative;
       font-family: 'Roboto Slab', Georgia, serif;
       font-size: 24px;
       color: @rh-grey;
       height: 106px;
-      width: 14.2857%;
+      width: 21.5%;
       text-align: center;
 
       // border-right: 1px solid @rh-grey-middle;
       padding-right: 0px;
       padding-left: 0px;
-      line-height: 65px;
+      line-height: 106px;
       margin-top: 0px;
       vertical-align: top;
       opacity: 1.0;
+      .transition(all 0.5s);
+      .transition-delay(0.5s);
 
       // this guy is also a loading bar
       .top-line {
@@ -155,7 +214,7 @@ body {
         top: 0px;
         left: 0;
         right: 0px;
-        width: 14.2857%;
+        width: 101%;
         height: 8px;
         background-color: @rh-black-logo;
         .transition(background-color 0.5s);
@@ -177,21 +236,36 @@ body {
       }
 
       &:hover {
-        background-color: white;
+        background-color: @rh-grey-light;
 
         .top-line {
           background-color: @rh-yellow;
         }
 
+        .real-heroines-logo-small,
+        .real-heroines-logo-icon {
+          opacity: 1.0;
+        }
+
         .real-heroines-logo-small-over,
         .real-heroines-logo-icon-over {
-          opacity: 0.0;
+          opacity: 1.0;
         }
       }
 
       .real-heroines-logo-small {
+        background-size: contain;
         opacity: 1.0;
+        width: 83%;
+        height: 106px;
         .transition(opacity 0.5s);
+        .transition-delay(0.5s);
+      }
+
+      .real-heroines-logo-small-over {
+        background-size: contain;
+        width: 162px;
+        height: 106px;
       }
 
       // &:hover .real-heroines-logo-small {
@@ -200,7 +274,9 @@ body {
 
       .real-heroines-logo-icon,
       .real-heroines-logo-icon-over {
-        display: none;
+        display: block;
+        opacity: 0.0;
+        .transition-delay(0.0s);
       }
     }
 
