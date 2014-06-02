@@ -56,7 +56,30 @@ html
     block scripts
 
   body(class='{{current_page}}',data-initial='{{current_page}}')
+    #fb-root
+    script
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=672532556130064&version=v2.0";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+
     #container.fullwidth
+      .old-browser.fullwidth(style='display: none;')
+        h5 We are disappoint.
+        p 
+          | Our content is a part of history, but the browser you use shouldn't be. 
+          | Real Heroines requires 
+          a(href="http://windows.microsoft.com/en-us/internet-explorer/download-ie",target='_blank') IE 10+ 
+          | or 
+          a(href="https://www.apple.com/safari/",target='_blank') Safari 7
+          | or 
+          a(href="https://www.google.com/chrome/browser/",target='_blank') Google Chrome
+          | or 
+          a(href="http://www.mozilla.org/en-US/firefox/new/",target='_blank') Firefox
+
       .global-nav.fullwidth
         .clearfix
         nav
@@ -72,6 +95,21 @@ html
           a.animated-out.link-portrait(href="{% url 'portrait' %}") PORTRAIT
           a.animated-out.link-about(href="{% url 'about' %}") ABOUT
           //- a.animated-out.link-timeline(href="{% url 'timeline' %}") TIMELINE
+          .social-links
+            .facebook-button.share-button
+              .fb-like(data-layout="button_count",data-href='http://realheroines.com/',data-action="like",data-show-faces="false",data-share="false")
+            .twitter-button.share-button
+              a.twitter-share-button(href='https://twitter.com/share',data-url="http://realheroines.com/",data-hashtags='realheroines')
+                Tweet
+              script.
+                !function(d,s,id){
+                var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+                if(!d.getElementById(id)){js=d.createElement(s);js.id=id;
+                js.src=p+'://platform.twitter.com/widgets.js';
+                fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+            .google-plus.share-button
+              .g-plusone(data-size="medium",data-href="http://realheroines.com/")
+
       block content
       .clearfix
     footer
@@ -99,3 +137,9 @@ html
         // force dom stuff
         //document.body.clientWidth;
       });
+
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/platform.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
