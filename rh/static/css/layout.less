@@ -1,5 +1,4 @@
 // modularized
-@import url(http://fonts.googleapis.com/css?family=Roboto+Slab:100,400,700&subset=latin,latin-ext);
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,700&subset=latin,latin-ext);
 @import 'colors.less';
 @import 'mixins.less';
@@ -121,7 +120,7 @@ body {
     .active-indicator {
       position: absolute;
       top: 2px;
-      left: 14.2857%;
+      left: 21.5%;
       width: 10px;
       height: 10px;
       background-color: @rh-green;
@@ -154,16 +153,22 @@ body {
         }
         .real-heroines-logo-icon-over {
           opacity: 0.0;
+          .transition-delay(0s);
         }
       }
     }
 
-    &.scrolled-down:hover {
-      a.link-home .real-heroines-logo-small {
+    &.scrolled-down {
+      a.link-home:hover .real-heroines-logo-small {
         opacity: 0.0 !important;
         .transition-delay(0s);
       }
-      a.link-home .real-heroines-logo-icon {
+      a.link-home:hover .real-heroines-logo-icon {
+        opacity: 1.0;
+        .transition-delay(0s);
+      }
+
+      a.link-home:hover .real-heroines-logo-icon-over {
         .transition-delay(0s);
       }
     }
@@ -192,7 +197,7 @@ body {
 
     a.link-home {
       position: relative;
-      font-family: 'Roboto Slab', Georgia, serif;
+      font-family: 'Lust', Georgia, serif;
       font-size: 24px;
       color: @rh-grey;
       height: 106px;
@@ -215,7 +220,7 @@ body {
         top: 0px;
         left: 0;
         right: 0px;
-        width: 101%;
+        width: 100.25%;
         height: 8px;
         background-color: @rh-black-logo;
         .transition(background-color 0.5s);
@@ -243,14 +248,13 @@ body {
           background-color: @rh-yellow;
         }
 
-        .real-heroines-logo-small,
-        .real-heroines-logo-icon {
+        .real-heroines-logo-small {
           opacity: 1.0;
         }
 
         .real-heroines-logo-small-over,
         .real-heroines-logo-icon-over {
-          opacity: 1.0;
+          opacity: 0.0;
         }
       }
 
@@ -531,13 +535,25 @@ body.timeline {
 
   /* Tablet Portrait size to standard 960 (devices and browsers) */
   @media only screen and (min-width: 768px) and (max-width: 959px) {
-    .global-nav nav a.link-home .real-heroines-logo-icon,
-    .global-nav nav a.link-home .real-heroines-logo-icon-over {
-      display: block;
-    }
-    .global-nav nav a.link-home .real-heroines-logo-small,
-    .global-nav nav a.link-home .real-heroines-logo-small-over {
-      display: none;
+    .global-nav nav a.link-home {
+      .real-heroines-logo-icon {
+        opacity: 1.0;
+        display: block;
+      }
+      .real-heroines-logo-icon-over {
+        opacity: 0.0;
+        display: block;
+      }
+      .real-heroines-logo-small,
+      .real-heroines-logo-small-over {
+        display: none;
+      }
+
+      &:hover {
+        .real-heroines-logo-icon-over {
+          opacity: 1.0;
+        }
+      }
     }
 
     #views {
@@ -547,13 +563,24 @@ body.timeline {
 
   /* All Mobile Sizes (devices and browser) */
   @media only screen and (max-width: 767px) {
-    .global-nav nav a.link-home .real-heroines-logo-icon,
-    .global-nav nav a.link-home .real-heroines-logo-icon-over {
-      display: block;
-    }
-    .global-nav nav a.link-home .real-heroines-logo-small,
-    .global-nav nav a.link-home .real-heroines-logo-small-over {
-      display: none;
+    .global-nav nav a.link-home {
+      .real-heroines-logo-icon {
+        display: block;
+        opacity: 1.0;
+      }
+      .real-heroines-logo-icon-over {
+        display: block;
+      }
+     .real-heroines-logo-small,
+     .real-heroines-logo-small-over {
+        display: none;
+      }
+
+      &:hover {
+        .real-heroines-logo-icon-over {
+          opacity: 1.0;
+        }
+      }
     }
 
     #views {
@@ -573,13 +600,25 @@ body.timeline {
 
   /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
   @media only screen and (min-width: 480px) and (max-width: 767px) {
-    .global-nav nav a.link-home .real-heroines-logo-icon,
-    .global-nav nav a.link-home .real-heroines-logo-icon-over {
-      display: block;
-    }
-    .global-nav nav a.link-home .real-heroines-logo-small,
-    .global-nav nav a.link-home .real-heroines-logo-small-over {
-      display: none;
+    .global-nav nav a.link-home {
+      .real-heroines-logo-icon {
+        opacity: 1.0;
+        display: block;
+      }
+      .real-heroines-logo-icon-over {
+        opacity: 0.0;
+        display: block;
+      }
+      .real-heroines-logo-small,
+      .real-heroines-logo-small-over {
+        display: none;
+      }
+
+      &:hover {
+        .real-heroines-logo-icon-over {
+          opacity: 1.0;
+        }
+      }
     }
 
     #views {
@@ -607,7 +646,7 @@ body.timeline {
 
     .global-nav {
       height: 100px;
-      nav {
+      nav, nav.scrolled-down {
         a.link-home {
           width: 100%;
           height: 65px;
@@ -615,11 +654,10 @@ body.timeline {
           .real-heroines-logo-small,
           .real-heroines-logo-small-over {
             display: block;
-            width: 121px;
-            height: 50px;
-            top: 8px;
-            left: 50%;
-            margin-left: -60px; 
+            width: 65%;
+            height: 65px;
+            margin: auto;
+            opacity: 1.0;
           }
         }
         a.link-grid {
