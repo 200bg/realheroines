@@ -16,3 +16,7 @@ rh/static/js/rh.js
 
 node_modules
 /assets
+
+rh/static/media/packs
+rh/static/media/portraits
+
