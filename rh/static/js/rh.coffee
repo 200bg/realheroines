@@ -489,7 +489,7 @@ class rh.GridItem
       images: [rh.STATIC_URL + 'img/animations/portrait-leaf.png']
       framerate: 120
       frames: {width:300, height:113}
-      animations: {over: [0,89,null], out: {frames: [89..0], next: null}}
+      animations: {over: [0,88,null], out: {frames: [88..0], next: null}}
     # adobe's easel
     ornamentSpriteSheet = new createjs.SpriteSheet(ornamentSpriteSheetData)
     @ornament = new createjs.Sprite(ornamentSpriteSheet, 'over')
@@ -549,8 +549,10 @@ class rh.App
     # proxy setups
     @onPortraitClickProxy = @onPortraitClick.bind(@)
     @onGridButtonClickProxy = @onGridButtonClick.bind(@)
+    @onAnimationFrameProxy = @onAnimationFrame.bind(@)
     window.addEventListener('popstate', @onHistoryPopState.bind(@))
 
+    @navContainer = document.querySelector('nav')
     @viewsContainer = document.querySelector('#views')
 
     # ui elements
@@ -589,7 +591,9 @@ class rh.App
     @gridView = new rh.GridView(@gridViewElement)
 
     # initially delay the switch
-    setTimeout(@init.bind(@), 150);
+    setTimeout(@init.bind(@), 150)
+
+    requestAnimationFrame(@onAnimationFrameProxy)
     return
 
   init: ->
@@ -725,6 +729,18 @@ class rh.App
     button.setAttribute('data-id', heroine.slug)
     button.href = "/portrait/#{heroine.slug}/"
     button.querySelector('.button-title').innerHTML = heroine.name
+
+  onAnimationFrame: (t) ->
+    requestAnimationFrame(@onAnimationFrameProxy)
+    if @lastScrollTop == @viewsContainer.scrollTop
+      return
+    if @viewsContainer.scrollTop > @gridLink.clientHeight + 20
+      if not @navContainer.classList.contains('scrolled-down')
+        @navContainer.classList.add('scrolled-down')
+    else if @navContainer.classList.contains('scrolled-down')
+      @navContainer.classList.remove('scrolled-down')
+    @lastScrollTop = @viewsContainer.scrollTop
+
 
   loadPortrait: (heroine, direction) ->
     @previousPortraitView = @portraitView

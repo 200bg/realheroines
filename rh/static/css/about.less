@@ -87,7 +87,7 @@ body.about #grid-view {
               top: 26.206%;
               left: 0;
               right: 0;
-              font-family: 'Ubuntu', Verdana, Arial, sans-serif;
+              font-family: 'Lust', Verdana, Arial, sans-serif;
               font-size: 100%;
               z-index: 5;
               color: white;
@@ -106,7 +106,7 @@ body.about #grid-view {
               top: 21%;
               left: 0;
               right: 0;
-              width: 56%;
+              width: 75%;
               margin: auto;
 
               .leaf-left {
@@ -126,7 +126,7 @@ body.about #grid-view {
               right: 0;
               width: 80%;
               margin: auto;
-              font-family: 'Roboto Slab', 'Ubuntu', Arial, sans-serif;
+              font-family: 'Ubuntu', Arial, sans-serif;
               line-height: 32px;
               font-size: 20px;
               font-weight: 400;
@@ -169,7 +169,7 @@ body.about #grid-view {
         text-align: left;
 
         h2 {
-          font-family: 'Roboto Slab', Georgia, serif;
+          font-family: 'Lust', Georgia, serif;
           font-size: 32px;
           font-style: oblique;
           color: @rh-grey-faded;
@@ -297,7 +297,7 @@ body.about #grid-view {
         margin-top: 76px;
 
         .who-part {
-          font-family: 'Roboto Slab', Georgia, serif;
+          font-family: 'Lust', Georgia, serif;
           font-weight: 100;
           font-size: 48px;
           line-height: 48px;
@@ -348,7 +348,25 @@ body.about #grid-view {
 
 /* Smaller than standard 960 (devices and browsers) */
 @media only screen and (max-width: 959px) {
+  #about-view .about-container .about-details header {
+    .mugs {
+      .quote-of-the-month {
+        .quote {
+          font-size: 18px;
+        }
 
+        .leaves {
+          width: 86%;
+
+          .leaf-right, .leaf-left {
+            width: 84px*0.75;
+            height: 60px*0.75;
+            background-size: contain;
+          }
+        }
+      }
+    }
+  }
 }
 /* Tablet Portrait size to standard 960 (devices and browsers) */
 @media only screen and (min-width: 1281px) and (max-width: 1919px) {
@@ -363,6 +381,16 @@ body.about #grid-view {
 
     .attribution {
       font-size: 18px;
+    }
+
+    .leaves {
+      width: 86%;
+
+      .leaf-right, .leaf-left {
+        width: 84px;
+        height: 60px;
+        background-size: contain;
+      }
     }
   }
 }
@@ -384,7 +412,7 @@ body.about #grid-view {
       .leaf {
         width: 84px*0.33;
         height: 60px*0.33;
-        background-size: cover;
+        background-size: contain;
       }
       h3 {
         top: 20%;
@@ -409,10 +437,17 @@ body.about #grid-view {
 }
 /* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
 @media only screen and (min-width: 480px) and (max-width: 767px) {
-
 }
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) {
-
+  #about-view .about-container .about-details header .mugs .quote-of-the-month {
+    .leaves {
+      .leaf-right, .leaf-left {
+        width: 84px*0.4;
+        height: 60px*0.4;
+        background-size: contain;
+      }
+    }
+  }
 }
 
