@@ -1,5 +1,8 @@
 body.portrait #grid-view {
   opacity: 0.0;
+  height: 0;
+  margin: 0;
+  padding: 0;
 }
 
 #portrait-navigation {
@@ -11,6 +14,7 @@ body.portrait #grid-view {
   background-color: white;
   margin-top: 0;
   z-index: 2;
+  border-bottom: 1px solid @rh-grey-thin;
   .transition(all 0.66s);
   .transition-delay(0.25s);
 
@@ -187,8 +191,9 @@ body.portrait #grid-view {
   margin-top: 0px;
   margin-bottom: 30px;
   padding-top: 30px;
-  position: absolute;
-  top: 68px;
+  position: relative;
+  top: 0px;
+  // top: 68px;
   right: 0;
   bottom: 0;
   left: 0;
@@ -235,11 +240,13 @@ body.portrait #grid-view {
     max-width: 816px;
     min-height: 596px;
     background-color: @rh-grey-light;
-    margin: 0 auto;
+    margin: 65px auto 0 auto;
+    padding: 2px 0px;
     .transition(all 0.5s);
 
     .portrait-frame {
-      position: absolute;
+      // position: absolute;
+      position: relative;
       top: 0;
       right: 0;
       bottom: 0;
@@ -460,11 +467,11 @@ body.portrait #grid-view {
         }
 
         .portrait-copy {
-          margin-top: 28px;
           height: 53%;
-          overflow: auto;
-          -webkit-overflow-scrolling: touch;
+          // overflow: auto;
+          // -webkit-overflow-scrolling: touch;
           margin: 28px auto 0px;
+          padding-bottom: 100px;
 
           h3 {
             font-family: 'Lust', Georgia, serif;
@@ -504,14 +511,15 @@ body.portrait #grid-view {
 /* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
   body.portrait {
-    overflow: hidden;
 
     #views {
       height: auto;
-      overflow: auto;
+      // overflow: auto;
       -webkit-overflow-scrolling: touch;
-      position: absolute;
-      top: @navLogoHeight;
+      position: relative;
+      // position: absolute;
+      // top: @navLogoHeight;
+      top: 0px;
       bottom: 108px;
       background: @rh-grey-light;
     }
@@ -526,7 +534,6 @@ body.portrait #grid-view {
   }
 
   #portrait-navigation {
-    top: @navLogoHeight;
 
     .portrait-navigation-container {
       .arrow-button .arrow {
@@ -620,6 +627,9 @@ body.portrait #grid-view {
 }
 
 @media only screen and (max-width: 479px) {
+  #portrait-navigation {
+    top: @navLogoHeight;
+  }
   .portrait-view {
     bottom: 0px;
     .portrait-container {
