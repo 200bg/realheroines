@@ -1,6 +1,15 @@
+body.grid {
+  .portrait-view {
+    // display: none;
+    overflow: hidden;
+    height: 0;
+    width: 0px;
+  }
+}
+
 
 #grid-view {
-  position: absolute;
+  position: relative;
   top: 0px;
   left: 0;
   right: 0;
@@ -263,15 +272,17 @@
 /* All Mobile Sizes (devices and browser) */
 @media only screen and (max-width: 767px) {
   body.grid {
-    overflow: hidden;
+    // overflow: hidden;
 
     #views {
       height: auto;
-      overflow-y: auto;
+      // overflow-y: auto;
       -webkit-overflow-scrolling: touch;
       overflow-x: hidden;
-      position: absolute;
-      top: @navLogoHeight;
+      // position: absolute;
+      position: relative;
+      top: 0px;
+      // top: @navLogoHeight;
       bottom: 108px;
     }
 

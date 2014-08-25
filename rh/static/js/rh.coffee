@@ -492,7 +492,7 @@ class rh.AboutView
       @whoContainer.classList.remove('animated-out')
       for portrait in @portraitContainers
         portrait.classList.remove('animated-out')
-    else if @viewsContainer.scrollTop >= document.body.clientHeight and @whoAnimated == false
+    else if document.documentElement.scrollTop >= document.body.clientHeight and @whoAnimated == false
       @whoContainer.classList.remove('animated-out')
       for portrait in @portraitContainers
         portrait.classList.remove('animated-out')
@@ -503,7 +503,7 @@ class rh.AboutView
   tick: (e) ->
 
     halfHeight = @mugs.facesContainer.clientHeight/2
-    scrollTop = @viewsContainer.scrollTop
+    scrollTop = document.documentElement.scrollTop
     if scrollTop < halfHeight and (document.body.clientWidth > 960)
       @mugs.facesContainer.style.top = -(scrollTop * easypeasy.quarticOut(scrollTop/halfHeight)) + 'px'
       if scrollTop < (halfHeight/1.25)
@@ -521,7 +521,7 @@ class rh.AboutView
     if document.body.clientWidth < 767
       return;
 
-    if (scrollTop >= @viewsContainer.scrollHeight - @viewsContainer.clientHeight - 150)
+    if (scrollTop >= document.documentElement.scrollHeight - document.documentElement.clientHeight - 250)
       if @whoAnimated == false
         @whoAnimated = true
         @whoContainer.classList.remove('animated-out')
@@ -609,6 +609,7 @@ class rh.App
     @navContainer = document.querySelector('nav')
     @globalNav = @navContainer.parentNode
     @viewsContainer = document.querySelector('#views')
+    @footer = document.querySelector('footer')
 
     # ui elements
     @gridViewElement = @element.querySelector('#grid-view')
@@ -661,6 +662,8 @@ class rh.App
     @switchSection(state['section'], state, false)
     document.body.setAttribute('data-initial', '')
 
+    window.addEventListener('resize', @onResize.bind(@))
+
   loadJson: ->
     request = null
     if (window.XDomainRequest)
@@ -679,7 +682,7 @@ class rh.App
     request.send()
 
   switchSection: (section, options={}, pushState=false) ->
-    @viewsContainer.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
     switch section
       when 'portrait'
         @gridViewElement.classList.add('animated-out')
@@ -724,9 +727,17 @@ class rh.App
         @aboutView.stop()
         if pushState
           history.pushState({'section': 'grid'}, null, '/')
-
+    @placeFooter()
 
     return
+
+  placeFooter: ->
+    # or if it's the about page -- I hate you
+    console.log(document.body.classList.contains('about'))
+    if @viewsContainer.clientHeight < (document.body.clientHeight - @globalNav.offsetHeight) and not document.body.classList.contains('about')
+      @footer.classList.add('pinned-to-bottom')
+    else
+      @footer.classList.remove('pinned-to-bottom')
 
   getSectionFromUrl: (pathname=window.location.pathname)->
     parts = pathname.split('/')
@@ -791,14 +802,14 @@ class rh.App
 
   onAnimationFrame: (t) ->
     requestAnimationFrame(@onAnimationFrameProxy)
-    if @lastScrollTop == @viewsContainer.scrollTop
+    if @lastScrollTop == document.documentElement.scrollTop
       return
-    if @viewsContainer.scrollTop > @gridLink.clientHeight + 20
+    if document.documentElement.scrollTop > @gridLink.clientHeight + 20
       if not @navContainer.classList.contains('scrolled-down')
         @navContainer.classList.add('scrolled-down')
     else if @navContainer.classList.contains('scrolled-down')
       @navContainer.classList.remove('scrolled-down')
-    @lastScrollTop = @viewsContainer.scrollTop
+    @lastScrollTop = document.documentElement.scrollTop
 
   loadPortrait: (heroine, direction) ->
     @previousPortraitView = @portraitView
@@ -858,6 +869,7 @@ class rh.App
 
   onResize: (e) ->
     @aboutView.element.style.bottom = (window.clientHeight - 105) + 'px'
+    @placeFooter()
 
   onAboutClick: (e) ->
     e.preventDefault()
@@ -872,6 +884,8 @@ class rh.App
       @switchSection('about', {}, true)
 
     @globalNav.classList.remove('expanded')
+    @placeFooter()
+
 
   onHistoryPopState: (e) ->
     if (e.state && e.state['section'])
