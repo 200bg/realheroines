@@ -4,7 +4,7 @@ body.portrait #grid-view {
 
 #portrait-navigation {
   position: absolute;
-  top: 1px;
+  top: 106px;
   right: 0;
   left: 0;
   height: 68px;
@@ -12,9 +12,11 @@ body.portrait #grid-view {
   margin-top: 0;
   z-index: 2;
   .transition(all 0.66s);
+  .transition-delay(0.25s);
 
   &.animated-out {
-    margin-top: -120px;
+    top: -75px;
+    .transition-delay(0.15s);
   }
 
 
@@ -32,6 +34,7 @@ body.portrait #grid-view {
       height: 1px;
       margin: auto;
       background-color: @rh-grey-middle;
+      .transition(background-color 0.33s);
 
       &:before {
         content: "";
@@ -43,6 +46,7 @@ body.portrait #grid-view {
         border-top: 1px solid @rh-grey-middle;
         border-left: 1px solid @rh-grey-middle;
         .rotate(-0.785rad);
+        .transition(all 0.33s);
       }
     }
 
@@ -50,6 +54,7 @@ body.portrait #grid-view {
       position: absolute;
       top: 0;
       bottom: 0;
+
       .button-label {
         position: absolute;
         top: 14px;
@@ -57,9 +62,11 @@ body.portrait #grid-view {
         font-family: 'Lust', Georgia, serif;
         font-size: 16px;
         color: @rh-grey;
-        text-overflow: ellipses;
+        text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+
+        .transition(color 0.33s);
       }
       .button-title {
         position: absolute;
@@ -69,9 +76,32 @@ body.portrait #grid-view {
         font-size: 14px;
         color: @rh-grey-faded;
 
-        text-overflow: ellipses;
+        text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+
+        .transition(color 0.33s);
+      }
+
+      &:hover {
+        color: black;
+
+        .button-label {
+          color: black;
+        }
+
+        .button-title {
+          color: black;
+        }
+
+        .arrow {
+          background-color: black;
+
+          &:before {
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+          }
+        }
       }
     }
 
@@ -202,7 +232,7 @@ body.portrait #grid-view {
     width: 85%;
     height: 100%;
     max-width: 816px;
-    min-height: 640px;
+    min-height: 596px;
     background-color: @rh-grey-light;
     margin: 0 auto;
     .transition(all 0.5s);
@@ -238,7 +268,6 @@ body.portrait #grid-view {
           margin: auto;
           border-radius: 50%;
           background-color: #fcca2b;
-          background: #fcca2b url('../img/portrait-overlay.png') center bottom repeat-x;
           overflow: hidden;
 
           canvas {
@@ -362,7 +391,7 @@ body.portrait #grid-view {
         h1 {
           font-family: 'Lust', Georgia, serif;
           font-size: 32px;
-          color: @rh-grey;
+          color: @rh-grey-dark;
           margin: 0 auto;
         }
 
@@ -371,6 +400,7 @@ body.portrait #grid-view {
           font-size: 14px;
           color: @rh-grey-faded;
           margin: 0 auto;
+          text-transform: uppercase;
         }
 
         .portrait-data {
@@ -397,7 +427,7 @@ body.portrait #grid-view {
             .portrait-data-item-label {
               text-transform: uppercase;
               font-size: 12px;
-              color: @rh-grey;
+              color: @rh-grey-dark;
               margin-top: 17px;
             }
 
@@ -405,7 +435,7 @@ body.portrait #grid-view {
               font-family: Ubuntu, Arial, sans-serif;
               font-size: 14px;
               text-align: oblique;
-              color: @rh-yellow;
+              color: @rh-grey;
             }
           }
 
@@ -430,14 +460,15 @@ body.portrait #grid-view {
 
         .portrait-copy {
           margin-top: 28px;
-          height: 60%;
+          height: 53%;
           overflow: auto;
+          -webkit-overflow-scrolling: touch;
           margin: 28px auto 0px;
 
           h3 {
             font-family: 'Lust', Georgia, serif;
             font-size: 18px;
-            color: @rh-grey;
+            color: @rh-grey-dark;
           }
 
           p {
@@ -477,8 +508,9 @@ body.portrait #grid-view {
     #views {
       height: auto;
       overflow: auto;
+      -webkit-overflow-scrolling: touch;
       position: absolute;
-      top: 106px;
+      top: @navLogoHeight;
       bottom: 108px;
       background: @rh-grey-light;
     }
@@ -492,27 +524,31 @@ body.portrait #grid-view {
     // margin-bottom: 110px;
   }
 
-  #portrait-navigation .portrait-navigation-container {
-    .arrow-button .arrow {
-      display: none;
-    }
-    .arrow-button .button-title {
-      font-size: 14px
-    }
-    .arrow-button .button-label {
-      font-size: 12px;
-    }
+  #portrait-navigation {
+    top: @navLogoHeight;
 
-    #next-button {
-      .button-title,
-      .button-label {
-        right: 10px;
+    .portrait-navigation-container {
+      .arrow-button .arrow {
+        display: none;
       }
-    }
-    #previous-button {
-      .button-title,
-      .button-label {
-        left: 10px;
+      .arrow-button .button-title {
+        font-size: 14px
+      }
+      .arrow-button .button-label {
+        font-size: 12px;
+      }
+
+      #next-button {
+        .button-title,
+        .button-label {
+          right: 10px;
+        }
+      }
+      #previous-button {
+        .button-title,
+        .button-label {
+          left: 10px;
+        }
       }
     }
   }
@@ -588,6 +624,10 @@ body.portrait #grid-view {
     .portrait-container {
       width: 100%;
 
+      a {
+        word-break: break-all;
+      }
+
       .portrait-frame {
         .portrait-image {
           left: 0;
@@ -600,6 +640,22 @@ body.portrait #grid-view {
         }
         .portrait-details {
           width: 260px;
+          min-width: 260px;
+
+          h1 {
+            font-size: 20px;
+            line-height: 38px;
+          }
+
+          .portrait-title {
+            font-size: 14px;
+          }
+        }
+
+        .portrait-data-item-label,
+        .portrait-data-item-value {
+          margin-left: 0px !important;
+          text-align: center;
         }
       }
     }

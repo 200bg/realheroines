@@ -268,10 +268,15 @@
     #views {
       height: auto;
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       overflow-x: hidden;
       position: absolute;
-      top: 106px;
+      top: @navLogoHeight;
       bottom: 108px;
+    }
+
+    .portrait-view {
+      overflow: hidden;
     }
   }
 
@@ -279,12 +284,23 @@
     // overflow: auto;
     // padding-bottom: 100px;
     bottom: auto;
-    margin-left: 0;
+    // why was this set to 0?
+    // margin-left: 0;
+    margin-left: 4%;
 
     .heroine-card {
       width: 80%;
       margin: 0 10%;
       min-height: 400px;
+
+      &:hover {
+        .portrait {
+          margin-top: 0px;
+        }
+        .nameplate {
+          margin-top: 0px;
+        }
+      }
     }
   }
 }

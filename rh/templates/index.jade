@@ -63,34 +63,6 @@ block content
         .clearfix
         {% endif %}
 
-    #portrait-navigation.fullwidth.animated-out
-      .portrait-navigation-container
-        a#previous-button.arrow-button(href="{{previous_heroine.get_absolute_url}}",data-direction='previous',style='{% if not previous_heroine %}opacity: 0.0{% endif %}')
-          .button-label Prev
-          .button-title {{previous_heroine.name}}
-          .arrow
-        a#next-button.arrow-button(href="{{next_heroine.get_absolute_url}}",data-direction='next',style='{% if not next_heroine %}opacity: 0.0{% endif %}')
-          .button-label Next
-          .button-title {{next_heroine.name}}
-          .arrow
-        a#grid-button(href="{% url 'grid' %}")
-          .grid-block
-          .grid-block
-          .grid-block
-          .grid-block
-          .grid-block
-          .grid-block
-          .grid-block
-          .grid-block
-          .grid-block
-          script.
-            var gridBlocks = document.querySelectorAll('#grid-button .grid-block');
-            for (var i = 0; i < gridBlocks.length; i++) {
-              var block = gridBlocks[i];
-              block.style.webkitTransitionDelay = (i*0.05)+'s';
-              block.style.transitionDelay = (i*0.05)+'s';
-            }
-
     .portrait-view.container.animated-out
       .mugs
       .portrait-container
@@ -155,52 +127,84 @@ block content
       .about-container
         .about-details
           header
-            .mugs
+            .mugs-container
+              .mugs
               .quote-of-the-month
                 .background
-                .leaves
-                  .leaf.leaf-left
-                  .leaf.leaf-right
-                h3 QUOTE OF THE MONTH
-                .quote(style='{{quote.styles}}')
-                  | {{quote.what}}
-                  | "I AM NOT AFRAID OF STORMS FOR I AM LEARNING TO SAIL MY SHIP."
-                .attribution
-                  | {{quote.who}}
-                  | &ndash; Louisa May Alcott
+                .quote-container
+                  h3 
+                    span.datelike {{quote.created|date:"M"|default:"08"}}
+                    | QUOTE OF THE MONTH 
+                    span.datelike '{{quote.created|date:"y"|default:"14"}}
+                  .quote(style='{{quote.styles}}')
+                    | {{quote.what|default:"I AM NOT AFRAID OF STORMS FOR I AM LEARNING TO SAIL MY SHIP."}}
+                  .attribution
+                    | {{quote.who|default:"Louisa May Alcott"}}
 
           .about-project.container
 
-            .clearfix
-            canvas#world-icon(width='218',height='52')    
             //- img.world-icon(src='{{STATIC_URL}}img/world-icon-wide.png')
 
             .right-side.sixteen.columns.about-copy
+
+              .section-header.what-this-is
+                //- .animated-out
+                .inquisitive WHAT
+                .statement is Real Heroines
               p
-                | “Real Heroines” is an ongoing project by <a href="http://200bg.com/">200 Billion Galaxies</a>
-                | that compiles notable women from the past for those who are
-                | interested in learning more about women’s history and 
-                | trying to find inspiration from the actions of their
-                | predecessors. 
+                | “Real Heroines” is an ongoing project by <a href="http://200bg.com/" target="_blank">200 Billion Galaxies</a>
+                | that compiles notable women from the past cultivated their minds 
+                | and overcame adversity by defying social conventions:
+                | An accessible source of reference that is here to inspire female 
+                | empowerment within men, women, boys and girls, from the action 
+                | of their predecessors. So we can all move beyond gender 
+                | stereotypes and grow as people.
+
+
+              //- .clearfix
+              canvas#world-icon(width='218',height='52')    
+
+
+              .section-header.what-this-is
+                //- .animated-out
+                .inquisitive WHY
+                .statement this is important
+
+              p
+                | In our modern culture a heroine is considered to be a mythical 
+                | goddess, flawless celebrity or animated princess. Commonly 
+                | worshipped by her outward appearance, social status, and 
+                | lady-like qualities. She becomes a fictional role model with 
+                | unattainable qualities, and fuels gender stereotypes that 
+                | misrepresent and harm. Teaching us that a girl's and women's 
+                | self-worth is determined by their physical appearance, 
+                | popularity, or material wealth.
+
               p 
-                | A real heroine is not a mythical goddess, flawless celebrity or animated princess.
+                | Female objectification has also become ingrained in our 
+                | society and even distorted as a form of empowerment. 
+                | Over-exposure of such negative imagery and comments causes 
+                | further harassment from both genders on the treatment of 
+                | girls and women, commonly blocking their ability to navigate 
+                | through the chaos and reach their true potential.
+
               p 
-                | She is an individual that values her mind and noble actions. 
-                | She is an individual that finds inner strength to overcome 
-                | adversity and defy social conventions. She is a real-life 
-                | woman &mdash; a real-life heroine. 
-              p 
-                | Unfortunately, it has become increasingly difficult to find
-                | such role models in our current society. Today we all are
-                | taught that a girl’s and a woman’s self-worth is
-                | determined by their appearance, popularity, and/or
-                | material wealth.
-              p 
-                | Let’s change the portrait of a heroine, and
-                | encourage a future of strong innovative thinkers and leaders! 
+                | That is why we must redefine our understanding of a “heroine”. 
+                | View her as an individual who cultivates her mind. An individual 
+                | that finds inner strength to overcome adversity and defy social 
+                | conventions. An individual that is a real person — a real heroine.
+
+              p
+                | Let's change the portrait of a heroine, and encourage a future 
+                | of strong innovative thinkers and leaders!
+
 
             .clearfix
           .clearfix
+
+          .section-header.who-made-this-mobile
+            .inquisitive WHO
+            .statement MADE THIS
 
           .about-us.container
             .moni-block.bio-block.six.columns.animated-out
@@ -211,24 +215,22 @@ block content
               p.bio-about
                 | Passionate about women's rights and the education for all. 
                 | Associates smells with colors and tastes with places. 
-                | Describes her designs best through sound effects. Soon to 
-                | marry Mr. Perfectly Amazing on the right.
+                | Describes her designs best through sound effects. 
 
             .four.columns
-              .who-made-this.animated-out
-                .who-part WHO
-                .made-this MADE THIS
+              .section-header.who-made-this.animated-out
+                .inquisitive WHO
+                .statement MADE THIS
             .oli-block.bio-block.six.columns.animated-out
               .bio-image
                 .bio-image-ring
               h4.bio-name Oliver Wilkerson
-              .bio-role Programmer
+              .bio-role Developer
               p.bio-about
                 | Believes technical-based classes should be taught in 
-                | schools. Makes Star Trek: TNG and obscure Jurassic Park 
-                | references regardless of whether they will be recognized.
-                | Solves code conumdrums through his dreams. <br>
-                | Asked his true love on the left to marry him.
+                | schools. Makes obscure Star Trek: TNG 
+                | references.
+                | Solves code conumdrums through his dreams.
 
             .clearfix
           .clearfix

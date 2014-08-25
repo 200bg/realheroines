@@ -83,13 +83,14 @@ footer {
     height: 40px;
 
     .legal {
-      float: left;
-      width: 80%;
+      float: right;
+      min-width: 100px;
+      max-width: 350px;
       height: 40px;
       line-height: 40px;
       text-align: right;
       border-right: 1px solid @rh-grey-faded;
-      padding-right: 10px;
+      padding-right: 1.5%;
       margin-right: 5px;
 
       .actual {
@@ -103,22 +104,23 @@ footer {
       .subtitle {
         font-size: 10px;
         line-height: 14px;
-        color: @rh-grey-faded;
+        color: @rh-grey-dark;
         text-transform: none;
       }
     }
 
     .footer-logo {
-      float: left;
+      float: right;
       margin-top: 6px;
-      width: 16%;
+      margin-right: 4%;
+      width: 50px;
       overflow: visible;
       text-transform: uppercase;
       font-size: 14px;
       line-height: 16px;
       color: @rh-grey;
       font-family: 'Fanwood Text', Georgia, serif;
-      opacity: 0.6;
+      opacity: 1.0;
     }
   }
 }
