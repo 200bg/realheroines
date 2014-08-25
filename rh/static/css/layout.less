@@ -1,5 +1,4 @@
 // modularized
-@import url(http://fonts.googleapis.com/css?family=Ubuntu:300,400,700&subset=latin,latin-ext);
 @import 'colors.less';
 @import 'mixins.less';
 @import 'footer.less';
@@ -32,6 +31,27 @@ html, body {
 body {
   background: #ffffff;
   font-family: 'Ubuntu',Verdana,Arial,Helvetica,sans-serif;
+  font-weight: 300;
+
+}
+
+::selection {
+  background: @rh-yellow; // Gecko Browsers
+  color: white;
+}
+
+::-webkit-selection {
+  background: @rh-yellow; // Gecko Browsers
+  color: white;
+}
+
+::-moz-selection {
+  background: @rh-yellow; // Gecko Browsers
+  color: white;
+}
+
+a {
+  color: @rh-grey-dark;
 }
 
 .fullwidth {
@@ -44,6 +64,7 @@ body {
   background-size: contain;
   max-width: 83%;
   max-height: 106px;
+  opacity: 1.0;
 
   margin: 2% auto 0px auto;
   width: 96%;
@@ -52,8 +73,10 @@ body {
 }
 
 .real-heroines-logo-smallest {
-  width: 78px;
-  height: 30px;
+  margin-top: -10px;
+  margin-left: 4px;
+  width: 48px;
+  height: 48px;
 }
 
 .real-heroines-logo-large {
@@ -88,6 +111,7 @@ body {
 }
 
 .global-nav {
+  position: relative;
   display: block;
   margin: 0;
   padding: 0;
@@ -99,6 +123,66 @@ body {
   border-bottom: 1px solid @rh-grey-thin;
   z-index: 4;
 
+  .veggie-burger {
+    display: none;
+
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    padding: 0 12px;
+    width: 32px;
+    height: 65px;
+    z-index: 11;
+    .transition(background-color 0.33s);
+
+    &:hover {
+      background-color: @rh-grey-light;
+    }
+
+    .veggie-pattie {
+      position: absolute;
+      top: 34px;
+      right: 12px;
+      width: 32px;
+      height: 4px;
+      background-color: @rh-grey;
+      .border-radius(1px);
+
+      &:before {
+        content: "";
+        position: absolute;
+        top: -10px;
+
+        width: 32px;
+        height: 4px;
+        background-color: @rh-grey;
+        .border-radius(1px);
+      }
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 10px;
+
+        width: 32px;
+        height: 4px;
+        background-color: @rh-grey;
+        .border-radius(1px);
+      }
+    }
+  }
+
+  .top-line {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    width: 100%;
+    height: 8px;
+    background-color: @rh-black-logo;
+    .transition(all 0.5s);
+  }
+
   nav {
     position: relative;
     height: 106px;
@@ -106,24 +190,13 @@ body {
     overflow: hidden;
     margin-top: 0px;
 
-    .top-line {
-      position: absolute;
-      top: 0px;
-      left: 21.5%;
-      right: 0px;
-      width: 100-21.5%;
-      height: 8px;
-      background-color: @rh-green;
-      .transition(all 0.5s);
-    }
-
     .active-indicator {
       position: absolute;
       top: 2px;
       left: 21.5%;
       width: 10px;
       height: 10px;
-      background-color: @rh-green;
+      background-color: @rh-black-logo;
       .rotate(45deg);
 
       .transition(all 0.5s);
@@ -132,49 +205,49 @@ body {
       &.animated-out {
         top: -15px;
       }
-    }
 
-    &.scrolled-down {
-      .top-line {
-        left: 10%;
-        width: 100%;
-      }
-
-      a.link-home {
-        width: 10%;
-
-        .real-heroines-logo-small {
-          opacity: 0.0;
-          .transition-delay(0.0s);
-        }
-        .real-heroines-logo-icon {
-          opacity: 1.0;
-          .transition-delay(0.5s);
-        }
-        .real-heroines-logo-icon-over {
-          opacity: 0.0;
-          .transition-delay(0s);
-        }
+      &.animated-in {
+        .transition-delay(0.0s);
       }
     }
 
-    &.scrolled-down {
-      a.link-home:hover .real-heroines-logo-small {
-        opacity: 0.0 !important;
-        .transition-delay(0s);
-      }
-      a.link-home:hover .real-heroines-logo-icon {
-        opacity: 1.0;
-        .transition-delay(0s);
-      }
+    // &.scrolled-down {
 
-      a.link-home:hover .real-heroines-logo-icon-over {
-        .transition-delay(0s);
-      }
-    }
+    //   a.link-home {
+    //     width: 10%;
+
+    //     .real-heroines-logo-small {
+    //       opacity: 0.0;
+    //       .transition-delay(0.0s);
+    //     }
+    //     .real-heroines-logo-icon {
+    //       opacity: 1.0;
+    //       .transition-delay(0.5s);
+    //     }
+    //     .real-heroines-logo-icon-over {
+    //       opacity: 0.0;
+    //       .transition-delay(0s);
+    //     }
+    //   }
+    // }
+
+    // &.scrolled-down {
+    //   a.link-home:hover .real-heroines-logo-small {
+    //     opacity: 0.0 !important;
+    //     .transition-delay(0s);
+    //   }
+    //   a.link-home:hover .real-heroines-logo-icon {
+    //     opacity: 1.0;
+    //     .transition-delay(0s);
+    //   }
+
+    //   a.link-home:hover .real-heroines-logo-icon-over {
+    //     .transition-delay(0s);
+    //   }
+    // }
 
     a {
-      margin-top: 8px;
+      margin-top: 5px;
       display: block;
       float: left;
       font-family: 'Ubuntu', Verdana, Arial, sans-serif;
@@ -214,18 +287,6 @@ body {
       .transition(all 0.5s);
       .transition-delay(0.5s);
 
-      // this guy is also a loading bar
-      .top-line {
-        position: absolute;
-        top: 0px;
-        left: 0;
-        right: 0px;
-        width: 100.25%;
-        height: 8px;
-        background-color: @rh-black-logo;
-        .transition(background-color 0.5s);
-      }
-
       img {
         position: relative;
         top: 20px;
@@ -244,12 +305,8 @@ body {
       &:hover {
         background-color: @rh-grey-light;
 
-        .top-line {
-          background-color: @rh-yellow;
-        }
-
         .real-heroines-logo-small {
-          opacity: 1.0;
+          opacity: 0.33;
         }
 
         .real-heroines-logo-small-over,
@@ -283,6 +340,13 @@ body {
         opacity: 0.0;
         .transition-delay(0.0s);
       }
+
+      &.animated-in {
+        .transition-delay(0.0s);
+        .real-heroines-logo-small {
+          .transition-delay(0.0s);
+        }
+      }
     }
 
     .divider {
@@ -304,7 +368,7 @@ body {
     }
 
     a:visited {
-      color: black;
+      // color: black;
       .transition-delay(0);
     }
 
@@ -346,11 +410,11 @@ body {
 
     .social-links {
       position: absolute;
-      right: 15px;
-      top: 10%;
+      right: 2.2%;
+      top: 15%;
 
       .share-button {
-        float: left;
+        float: right;
       }
 
       .twitter-button {
@@ -361,6 +425,11 @@ body {
         margin-top: -48px;
         display: block;
         padding-right: 10px;
+        width: 80px;
+      }
+
+      .google-plus {
+        width: 56px;
       }
     }
   }
@@ -576,6 +645,10 @@ body.timeline {
       }
     }
 
+    .social-links {
+      display: none;
+    }
+
     #views {
       bottom: 0 !important;
     }
@@ -584,6 +657,7 @@ body.timeline {
   /* All Mobile Sizes (devices and browser) */
   @media only screen and (max-width: 767px) {
     .global-nav nav a.link-home {
+
       .real-heroines-logo-icon {
         display: block;
         opacity: 1.0;
@@ -615,6 +689,10 @@ body.timeline {
     /* Grid view */
     #grid-view {
       top: 0;
+    }
+
+    .social-links {
+      display: none;
     }
   }
 
@@ -650,9 +728,16 @@ body.timeline {
     #grid-view {
       top: 0;
     }
+
+    .social-links {
+      display: none;
+    }
   }
 
   /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+  @navItemHeight: 65px;
+  @navLogoHeight: 72px;
+
   @media only screen and (max-width: 479px) {
     .global-nav .top-line,
     .global-nav .active-indicator {
@@ -665,38 +750,95 @@ body.timeline {
     }
 
     .global-nav {
-      height: 100px;
+      height: @navLogoHeight;
+      .transition(height 0.33s);
+
+      .veggie-burger {
+        display: block;
+        height: @navLogoHeight;
+      }
+
       nav, nav.scrolled-down {
+        height: 100%;
+
+        a {
+        }
+
         a.link-home {
+          position: relative;
           width: 100%;
-          height: 65px;
+          height: @navLogoHeight;
+          border-right: none;
+          z-index: 10;
 
           .real-heroines-logo-small,
           .real-heroines-logo-small-over {
             display: block;
             width: 65%;
-            height: 65px;
-            margin: auto;
+            height: @navLogoHeight;
+            margin: auto auto auto 8px;
             opacity: 1.0;
           }
         }
         a.link-grid {
-          display: none;
-        }
-        a.link-portrait {
-          display: none;
-        }
-        a.link-about {
           position: absolute;
-          top: 65px;
+          top: 0px;
+          display: block;
           width: 100%;
-          height: 35px;
-          line-height: 35px;
+          height: @navItemHeight;
+          line-height: @navItemHeight;
           text-align: center;
           padding: 0;
           margin-top: 0;
+          z-index: 9;
+        }
+        a.link-portrait {
+          position: absolute;
+          top: 0px;
+          display: block;
+          width: 100%;
+          height: @navItemHeight;
+          line-height: @navItemHeight;
+          text-align: center;
+          padding: 0;
+          margin-top: 0;
+          z-index: 9;
+        }
+        a.link-about {
+          position: absolute;
+          top: 0px;
+          width: 100%;
+          height: @navItemHeight;
+          line-height: @navItemHeight;
+          text-align: center;
+          padding: 0;
+          margin-top: 0;
+          z-index: 9;
         }
       }
+
+      &.expanded {
+        height: @navLogoHeight + 1px + (@navItemHeight*3);
+
+        nav {
+          a.link-grid {
+            position: absolute;
+            top: @navLogoHeight;
+          }
+          a.link-portrait {
+            position: absolute;
+            top: @navLogoHeight + @navItemHeight;
+          }
+          a.link-about {
+            position: absolute;
+            top: @navLogoHeight + @navItemHeight + @navItemHeight;
+          }
+        }
+      }
+    }
+
+    .social-links {
+      display: none;
     }
 
     #views {

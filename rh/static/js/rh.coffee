@@ -17,9 +17,11 @@ class rh.HeroineFace
   BLINK_FREQUENCY_VARIANCE = 5000
   BLINK_FORCE_LIMIT = 500
 
-  constructor: (@element, @packName) ->
-    # TODO: load pack from media
+  START_ANGLE = Math.PI*1.5
 
+  constructor: (@element, @packName) ->
+
+    @animation = @element.querySelector('.portrait-animation')
     @stillImage = @element.querySelector('.portrait-animation .portrait-still')
     # generate dom elements
     @headImage = @element.querySelector('.portrait-animation .portrait-head')
@@ -37,7 +39,10 @@ class rh.HeroineFace
     @circleCanvas = @circleLoader.querySelector('canvas')
     @ctx = @circleCanvas.getContext('2d')
     @ctx.fillStyle = 'rgba(252, 202, 43, 1.0)'
-    # @ctx.rotate(TAU/-4)
+    center = @circleCanvas.width/2
+    @ctx.translate(center, center)
+    @ctx.rotate(START_ANGLE)
+    @ctx.translate(-center, -center)
 
     @imagesLoaded = 0
     @imagesTotal = 6
@@ -46,6 +51,7 @@ class rh.HeroineFace
     @onImageProgressProxy = @onImageProgress.bind(@)
     @forceBlinkProxy = @forceBlink.bind(@)
     @tickProxy = @tick.bind(@)
+    @onLoadTestTickProxy = @onLoadTestTick.bind(@)
 
     @sizeTotals = {}
 
@@ -67,6 +73,7 @@ class rh.HeroineFace
     @lastRequestId = 0
 
   load: ->
+    @onLoadStart()
     # hide still
     @stillImage.style.display = 'none'
     @circleLoader.style.backgroundColor = 'rgba(252, 202, 43, 0.0)'
@@ -91,6 +98,8 @@ class rh.HeroineFace
     @hairImage.addEventListener('load', @onImageLoadedProxy)
     @hairImage.addEventListener('error', @onImageErrorProxy)
     @hairImage.src = prefix + 'hair.png'
+
+    @animation.style.display = 'none'
 
     @eyesOpenedImage.addEventListener('mouseenter', @forceBlinkProxy)
 
@@ -191,6 +200,12 @@ class rh.HeroineFace
     @breathDuration = MIN_BREATH_FRAMES + (Math.random()*(MAX_BREATH_FRAMES - MIN_BREATH_FRAMES))
 
 
+  onLoadStart: ->
+    # some magic to drop the logo dead center
+    @animation.style.display = 'none'
+    @circleCanvas.style.display = null
+    @circleLoader.style.backgroundColor = 'transparent'
+
   onLoadComplete: ->
     # @headImage.style.display = 'block'
     # @eyesOpenedImage.style.display = 'block'
@@ -201,6 +216,8 @@ class rh.HeroineFace
 
     # set the background color
     @circleLoader.style.backgroundColor = 'rgba(252, 202, 43, 1.0)'
+    @circleCanvas.style.display = 'none'
+    @animation.style.display = null
 
     # start animating
     requestAnimationFrame(@tickProxy)
@@ -222,13 +239,29 @@ class rh.HeroineFace
     @ctx.beginPath()
     @ctx.moveTo(center, center)
     @ctx.lineTo(170*2, center)
-    @ctx.arc(center, center, 170, 0, (@imagesLoaded/@imagesTotal)*TAU)
+    @ctx.arc(center, center, 170, 0, (@imagesLoaded/@imagesTotal)*(TAU))
     @ctx.closePath()
     @ctx.fillStyle = 'rgba(252, 202, 43, 1.0)'
     @ctx.fill()
     if @imagesLoaded == @imagesTotal
       @onLoadComplete()
 
+  loadTest: ->
+    # just a quick script for testing the load
+    @circleLoader.style.backgroundColor = 'transparent'
+    @imagesLoaded = 0
+    @imagesTotal = 60
+    @isLoadTest = true
+    @ctx.clearRect(0, 0, @circleCanvas.width, @circleCanvas.height)
+    requestAnimationFrame(@onLoadTestTickProxy)
+
+  onLoadTestTick: ->
+    if @imagesLoaded <= @imagesTotal
+      @imagesLoaded++
+      @onImageProgress()
+      requestAnimationFrame(@onLoadTestTickProxy)
+    else
+      @isLoadTest = false
 
 class rh.PortraitView
   constructor: (@element, @heroine) ->
@@ -351,35 +384,38 @@ class rh.PortraitView
 
 
 class rh.MugsView
+  CYCLES = 1
+
   constructor: (@element) ->
     #.mug-shots
     @facesContainer = @element.querySelector('.mugs')
 
     @imagesLoaded = 0
-    @imagesTotal = 20
+    @imagesTotal = 34
     @images = []
     @onImageLoadedProxy = @onImageLoaded.bind(@)
 
     @setupMugs()
 
   setupMugs: ->
-    for i in [1..@imagesTotal+1]
-      if i < 10
-        imageName = '0'+i+'.png'
-      else
-        imageName = i+'.png'
+    for c in [0..CYCLES]
+      for i in [1..@imagesTotal+1]
+        if i < 10
+          imageName = '0'+i+'.jpg'
+        else
+          imageName = i+'.jpg'
 
-      img = document.createElement('img')
-      img.className = 'mug animated-out'
-      img.addEventListener('load', @onImageLoadedProxy)
-      transitionTime = i
-      # img.style.webkitTransitionDelay = (0.15*transitionTime) + 's'
-      # img.style.mozTransitionDelay = (0.15*transitionTime) + 's'
-      # img.style.transitionDelay = (0.15*transitionTime) + 's'
-      img.src = rh.STATIC_URL + 'img/about/' + imageName
-      @images.push(img)
+        img = document.createElement('img')
+        img.className = 'mug animated-out'
+        img.addEventListener('load', @onImageLoadedProxy)
+        transitionTime = i
+        # img.style.webkitTransitionDelay = (0.15*transitionTime) + 's'
+        # img.style.mozTransitionDelay = (0.15*transitionTime) + 's'
+        # img.style.transitionDelay = (0.15*transitionTime) + 's'
+        img.src = rh.STATIC_URL + 'img/about/' + imageName
+        @images.push(img)
 
-      @facesContainer.appendChild(img)
+        @facesContainer.appendChild(img)
     
 
   onImageLoaded: (e) ->
@@ -388,16 +424,19 @@ class rh.MugsView
       @onAllFacesLoaded()
 
   onAllFacesLoaded: ->
-    for i in [0..@imagesTotal]
-      @images[i].classList.remove('animated-out')
+    for c in [0..CYCLES]
+      for i in [0..@imagesTotal]
+        @images[i+(c*@imagesTotal)].classList.remove('animated-out')
 
 class rh.AboutView
+
   constructor: (@element) ->
     @mugs = new rh.MugsView(@element)
     @viewsContainer = document.getElementById('views')
     @whoContainer = @viewsContainer.querySelector('.who-made-this')
     @portraitContainers = @viewsContainer.querySelectorAll('.bio-block')
     @quoteOfTheMonth = @viewsContainer.querySelector('.quote-of-the-month')
+    @quoteOfTheMonthContainer = @viewsContainer.querySelector('.quote-of-the-month .quote-container')
 
     worldIconSpriteSheetData = 
       images: [rh.STATIC_URL + 'img/animations/world-icon.png']
@@ -422,6 +461,18 @@ class rh.AboutView
 
     @onResize()
 
+  centerQuote: ->
+    header = @quoteOfTheMonth.querySelector('h3')
+    quote = @quoteOfTheMonth.querySelector('.quote')
+    attribution = @quoteOfTheMonth.querySelector('.attribution')
+    headerCS = getComputedStyle(header)
+    attributionCS = getComputedStyle(attribution)
+
+    totalHeight = header.clientHeight + parseInt(headerCS.marginBottom) + quote.clientHeight + attribution.clientHeight + parseInt(attributionCS.marginTop)
+
+    @quoteOfTheMonthContainer.style.height = totalHeight + 'px'
+
+
   listen: ->
     @worldAnimated = false
     @whoAnimated = false
@@ -436,38 +487,41 @@ class rh.AboutView
     createjs.Ticker.removeEventListener('tick', @tickProxy)
 
   onResize: (e) ->
+    @mugs.facesContainer.parentNode.style.height = @mugs.images[0].clientHeight * 3 + 'px'
     if document.body.clientWidth < 767
       @whoContainer.classList.remove('animated-out')
       for portrait in @portraitContainers
         portrait.classList.remove('animated-out')
-    else
+    else if @viewsContainer.scrollTop >= document.body.clientHeight and @whoAnimated == false
       @whoContainer.classList.remove('animated-out')
       for portrait in @portraitContainers
         portrait.classList.remove('animated-out')
 
+    @centerQuote()
+
 
   tick: (e) ->
 
-    halfHeight = @mugs.facesContainer.clientHeight/3
+    halfHeight = @mugs.facesContainer.clientHeight/2
     scrollTop = @viewsContainer.scrollTop
-    if scrollTop < halfHeight
+    if scrollTop < halfHeight and (document.body.clientWidth > 960)
       @mugs.facesContainer.style.top = -(scrollTop * easypeasy.quarticOut(scrollTop/halfHeight)) + 'px'
       if scrollTop < (halfHeight/1.25)
         @quoteOfTheMonth.style.top = -(scrollTop * easypeasy.quarticOut(scrollTop/(halfHeight/1.25))) + 'px'
 
 
-    if @worldAnimated == false and scrollTop > (@mugs.facesContainer.clientHeight/3)
+    if @worldAnimated == false and scrollTop > (@mugs.facesContainer.parentNode.clientHeight/2)
       @worldAnimated = true
       @worldIcon.gotoAndStop(0)
       @worldIcon.gotoAndPlay('load')
-    else if scrollTop < (@mugs.facesContainer.clientHeight/3)
+    else if scrollTop < (@mugs.facesContainer.parentNode.clientHeight/2)
       @worldIcon.gotoAndStop(0)
       @worldAnimated = false
 
     if document.body.clientWidth < 767
       return;
 
-    if (scrollTop >= @viewsContainer.scrollHeight - @viewsContainer.clientHeight - 20)
+    if (scrollTop >= @viewsContainer.scrollHeight - @viewsContainer.clientHeight - 150)
       if @whoAnimated == false
         @whoAnimated = true
         @whoContainer.classList.remove('animated-out')
@@ -553,14 +607,17 @@ class rh.App
     window.addEventListener('popstate', @onHistoryPopState.bind(@))
 
     @navContainer = document.querySelector('nav')
+    @globalNav = @navContainer.parentNode
     @viewsContainer = document.querySelector('#views')
 
     # ui elements
     @gridViewElement = @element.querySelector('#grid-view')
-    @portraitNav = @element.querySelector('#portrait-navigation')
+    @portraitNav = document.querySelector('#portrait-navigation')
     @portraitView = @element.querySelector('.portrait-view')
     @previousPortraitView = null
     @aboutView = new rh.AboutView(@element.querySelector('#about-view')); 
+
+    @veggieBurger = document.querySelector('.veggie-burger')
 
     # @aboutFooter = document.querySelector('footer')
 
@@ -581,6 +638,8 @@ class rh.App
 
     @nextButton.addEventListener('click', @onPortraitClickProxy)
     @previousButton.addEventListener('click', @onPortraitClickProxy)
+
+    @veggieBurger.addEventListener('click', @onBurgerFlip.bind(@))
 
     @portraitCleanupTimerId = 0
 
@@ -644,7 +703,7 @@ class rh.App
       when 'about'
         @aboutView.element.classList.remove('animated-out')
         # @aboutFooter.style.bottom = (document.body.clientHeight - 105 - 112) + 'px'
-        # @aboutFooter.classList.remove('animated-out')
+        # @aboutFooter.classList.remove('animated-out')        
         @gridViewElement.classList.add('animated-out')
         @portraitNav.classList.add('animated-out')
         @portraitView.classList.add('animated-out')
@@ -741,7 +800,6 @@ class rh.App
       @navContainer.classList.remove('scrolled-down')
     @lastScrollTop = @viewsContainer.scrollTop
 
-
   loadPortrait: (heroine, direction) ->
     @previousPortraitView = @portraitView
     clone = @previousPortraitView.cloneNode(true)
@@ -780,9 +838,13 @@ class rh.App
     if heroine
       @switchSection('portrait', {'slug': heroine.slug, 'direction': null}, true)
 
+    @globalNav.classList.remove('expanded')
+
   onGridButtonClick: (e) ->
     e.preventDefault()
     @switchSection('grid', {'slug': null}, true)
+
+    @globalNav.classList.remove('expanded')
 
   onPortraitClick: (e) ->
     e.preventDefault()
@@ -791,6 +853,8 @@ class rh.App
       return
     direction = e.currentTarget.getAttribute('data-direction')
     @switchSection('portrait', {'slug': heroineName, 'direction': direction}, true)
+
+    @globalNav.classList.remove('expanded')
 
   onResize: (e) ->
     @aboutView.element.style.bottom = (window.clientHeight - 105) + 'px'
@@ -802,15 +866,20 @@ class rh.App
         state = @getSectionFromUrl(@previousUrl)
       else
         state = {'section': 'grid', 'slug': null} 
-      console.log(state)
       @switchSection(state['section'], state, true)
     else
       @previousUrl = window.location.pathname
       @switchSection('about', {}, true)
 
+    @globalNav.classList.remove('expanded')
+
   onHistoryPopState: (e) ->
     if (e.state && e.state['section'])
       @switchSection(e.state['section'], e.state, false)
+
+  onBurgerFlip: (e) ->
+    @globalNav.classList.toggle('expanded')
+    
 
       
 

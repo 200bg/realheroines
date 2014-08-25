@@ -11,6 +11,7 @@ html
       try{Typekit.load();}catch(e){}
     block extrahead
 
+    link(rel="stylesheet",href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,700&subset=latin,latin-ext")
     //- TODO: favicon
     //-link(rel="icon",type="image/png",href="{{STATIC_URL}}moniverse/favicon.png",sizes='128x128')
     //-link(rel="icon",type="image/png",href="{{STATIC_URL}}moniverse/favicon-64.png",sizes='64x64')
@@ -40,6 +41,12 @@ html
 
         // remove it from the active indicator
         document.querySelector('.active-indicator').classList.remove('animated-out');
+        setTimeout(afterLoadedAnimations, 1000);
+      }
+
+      function afterLoadedAnimations() {
+        document.querySelector('.active-indicator').classList.add('animated-in');
+        document.querySelector('a.link-home').classList.add('animated-in');
       }
 
       document.addEventListener('DOMContentLoaded', function(e) {
@@ -82,11 +89,11 @@ html
 
       .global-nav.fullwidth
         .clearfix
+        .veggie-burger
+          .veggie-pattie
         nav
-          .top-line
           .active-indicator.animated-out
           a.animated-out.link-home(href="{% url 'home' %}")
-            .top-line
             .real-heroines-logo-small
             .real-heroines-logo-icon(width='73',height='73')
             .real-heroines-logo-icon.real-heroines-logo-icon-over(width='73',height='73')
@@ -96,8 +103,8 @@ html
           a.animated-out.link-about(href="{% url 'about' %}") ABOUT
           //- a.animated-out.link-timeline(href="{% url 'timeline' %}") TIMELINE
           .social-links
-            .facebook-button.share-button
-              .fb-like(data-layout="button_count",data-href='http://realheroines.com/',data-action="like",data-show-faces="false",data-share="false")
+            .google-plus.share-button
+              .g-plusone(data-size="medium",data-href="http://realheroines.com/")
             .twitter-button.share-button
               a.twitter-share-button(href='https://twitter.com/share',data-url="http://realheroines.com/",data-hashtags='realheroines')
                 Tweet
@@ -107,19 +114,50 @@ html
                 if(!d.getElementById(id)){js=d.createElement(s);js.id=id;
                 js.src=p+'://platform.twitter.com/widgets.js';
                 fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
-            .google-plus.share-button
-              .g-plusone(data-size="medium",data-href="http://realheroines.com/")
+            .facebook-button.share-button
+              .fb-like(data-layout="button_count",data-href='http://realheroines.com/',data-action="like",data-show-faces="false",data-share="false")
+        .top-line
+
+      #portrait-navigation.fullwidth.animated-out
+        .portrait-navigation-container
+          a#previous-button.arrow-button(href="{{previous_heroine.get_absolute_url}}",data-direction='previous',style='{% if not previous_heroine %}opacity: 0.0{% endif %}')
+            .button-label Prev
+            .button-title {{previous_heroine.name}}
+            .arrow
+          a#next-button.arrow-button(href="{{next_heroine.get_absolute_url}}",data-direction='next',style='{% if not next_heroine %}opacity: 0.0{% endif %}')
+            .button-label Next
+            .button-title {{next_heroine.name}}
+            .arrow
+          a#grid-button(href="{% url 'grid' %}")
+            .grid-block
+            .grid-block
+            .grid-block
+            .grid-block
+            .grid-block
+            .grid-block
+            .grid-block
+            .grid-block
+            .grid-block
+            script.
+              var gridBlocks = document.querySelectorAll('#grid-button .grid-block');
+              for (var i = 0; i < gridBlocks.length; i++) {
+                var block = gridBlocks[i];
+                block.style.webkitTransitionDelay = (i*0.05)+'s';
+                block.style.transitionDelay = (i*0.05)+'s';
+              }
 
       block content
       .clearfix
     footer
       .footer-container
         .copyright
+          .footer-logo
+            img.real-heroines-logo-smallest(src='{{STATIC_URL}}img/real-heroines-logo-icon.svg')
           .legal
             .actual &copy; Copyright 2014, Real Heroines. All Rights Reserved.
-            .subtitle Made with love and lots of tea by Moni and Oliver from 200BG
-          .footer-logo
-            img.real-heroines-logo-smallest(src='{{STATIC_URL}}img/real-heroines-logo-small.svg')
+            .subtitle 
+              | Galaxy &#8470; 1. of 
+              a(href="http://200bg.com/",target="_blank") 200 Billion Galaxies
 
     script.
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
