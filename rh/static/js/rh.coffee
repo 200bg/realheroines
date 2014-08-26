@@ -545,6 +545,15 @@ class rh.GridItem
   constructor: (@element) ->
     @portrait = @element.querySelector('.portrait')
 
+    @portraitImage = @portrait.querySelector('.grid-portrait')
+    # if it's an auto-generated one:
+    try
+      if @portraitImage.style.backgroundImage.indexOf("/composite") >= 0
+        @portraitImage.style.top = '0px';
+    catch error
+      null
+
+
     ornamentSpriteSheetData = 
       images: [rh.STATIC_URL + 'img/animations/portrait-leaf.png']
       framerate: 120

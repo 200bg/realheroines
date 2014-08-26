@@ -10,6 +10,7 @@ from django.db import models
 from django.utils.html import strip_tags
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from rh.compositer import composite_pack
 
 # la la la ladeez
 
@@ -37,9 +38,11 @@ class Heroine(models.Model):
   animation_pack = models.FileField(upload_to='packs',help_text='A zip with all the layers for animation.',null=True,blank=True)
 
   # TODO: break this into layers
-  hero_image = models.ImageField(upload_to='portraits',help_text='The image in grid mode (non-animating).')
+  hero_image = models.ImageField(upload_to='portraits',help_text='The image in grid mode (non-animating). Leave blank to have it generated from the animation pack layers.',null=True,blank=True)
 
   # TODO: make these composite from the layers
+  # grid_image_thumbnail = models.ImageField(upload_to='portraits',help_text='',null=True,blank=True)
+  # timeline_image_thumbnail = models.ImageField(upload_to='portraits',help_text='',null=True,blank=True)
   grid_image_thumbnail = ImageSpecField(source='hero_image',
                                       processors=[ResizeToFill(320, 320)],
                                       format='PNG',
@@ -66,6 +69,11 @@ class Heroine(models.Model):
       return reverse('grid', None)
 
   def save(self, *args, **kwargs):
+    quick_save = kwargs.pop('quick_save', False)
+    if quick_save:
+      super(Heroine, self).save(*args, **kwargs)
+      return
+      
     self.description_html = markdown.markdown(self.description, extensions=['extra', 'nl2br', 'admonition', 'headerid', 'sane_lists'])
     # Remove tags which was generated with the markup processor
     text = strip_tags(self.description_html)
@@ -73,7 +81,6 @@ class Heroine(models.Model):
     self.description_text = unescape(text)
 
     super(Heroine, self).save(*args, **kwargs)
-
     # unzip the file, then delete it
     if self.animation_pack is not None:
       if zipfile.is_zipfile(self.animation_pack.path):
@@ -91,6 +98,7 @@ class Heroine(models.Model):
           'mouth.png',
           'hair.png',
         ]
+
         for f in files:
           for allowed_file in allowed_files:
             if f.endswith(allowed_file):
@@ -107,6 +115,13 @@ class Heroine(models.Model):
         #delete the file.
         os.unlink(self.animation_pack.path)
 
+        # composite the images together
+        composite_path = composite_pack(packs_dir)
+        # if there isn't a grid image provided, just set it to this
+        if not self.hero_image:
+          self.hero_image = composite_path.replace(settings.MEDIA_ROOT + '/', '')
+          self.save(quick_save=True)
+
     heroines = Heroine.objects.all()
     public_heroines = []
     all_heroines = []
@@ -122,6 +137,11 @@ class Heroine(models.Model):
       if h.deathdate:
         deathdate_string = h.deathdate.strftime('%Y-%m-%d')
 
+      try:
+        hero_image_url = h.hero_image.url
+      except ValueError:
+        hero_image_url = None
+
       heroine_object = {
         'name': h.name,
         'title': h.title,
@@ -133,7 +153,7 @@ class Heroine(models.Model):
         'country': h.country,
         'descriptionHtml': h.description_html,
         'descriptionText': h.description_text,
-        'heroImage': h.hero_image.url,
+        'heroImage': hero_image_url,
         'gridImageThumbnail': h.grid_image_thumbnail.url,
         'timelineImageThumbnail': h.timeline_image_thumbnail.url,
       }

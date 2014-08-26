@@ -47,7 +47,7 @@ block content
         a.heroine-card.animated-out(data-id='{{h.slug}}',href="{% url 'heroine' h.slug %}")
           .portrait
             .circle
-            .grid-portrait(style='background-image: url({{h.grid_image_thumbnail.url}})')
+            .grid-portrait(style='background-image: url({{h.grid_image_thumbnail.url}});')
           canvas.grid-portrait-ornament(width='300',height='113')
           .diamonds
             .left-line.diamond-line
