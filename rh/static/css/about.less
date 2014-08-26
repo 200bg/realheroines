@@ -5,15 +5,11 @@ body[data-initial='about'] #about-view.animated-out {
 body.about {
   #grid-view {
     opacity: 0.0;
-    width: 0;
-    height: 0;
     padding-top: 0;
   }
 
   .portrait-view {
     opacity: 0.0;
-    width: 0;
-    height: 0; 
   }
 }
 
@@ -443,12 +439,16 @@ body.about {
   body.about {
     // overflow: hidden;
     #views {
-      position: relative;
+      position: absolute;
+      top: @navLogoHeight;
       position: 0px;
-      // top: @navLogoHeight;
       overflow: auto;
       -webkit-overflow-scrolling: touch;
       height: auto;
+    }
+
+    #grid-view {
+      position: absolute;
     }
   }
 

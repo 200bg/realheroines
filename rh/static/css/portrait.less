@@ -1,202 +1,21 @@
 body.portrait #grid-view {
   opacity: 0.0;
-  height: 0;
-  margin: 0;
-  padding: 0;
-}
-
-#portrait-navigation {
-  position: absolute;
-  top: 106px;
-  right: 0;
-  left: 0;
-  height: 68px;
-  background-color: white;
-  margin-top: 0;
-  z-index: 2;
-  border-bottom: 1px solid @rh-grey-thin;
-  .transition(all 0.66s);
-  .transition-delay(0.25s);
-
-  &.animated-out {
-    top: -75px;
-    .transition-delay(0.15s);
-  }
-
-
-  .portrait-navigation-container {
-    position: relative;
-    // max-width: 960px;
-    height: 68px;
-    margin: 0 auto;
-    
-    .arrow {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 36px;
-      height: 1px;
-      margin: auto;
-      background-color: @rh-grey-middle;
-      .transition(background-color 0.33s);
-
-      &:before {
-        content: "";
-        display: block;
-        width: 20px;
-        height: 20px;
-        margin-top: -10px;
-        margin-left: 2px;
-        border-top: 1px solid @rh-grey-middle;
-        border-left: 1px solid @rh-grey-middle;
-        .rotate(-0.785rad);
-        .transition(all 0.33s);
-      }
-    }
-
-    .arrow-button {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-
-      .button-label {
-        position: absolute;
-        top: 14px;
-        left: 100px;
-        font-family: 'Lust', Georgia, serif;
-        font-size: 16px;
-        color: @rh-grey;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-
-        .transition(color 0.33s);
-      }
-      .button-title {
-        position: absolute;
-        top: 34px;
-        left: 100px;
-        font-family: 'Ubuntu', Verdana, Arial, sans-serif;
-        font-size: 14px;
-        color: @rh-grey-faded;
-
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
-
-        .transition(color 0.33s);
-      }
-
-      &:hover {
-        color: black;
-
-        .button-label {
-          color: black;
-        }
-
-        .button-title {
-          color: black;
-        }
-
-        .arrow {
-          background-color: black;
-
-          &:before {
-            border-top: 1px solid black;
-            border-left: 1px solid black;
-          }
-        }
-      }
-    }
-
-    #previous-button {
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 33%;
-      height: 68px;
-
-      .arrow {
-        left: 40px;
-      }
-    }
-
-    #next-button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 33%;
-      height: 68px;
-      text-align: right;
-
-      .button-label {
-        text-align: right;
-        left: 0;
-        right: 100px;
-      }
-      .button-title {
-        text-align: right;
-        left: 0;
-        right: 100px;
-      }
-
-      .arrow {
-        right: 40px;
-
-        &:before {
-          position: relative;
-          left: 12px;
-          .rotate(2.355rad);
-        }
-      }
-    }
-
-    #grid-button {
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      width: 34px;
-      height: 34px;
-      margin: auto;
-      overflow: hidden;
-      cursor: pointer;
-      .transition(all 0.5s);
-
-      .grid-block {
-        float: left;
-        width: 26.4705%;
-        height: 26.4705%;
-        margin-left: 2px;
-        margin-bottom: 2px;
-        opacity: 1.0;
-        background-color: @rh-grey-light;
-        .transition(all 0.25s);
-      }
-
-      &:hover {
-        .grid-block {
-          opacity: 1.0;
-          background-color: @rh-grey-middle;
-        }
-      }
-    }
-  }
+  // height: 0;
+  // margin: 0;
+  // padding: 0;
 }
 
 .portrait-view {
   margin-top: 0px;
   margin-bottom: 30px;
   padding-top: 30px;
-  position: relative;
+  position: absolute;
   top: 0px;
+  overflow: hidden;
   // top: 68px;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  // right: 0;
+  // bottom: 0;
+  // left: 0;
   margin-left: auto;
   margin-right: auto;
   opacity: 1.0;
@@ -293,11 +112,11 @@ body.portrait #grid-view {
           width: 100%;
           height: 100%;
           margin: auto;
-          image-rendering: -moz-crisp-edges;         /* Firefox */
-          image-rendering:   -o-crisp-edges;         /* Opera */
-          image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
-          image-rendering: crisp-edges;
-          -ms-interpolation-mode: nearest-neighbor;
+          // image-rendering: -moz-crisp-edges;         /* Firefox */
+          // image-rendering:   -o-crisp-edges;         /* Opera */
+          // image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+          // image-rendering: crisp-edges;
+          // -ms-interpolation-mode: nearest-neighbor;
 
           .part {
             position: absolute;
@@ -491,9 +310,192 @@ body.portrait #grid-view {
 }
 
 
+#portrait-navigation {
+  position: absolute;
+  top: 106px;
+  right: 0;
+  left: 0;
+  height: 68px;
+  background-color: white;
+  margin-top: 0;
+  z-index: 2;
+  border-bottom: 1px solid @rh-grey-thin;
+  .transition(all 0.66s);
+  .transition-delay(0.25s);
+
+  &.animated-out {
+    top: -75px;
+    .transition-delay(0.15s);
+  }
+
+
+  .portrait-navigation-container {
+    position: relative;
+    // max-width: 960px;
+    height: 68px;
+    margin: 0 auto;
+    
+    .arrow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 36px;
+      height: 1px;
+      margin: auto;
+      background-color: @rh-grey-middle;
+      .transition(background-color 0.33s);
+
+      &:before {
+        content: "";
+        display: block;
+        width: 20px;
+        height: 20px;
+        margin-top: -10px;
+        margin-left: 2px;
+        border-top: 1px solid @rh-grey-middle;
+        border-left: 1px solid @rh-grey-middle;
+        .rotate(-0.785rad);
+        .transition(all 0.33s);
+      }
+    }
+
+    .arrow-button {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+
+      .button-label {
+        position: absolute;
+        top: 14px;
+        left: 100px;
+        font-family: 'Lust', Georgia, serif;
+        font-size: 16px;
+        color: @rh-grey;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+
+        .transition(color 0.33s);
+      }
+      .button-title {
+        position: absolute;
+        top: 34px;
+        left: 100px;
+        font-family: 'Ubuntu', Verdana, Arial, sans-serif;
+        font-size: 14px;
+        color: @rh-grey-faded;
+
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+
+        .transition(color 0.33s);
+      }
+
+      &:hover {
+        color: black;
+
+        .button-label {
+          color: black;
+        }
+
+        .button-title {
+          color: black;
+        }
+
+        .arrow {
+          background-color: black;
+
+          &:before {
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+          }
+        }
+      }
+    }
+
+    #previous-button {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 33%;
+      height: 68px;
+
+      .arrow {
+        left: 40px;
+      }
+    }
+
+    #next-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 33%;
+      height: 68px;
+      text-align: right;
+
+      .button-label {
+        text-align: right;
+        left: 0;
+        right: 100px;
+      }
+      .button-title {
+        text-align: right;
+        left: 0;
+        right: 100px;
+      }
+
+      .arrow {
+        right: 40px;
+
+        &:before {
+          position: relative;
+          left: 12px;
+          .rotate(2.355rad);
+        }
+      }
+    }
+
+    #grid-button {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 34px;
+      height: 34px;
+      margin: auto;
+      overflow: hidden;
+      cursor: pointer;
+      .transition(all 0.5s);
+
+      .grid-block {
+        float: left;
+        width: 26.4705%;
+        height: 26.4705%;
+        margin-left: 2px;
+        margin-bottom: 2px;
+        opacity: 1.0;
+        background-color: @rh-grey-light;
+        .transition(all 0.25s);
+      }
+
+      &:hover {
+        .grid-block {
+          opacity: 1.0;
+          background-color: @rh-grey-middle;
+        }
+      }
+    }
+  }
+}
+
+
 @media only screen and (min-width: 768px) and (max-width: 959px) {
   .portrait-view {
-    bottom: 0px;
+    // bottom: 0px;
     .portrait-container {
       .portrait-frame {
         .portrait-image {
@@ -516,11 +518,13 @@ body.portrait #grid-view {
       height: auto;
       // overflow: auto;
       -webkit-overflow-scrolling: touch;
-      position: relative;
-      // position: absolute;
-      // top: @navLogoHeight;
-      top: 0px;
-      bottom: 108px;
+      // position: relative;
+      position: absolute;
+      overflow-y: auto;
+      overflow-x: hidden;
+      top: 28px;
+      // top: 0px;
+      // bottom: 108px;
       background: @rh-grey-light;
     }
 
@@ -563,9 +567,9 @@ body.portrait #grid-view {
 
   .portrait-view {
     margin: 0 auto;
-    height: 100%;
+    // height: 100%;
     padding-top: 0px;
-    bottom: 0px;
+    // bottom: 0px;
 
     .portrait-container {
       width: 100%;
@@ -631,7 +635,7 @@ body.portrait #grid-view {
     top: @navLogoHeight;
   }
   .portrait-view {
-    bottom: 0px;
+    // bottom: 0px;
     .portrait-container {
       width: 100%;
 
@@ -674,7 +678,7 @@ body.portrait #grid-view {
 }
 
 @media only screen and (max-height: 850px) {
-  .portrait-view {
-    bottom: 142px !important;
-  }
+  // .portrait-view {
+  //   bottom: 142px !important;
+  // }
 }

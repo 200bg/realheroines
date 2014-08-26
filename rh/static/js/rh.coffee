@@ -148,10 +148,11 @@ class rh.HeroineFace
     breathProgress = easypeasy.sineInOut(p)
     x = 1.0 + (breathProgress * @breathXScale)
     y = 1.0 + (breathProgress * @breathYScale)
-    @torsoImage.style.webkitTransform = "scale(#{x}, #{y})"
-    @torsoImage.style.transform = "scale(#{x}, #{y})"
+    # firefox, you stupid. why I gotta rotate tiny bits?
+    @torsoImage.style.webkitTransform = "rotate(0.0001deg) scale(#{x}, #{y})"
+    @torsoImage.style.transform = "rotate(0.0001deg) scale(#{x}, #{y})"
 
-    translation = "translate(0px, #{breathProgress*-4.00}px)"
+    translation = "rotate(0.0001deg) translate(0px, #{breathProgress*-4.00}px)"
 
     @headImage.style.webkitTransform = translation
     @headImage.style.transform = translation
@@ -397,6 +398,9 @@ class rh.MugsView
 
     @setupMugs()
 
+    # even if they're not all loaded, kick this off.
+    setTimeout(@onAllFacesLoaded.bind(@), 500)
+
   setupMugs: ->
     for c in [0..CYCLES]
       for i in [1..@imagesTotal+1]
@@ -427,6 +431,8 @@ class rh.MugsView
     for c in [0..CYCLES]
       for i in [0..@imagesTotal]
         @images[i+(c*@imagesTotal)].classList.remove('animated-out')
+
+    @facesContainer.parentNode.style.height = @images[0].clientHeight * 3 + 'px'
 
 class rh.AboutView
 
@@ -654,6 +660,7 @@ class rh.App
     setTimeout(@init.bind(@), 150)
 
     requestAnimationFrame(@onAnimationFrameProxy)
+
     return
 
   init: ->
@@ -683,6 +690,7 @@ class rh.App
 
   switchSection: (section, options={}, pushState=false) ->
     document.documentElement.scrollTop = 0;
+    @limboFooter()
     switch section
       when 'portrait'
         @gridViewElement.classList.add('animated-out')
@@ -701,6 +709,7 @@ class rh.App
         @updatePortaitNavButton(@nextButton, next)
         @currentHeroine = heroine
         @aboutView.stop()
+        @placeFooter(@portraitView)
         if pushState
           history.pushState({'section': 'portrait', 'slug': heroine.slug}, null, "/portrait/#{heroine.slug}/")
       when 'about'
@@ -713,6 +722,7 @@ class rh.App
         document.body.className = section
         document.title = 'Real Heroines - About'
         @aboutView.listen()
+        @placeFooter(@aboutView.element)
         if pushState
           history.pushState({'section': 'about'}, null, '/about/')
       when '', 'grid'
@@ -725,17 +735,31 @@ class rh.App
         document.body.className = 'grid'
         document.title = 'Real Heroines - Grid View'
         @aboutView.stop()
+        @placeFooter(@viewsContainer, @gridViewElement)
         if pushState
           history.pushState({'section': 'grid'}, null, '/')
-    @placeFooter()
+    
+    @pendingSection = section
 
     return
 
-  placeFooter: ->
-    # or if it's the about page -- I hate you
-    console.log(document.body.classList.contains('about'))
-    if @viewsContainer.clientHeight < (document.body.clientHeight - @globalNav.offsetHeight) and not document.body.classList.contains('about')
-      @footer.classList.add('pinned-to-bottom')
+  # this hack brought to you by desperation and a late night
+  limboFooter: ->
+    try
+      @footer.parentNode.removeChild(@footer)
+    catch error
+      null
+
+  # 
+  placeFooter: (inside, pinBasedOn=@viewsContainer) ->
+    @limboFooter()
+    inside.appendChild(@footer)
+    
+    if inside == @viewsContainer
+      if pinBasedOn.clientHeight < (document.body.clientHeight - @globalNav.offsetHeight) and not document.body.classList.contains('about')
+        @footer.classList.add('pinned-to-bottom')
+      else
+        @footer.classList.remove('pinned-to-bottom')
     else
       @footer.classList.remove('pinned-to-bottom')
 
@@ -869,7 +893,7 @@ class rh.App
 
   onResize: (e) ->
     @aboutView.element.style.bottom = (window.clientHeight - 105) + 'px'
-    @placeFooter()
+    # @placeFooter()
 
   onAboutClick: (e) ->
     e.preventDefault()
@@ -884,7 +908,6 @@ class rh.App
       @switchSection('about', {}, true)
 
     @globalNav.classList.remove('expanded')
-    @placeFooter()
 
 
   onHistoryPopState: (e) ->
