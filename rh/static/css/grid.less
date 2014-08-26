@@ -9,7 +9,7 @@ body.grid {
 
 
 #grid-view {
-  position: relative;
+  position: absolute;
   top: 0px;
   left: 0;
   right: 0;
@@ -24,16 +24,19 @@ body.grid {
   text-align: center;
   .transition(all 0.5s);
 
-  &.animated-out .heroine-card {
-    opacity: 0.0;
+  &.animated-out {
 
-    .portrait {
-      margin-top: 2.0em;
+    .heroine-card {
       opacity: 0.0;
-    }
-    .nameplate {
-      opacity: 0.0;
-      margin-top: -1em;
+
+      .portrait {
+        margin-top: 2.0em;
+        opacity: 0.0;
+      }
+      .nameplate {
+        opacity: 0.0;
+        margin-top: -1em;
+      }
     }
   }
 
@@ -89,11 +92,11 @@ body.grid {
         height: 100%;
         border-radius: 50%;
         overflow: hidden;
-        image-rendering: -moz-crisp-edges;         /* Firefox */
-        image-rendering:   -o-crisp-edges;         /* Opera */
-        image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
-        image-rendering: crisp-edges;
-        -ms-interpolation-mode: nearest-neighbor;
+        // image-rendering: -moz-crisp-edges;         /* Firefox */
+        // image-rendering:   -o-crisp-edges;         /* Opera */
+        // image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+        // image-rendering: crisp-edges;
+        // -ms-interpolation-mode: nearest-neighbor;
         // -webkit-filter: grayscale(100%);
         // -moz-filter: grayscale(100%);
         // filter: grayscale(100%);
@@ -276,11 +279,11 @@ body.grid {
 
     #views {
       height: auto;
-      // overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      overflow-y: auto;
       overflow-x: hidden;
-      // position: absolute;
-      position: relative;
+      position: absolute;
+      // position: relative;
       top: 0px;
       // top: @navLogoHeight;
       bottom: 108px;
@@ -298,6 +301,8 @@ body.grid {
     // why was this set to 0?
     // margin-left: 0;
     margin-left: 4%;
+    position: relative;
+    margin-top: @navLogoHeight;
 
     .heroine-card {
       width: 80%;
