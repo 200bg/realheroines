@@ -109,6 +109,13 @@ MEDIA_ROOT = '/var/www/realheroines.com/rh/static/media/'
 STATIC_URL = 'http://static.realheroines.com/'
 MEDIA_URL = 'http://static.realheroines.com/media/'
 
+STATICFILES_FINDERS = (
+    'pipeline.finders.FileSystemFinder',
+    'pipeline.finders.AppDirectoriesFinder',
+    'pipeline.finders.PipelineFinder',
+    'pipeline.finders.CachedFileFinder',
+)
+
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
 PIPELINE_COMPILERS = (
