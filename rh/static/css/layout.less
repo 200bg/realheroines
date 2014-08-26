@@ -412,6 +412,7 @@ a {
       position: absolute;
       right: 2.2%;
       top: 15%;
+      height: 85%;
 
       .share-button {
         float: right;
@@ -425,7 +426,7 @@ a {
         margin-top: -48px;
         display: block;
         padding-right: 10px;
-        width: 80px;
+        width: 84px;
       }
 
       .google-plus {
@@ -623,8 +624,31 @@ body.timeline {
 /* #Media Queries
 ================================================== */
 
+  /* ipads landscape */
+  @media only screen and (max-width: 1024px) {
+    .global-nav {
+      .social-links {
+        .facebook-button {
+          position: absolute;
+          top: -38px;
+          left: -90px;
+        }
+      }
+    }
+  }
+
   /* Smaller than standard 960 (devices and browsers) */
-  @media only screen and (max-width: 959px) {}
+  @media only screen and (max-width: 959px) {
+    .global-nav {
+      .social-links {
+        .facebook-button {
+          position: absolute;
+          top: -38px;
+          left: -90px;
+        }
+      }
+    }
+  }
 
   /* Tablet Portrait size to standard 960 (devices and browsers) */
   @media only screen and (min-width: 768px) and (max-width: 959px) {

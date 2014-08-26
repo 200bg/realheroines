@@ -509,7 +509,7 @@ class rh.AboutView
   tick: (e) ->
 
     halfHeight = @mugs.facesContainer.clientHeight/2
-    scrollTop = document.documentElement.scrollTop
+    scrollTop = document.documentElement.scrollTop || document.body.scrollTop
     if scrollTop < halfHeight and (document.body.clientWidth > 960)
       @mugs.facesContainer.style.top = -(scrollTop * easypeasy.quarticOut(scrollTop/halfHeight)) + 'px'
       if scrollTop < (halfHeight/1.25)
