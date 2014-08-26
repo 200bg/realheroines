@@ -525,6 +525,7 @@ class rh.AboutView
       @worldAnimated = false
 
     if document.body.clientWidth < 767
+      @worldIcon.gotoAndStop(47)
       return;
 
     if (scrollTop >= document.documentElement.scrollHeight - document.documentElement.clientHeight - 250)
