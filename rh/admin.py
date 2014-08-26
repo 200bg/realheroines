@@ -2,7 +2,7 @@ from django.contrib import admin
 from rh.models import Heroine
 
 class HeroineAdmin(admin.ModelAdmin):
-  readonly_fields = ('grid_image_thumbnail', 'timeline_image_thumbnail',)
+  # readonly_fields = ('grid_image_thumbnail', 'timeline_image_thumbnail',)
   prepopulated_fields = {'slug': ('name',)}
   fieldsets = (
     ('Details', {
