@@ -604,12 +604,14 @@ class rh.GridView
 
   onResize: (e) ->
     for item in @gridItems
-      item.portrait.style.height = item.portrait.clientWidth + 'px'
+      if item.portrait.clientWidth > 0
+        item.portrait.style.height = item.portrait.clientWidth + 'px'
 
   tick: (t) ->
     requestAnimationFrame(@tickProxy)
     for item in @gridItems
-      item.portrait.style.height = item.portrait.clientWidth + 'px'
+      if item.portrait.clientWidth
+        item.portrait.style.height = item.portrait.clientWidth + 'px'
     
 
 class rh.App
