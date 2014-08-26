@@ -551,7 +551,6 @@ class rh.GridItem
     # if it's an auto-generated one:
     try
       if @portraitImage.style.backgroundImage.indexOf("/composite") >= 0
-        console.log((@portraitCircle.clientWidth/280)/2)
         @portraitImage.style.top = Math.floor(@topOffset * (@portraitCircle.clientWidth/280)/2) + 'px';
     catch error
       null
