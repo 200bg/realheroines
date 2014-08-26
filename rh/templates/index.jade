@@ -44,7 +44,7 @@ block content
   #views
     #grid-view.animated-out
       for h in heroines
-        a.heroine-card.animated-out(data-id='{{h.slug}}',href="{% url 'heroine' h.slug %}")
+        a.heroine-card.animated-out(data-id='{{h.slug}}',href="{% url 'heroine' h.slug %}", data-top-offset="{{h.top_offset}}")
           .portrait
             .circle
             .grid-portrait(style='background-image: url({{h.grid_image_thumbnail.url}});')

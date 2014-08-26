@@ -542,14 +542,16 @@ class rh.AboutView
 
 
 class rh.GridItem
-  constructor: (@element) ->
+  constructor: (@element, @topOffset) ->
     @portrait = @element.querySelector('.portrait')
 
     @portraitImage = @portrait.querySelector('.grid-portrait')
+    @portraitCircle = @portrait.querySelector('.circle')
     # if it's an auto-generated one:
     try
       if @portraitImage.style.backgroundImage.indexOf("/composite") >= 0
-        @portraitImage.style.top = '0px';
+        console.log((@portraitCircle.clientWidth/280)/2)
+        @portraitImage.style.top = Math.floor(@topOffset * (@portraitCircle.clientWidth/280)/2) + 'px';
     catch error
       null
 
@@ -587,7 +589,7 @@ class rh.GridView
     gridItemElements = @element.querySelectorAll('a.heroine-card')
     @gridItems = []
     for e in gridItemElements
-      gridItem = new rh.GridItem(e)
+      gridItem = new rh.GridItem(e, Number(e.getAttribute('data-top-offset')))
       @gridItems.push(gridItem)
 
     @onResizeProxy = @onResize.bind(@)
