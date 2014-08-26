@@ -18,7 +18,9 @@ def composite_pack(path_to_pack):
         try:
             img = Image.open(os.path.join(path_to_pack, '{0}.png'.format(pt)), 'r')
             parts[pt] = img
-        except IOError:
+        except IOError as ex:
+            print(ex)
+            print(os.path.join(path_to_pack, '{0}.png'.format(pt)))
             # if we can't find the image, it might have not been provided, skip it.
             continue
 
