@@ -735,7 +735,7 @@ class rh.App
         document.body.className = 'grid'
         document.title = 'Real Heroines - Grid View'
         @aboutView.stop()
-        @placeFooter(@viewsContainer, @gridViewElement)
+        @placeFooter(@gridViewElement, @gridViewElement)
         if pushState
           history.pushState({'section': 'grid'}, null, '/')
     
@@ -755,7 +755,7 @@ class rh.App
     @limboFooter()
     inside.appendChild(@footer)
     
-    if inside == @viewsContainer
+    if inside == @gridViewElement
       if pinBasedOn.clientHeight < (document.body.clientHeight - @globalNav.offsetHeight) and not document.body.classList.contains('about')
         @footer.classList.add('pinned-to-bottom')
       else
