@@ -82,12 +82,29 @@ class Heroine(models.Model):
 
     super(Heroine, self).save(*args, **kwargs)
     # unzip the file, then delete it
+    should_resave = False
+    packs_dir = os.path.join(settings.MEDIA_ROOT, 'packs', self.slug)
     if self.animation_pack:
-      if zipfile.is_zipfile(self.animation_pack.path):
-        packs_dir = os.path.join(settings.MEDIA_ROOT, 'packs', self.slug)
+      #delete the old file.
+      zip_path = os.path.join(settings.MEDIA_ROOT, 'packs/{0}.zip'.format(self.slug))
+      try:
+        if zip_path != self.animation_pack.path:
+          os.unlink(zip_path)
+          should_resave = True
+      except:
+        # only delete it if it doesn't exist
+        pass
+
+      try:
+        os.rename(self.animation_pack.path, zip_path)
+        self.animation_pack = zip_path.replace(settings.MEDIA_ROOT + '/', '')
+      except:
+        zip_path = self.animation_pack.path
+
+      if zipfile.is_zipfile(zip_path):
         if not os.path.exists(packs_dir):
           os.mkdir(packs_dir)
-        pack_zip = zipfile.ZipFile(self.animation_pack.path)
+        pack_zip = zipfile.ZipFile(zip_path)
         files = pack_zip.namelist()
         # if it's in a subfolder, remove the subfolder
         allowed_files = [
@@ -113,15 +130,15 @@ class Heroine(models.Model):
               
         pack_zip.close()
 
-        #delete the file.
-        os.unlink(self.animation_pack.path)
+    # if there isn't a grid image provided, just set it to this
+    if not self.hero_image or self.hero_image.path.endswith('composite.png'):
+      # composite the images together
+      composite_path = composite_pack(packs_dir)
+      self.hero_image = composite_path.replace(settings.MEDIA_ROOT + '/', '')
+      should_resave = True
 
-        # composite the images together
-        composite_path = composite_pack(packs_dir)
-        # if there isn't a grid image provided, just set it to this
-        if not self.hero_image:
-          self.hero_image = composite_path.replace(settings.MEDIA_ROOT + '/', '')
-          self.save(quick_save=True)
+    if should_resave:
+      self.save(quick_save=True)
 
     heroines = Heroine.objects.all()
     public_heroines = []
