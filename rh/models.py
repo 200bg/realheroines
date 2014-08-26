@@ -140,6 +140,23 @@ class Heroine(models.Model):
     if should_resave:
       self.save(quick_save=True)
 
+    # regen thumbs
+    if self.grid_image_thumbnail:
+      try:
+        os.unlink(self.grid_image_thumbnail.path)
+      except:
+        pass
+
+    
+    if self.timeline_image_thumbnail:
+      try:
+        os.unlink(self.timeline_image_thumbnail.path)
+      except:
+        pass
+
+    self.grid_image_thumbnail.generate()
+    self.timeline_image_thumbnail.generate()
+
     heroines = Heroine.objects.all()
     public_heroines = []
     all_heroines = []
