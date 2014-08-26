@@ -82,7 +82,7 @@ class Heroine(models.Model):
 
     super(Heroine, self).save(*args, **kwargs)
     # unzip the file, then delete it
-    if self.animation_pack is not None:
+    if self.animation_pack:
       if zipfile.is_zipfile(self.animation_pack.path):
         packs_dir = os.path.join(settings.MEDIA_ROOT, 'packs', self.slug)
         if not os.path.exists(packs_dir):
@@ -101,7 +101,8 @@ class Heroine(models.Model):
 
         for f in files:
           for allowed_file in allowed_files:
-            if f.endswith(allowed_file):
+            # extra bit for the __MACOSX
+            if f.endswith(allowed_file) and not f.startswith('__'):
               source = pack_zip.open(f)
               contents = source.read()
               target_path = os.path.join(packs_dir, allowed_file)
