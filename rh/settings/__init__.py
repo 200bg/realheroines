@@ -76,7 +76,6 @@ ROOT_URLCONF = 'rh.urls'
 
 WSGI_APPLICATION = 'rh.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
