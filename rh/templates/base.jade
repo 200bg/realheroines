@@ -6,6 +6,10 @@ html
     meta(name='description', content='{% block meta_description %}{% endblock %}')
     meta(name='keywords', content='{% block meta_keywords %}{% endblock %}')
     meta(name='viewport', content='width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0')
+
+    meta(property="og:title", content="Real Heroines")
+    meta(property="og:image", content="{{STATIC_URL}}img/logo-icon-black.png")
+    meta(property="og:description", content="Real Heroines is an ongoing project that compiles notable women from the past who cultivated their minds and overcame adversity by defying social conventions.")
     script(type="text/javascript",src="//use.typekit.net/qut1qci.js")
     script(type="text/javascript").
       try{Typekit.load();}catch(e){}

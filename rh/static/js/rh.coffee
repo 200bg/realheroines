@@ -286,7 +286,7 @@ class rh.PortraitView
     @birthElement.innerHTML = @heroine.birthdate
     @deathElement.innerHTML = @heroine.deathdate
     @nationalityElement.innerHTML = @heroine.country
-    @copyElement.innerHTML = @heroine.descriptionHtml
+    @copyElement.innerHTML = @heroine.descriptionHtml.replace(/\<a /g, '<a target="_blank" ')
 
     @onDownProxy = @onDown.bind(@)
     @onMoveProxy = @onMove.bind(@)
