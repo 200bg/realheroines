@@ -413,19 +413,25 @@ a {
       right: 2.2%;
       top: 15%;
       height: 85%;
+      width: 30%;
+      overflow: visible;
 
       .share-button {
+        // position: absolute;
         float: right;
+        // float: left;
       }
 
       .twitter-button {
+        // padding-right: 100px;
         width: 90px;
       }
 
       .facebook-button {
         margin-top: -48px;
         display: block;
-        padding-right: 10px;
+        // padding-right: 100px;
+        padding-left: 16px;
         width: 84px;
       }
 
@@ -434,6 +440,11 @@ a {
       }
     }
   }
+}
+
+.fb_iframe_widget iframe {
+  position: absolute !important;
+  right: 2.2% !important;
 }
 
 /* #Page Styles
