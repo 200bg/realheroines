@@ -666,14 +666,6 @@ class rh.App
     # load the heroines json synchronously.
     @loadJson()
 
-    @captureGrid()
-    @gridView = new rh.GridView(@gridViewElement)
-
-    # initially delay the switch
-    setTimeout(@init.bind(@), 150)
-
-    requestAnimationFrame(@onAnimationFrameProxy)
-
     return
 
   init: ->
@@ -685,21 +677,30 @@ class rh.App
     window.addEventListener('resize', @onResize.bind(@))
 
   loadJson: ->
-    request = null
-    if (window.XDomainRequest)
-      request = new XDomainRequest()
-    else
-      request = new XMLHttpRequest()
+    @request = null
+    #if (window.XDomainRequest)
+      #@request = new XDomainRequest()
+    #else
+    @request = new XMLHttpRequest()
 
-    request.onload = ((e) ->
-      @heroinesData = JSON.parse(request.responseText)
-    ).bind(@)
+    @request.onload = @onJsonLoaded.bind(@)
 
-    request.onerror = (e) ->
+    @request.onerror = (e) ->
       console.log('Couldn\'t load heroines data. Falling back to traditional links.');
 
-    request.open("get", @heroinesUrl, false)
-    request.send()
+    @request.open("get", @heroinesUrl, true)
+    @request.send()
+    
+  onJsonLoaded: (e) ->
+    @heroinesData = JSON.parse(@request.responseText)
+
+    @captureGrid()
+    @gridView = new rh.GridView(@gridViewElement)
+
+    # initially delay the switch
+    setTimeout(@init.bind(@), 150)
+
+    requestAnimationFrame(@onAnimationFrameProxy)
 
   switchSection: (section, options={}, pushState=false) ->
     document.documentElement.scrollTop = 0;

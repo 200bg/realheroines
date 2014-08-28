@@ -24,3 +24,10 @@ class MaintenanceModeMiddleware(object):
         maintenance_page.close()
 
         return HttpResponse(maintenance_page_string, status=503)
+        
+    def process_response(self, request, response):
+        # piggy back CORS in debug
+        if settings.DEBUG:
+          response['Access-Control-Allow-Origin'] = '*'
+          
+        return response
