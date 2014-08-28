@@ -1,4 +1,12 @@
 extends 'base'
+block extrahead
+  if previous_heroine
+    link(rel="previous",href="{{previous_heroine.get_absolute_url}}")
+  if next_heroine
+    link(rel="next",href="{{next_heroine.get_absolute_url}}")
+
+  if not previous_heroine and not next_heroine
+    link(rel="next",href="{% url 'about' %}")
 
 block scripts
   script.

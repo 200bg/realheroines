@@ -218,7 +218,7 @@ class rh.HeroineFace
     # set the background color
     @circleLoader.style.backgroundColor = 'rgba(252, 202, 43, 1.0)'
     @circleCanvas.style.display = 'none'
-    @animation.style.display = null
+    @animation.style.display = 'block'
 
     # start animating
     requestAnimationFrame(@tickProxy)
@@ -595,7 +595,7 @@ class rh.GridView
     @onResizeProxy = @onResize.bind(@)
     @tickProxy = @tick.bind(@)
 
-    # document.body.addEventListener('DOMContentLoaded', @onResizeProxy)
+    #document.body.addEventListener('DOMContentLoaded', @onResizeProxy)
     # document.body.addEventListener('resize', @onResizeProxy)
 
     # @onResize()
@@ -610,8 +610,8 @@ class rh.GridView
   tick: (t) ->
     requestAnimationFrame(@tickProxy)
     for item in @gridItems
-      if item.portrait.clientWidth
-        item.portrait.style.height = item.portrait.clientWidth + 'px'
+      if item.portrait.clientWidth > 0
+        item.portrait.style.height = (item.portrait.clientWidth || 300) + 'px'
     
 
 class rh.App
