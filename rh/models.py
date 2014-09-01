@@ -219,3 +219,18 @@ class Heroine(models.Model):
     app_label = 'real_heroines'
     db_table = 'rh_heroine'
   
+"""It took me quite a long time to develop a voice, and now that I have it, I am not going to be silent."""
+class Quote(models.Model):
+  attribution = models.CharField(max_length=140)
+  quote = models.TextField()
+  publish_on = models.DateTimeField()
+  created = models.DateTimeField(auto_now_add=True)
+  updated = models.DateTimeField(auto_now=True)
+
+  def __repr__(self):
+    return self.attribution
+
+  def __str__(self):
+    return self.__repr__()
+
+

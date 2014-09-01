@@ -141,13 +141,13 @@ block content
                 .background
                 .quote-container
                   h3 
-                    span.datelike {{quote.created|date:"M"|default:"08"}}
+                    span.datelike {{quote.publish_on|date:"m"|default:"08"}}
                     | QUOTE OF THE MONTH 
-                    span.datelike '{{quote.created|date:"y"|default:"14"}}
+                    span.datelike '{{quote.publish_on|date:"y"|default:"14"}}
                   .quote(style='{{quote.styles}}')
-                    | {{quote.what|default:"I AM NOT AFRAID OF STORMS FOR I AM LEARNING TO SAIL MY SHIP."}}
+                    | {{quote.quote|default:"I AM NOT AFRAID OF STORMS FOR I AM LEARNING TO SAIL MY SHIP."}}
                   .attribution
-                    | {{quote.who|default:"Louisa May Alcott"}}
+                    | {{quote.attribution|default:"Louisa May Alcott"}}
 
           .about-project.container
 
