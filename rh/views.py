@@ -82,9 +82,8 @@ def home(request, slug=None):
   (first, last) = calendar.monthrange(now.year,now.month)
   first_of_month = datetime(now.year,now.month,1)
   last_of_month = datetime(now.year,now.month,last)
-  print(first_of_month)
-  print(last_of_month)
-  quote = Quote.objects.filter(publish_on__range=[first_of_month, last_of_month]).first()
+  # keep last month's up if we forgot
+  quote = Quote.objects.filter(publish_on__lt=last_of_month).last()
   context['quote'] = quote
 
   return TemplateResponse(request, template, context)
