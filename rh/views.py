@@ -2,7 +2,7 @@ import os
 from django.shortcuts import render
 from django.template import loader
 from django.template.response import TemplateResponse
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
@@ -30,6 +30,12 @@ def home(request, slug=None):
   selected_heroine = None
   previous_heroine = None
   next_heroine = None
+  latest_heroine = Heroine.objects.filter(is_public=True).last()
+
+  if slug is None:
+    # if no slug provided, default to the latest heroine
+    url = reverse('heroine', kwargs={'slug':latest_heroine.slug})
+    return HttpResponseRedirect(url)
 
   if request.user.is_staff and request.GET.get('preview', False):
     context['heroines'] = Heroine.objects.all()
@@ -69,5 +75,16 @@ def home(request, slug=None):
   context['selected_heroine'] = selected_heroine
   context['previous_heroine'] = previous_heroine
   context['next_heroine'] = next_heroine
+
+  return TemplateResponse(request, template, context)
+
+def not_found(request):
+  context = {}
+  template = loader.get_template('404.jade')
+  context['heroines'] = Heroine.objects.filter(is_public=True).all()
+  context['heroines_json'] = '/static/media/heroines.json'
+  # selected_heroine = Heroine.objects.filter(is_public=True).first()
+  # context['selected_heroine'] = selected_heroine
+
 
   return TemplateResponse(request, template, context)

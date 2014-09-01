@@ -1,0 +1,41 @@
+extends 'base'
+
+block extrahead
+    style.
+        .error-view {
+            text-align: center;
+            height: 300px;
+            width: 40%;
+            margin-top: 40px !important;
+        }
+
+block scripts
+    script.
+        document.addEventListener('DOMContentLoaded', function(e) {
+            if (location.pathname.indexOf('portrait') > -1) {
+                var potentialHeroine, pathParts, names, prettyName, i;
+                pathParts = location.pathname.split('/');
+                potentialHeroine = pathParts[2];
+                names = potentialHeroine.split('-');
+                for (i = 0; i < names.length; i++) {
+                    names[i] = names[i].charAt(0).toUpperCase() + names[i].substr(1);    
+                }
+                prettyName = names.join(' ');
+                
+                document.querySelector('.ifyouthink').style.display = 'block';
+                document.getElementById('potential-name').innerHTML = prettyName;
+            }
+            document.querySelector('footer').classList.add('pinned-to-bottom')
+        })
+
+block content
+    .clearfix
+    #views
+        .error-view.container
+            img(src="{{STATIC_URL}}img/logo-icon-black.png")            
+            h1 404
+            p Whoops! Looks like that's an invalid url.
+            p.ifyouthink(style='display:none;') 
+                | If you think <span id="potential-name">this</span> is a missing heroine or you would like to suggest
+                | one, please contact us at
+                a(href="mailto:contact@200bg.com") contact@200bg.com
