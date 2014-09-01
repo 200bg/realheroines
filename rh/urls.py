@@ -5,6 +5,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # coffeescript app handles the layout so we just load home.
+    url(r'^heroines.json$', 'rh.views.json', name='json'),
+    url(r'^heroines.preview.json$', 'rh.views.json_preview', name='json_preview'),
     url(r'^$', 'rh.views.home', name='home'),
     url(r'^grid/$', 'rh.views.home', name='grid'),
     url(r'^portrait/$', 'rh.views.home', name='portrait'),
