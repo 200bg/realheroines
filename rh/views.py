@@ -1,4 +1,6 @@
 import os
+from datetime import date, datetime
+import calendar
 from django.shortcuts import render
 from django.template import loader
 from django.template.response import TemplateResponse
@@ -6,7 +8,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.conf import settings
 from django.core.urlresolvers import reverse
 
-from rh.models import Heroine
+from rh.models import Heroine, Quote
 
 def json(request):
   fh = open(os.path.join(settings.MEDIA_ROOT, 'heroines.json'))
@@ -32,7 +34,7 @@ def home(request, slug=None):
   next_heroine = None
   latest_heroine = Heroine.objects.filter(is_public=True).last()
 
-  if slug is None:
+  if slug is None and request.path.startswith('/portrait/'):
     # if no slug provided, default to the latest heroine
     url = reverse('heroine', kwargs={'slug':latest_heroine.slug})
     return HttpResponseRedirect(url)
@@ -75,6 +77,15 @@ def home(request, slug=None):
   context['selected_heroine'] = selected_heroine
   context['previous_heroine'] = previous_heroine
   context['next_heroine'] = next_heroine
+
+  now = datetime.now()
+  (first, last) = calendar.monthrange(now.year,now.month)
+  first_of_month = datetime(now.year,now.month,1)
+  last_of_month = datetime(now.year,now.month,last)
+  print(first_of_month)
+  print(last_of_month)
+  quote = Quote.objects.filter(publish_on__range=[first_of_month, last_of_month]).first()
+  context['quote'] = quote
 
   return TemplateResponse(request, template, context)
 

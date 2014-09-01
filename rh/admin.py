@@ -1,5 +1,5 @@
 from django.contrib import admin
-from rh.models import Heroine
+from rh.models import Heroine, Quote
 
 class HeroineAdmin(admin.ModelAdmin):
   # readonly_fields = ('grid_image_thumbnail', 'timeline_image_thumbnail',)
@@ -18,4 +18,9 @@ class HeroineAdmin(admin.ModelAdmin):
   list_filter = ['is_public', 'country']
   search_fields = ['name']
 
+class QuoteAdmin(admin.ModelAdmin):
+  readonly_fields = ('created',)
+  list_display = ('attribution', 'publish_on',)
+
 admin.site.register(Heroine, HeroineAdmin)
+admin.site.register(Quote, QuoteAdmin)
