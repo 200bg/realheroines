@@ -16,4 +16,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+
+    url(r'^404/$', 'rh.views.not_found', name='404'),
 )
+
+handler404 = 'rh.views.not_found'
