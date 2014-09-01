@@ -15,10 +15,18 @@ html
       try{Typekit.load();}catch(e){}
     block extrahead
 
-    // Hello, devs! We're temporarily hosted on github if you wanna see how this thing ticks: 
-       https://github.com/200bg/realheroines/
-
     link(rel="stylesheet",href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,700&subset=latin,latin-ext")
+    
+    //- prefetches for the about and grid sections:
+    
+    for image_num in about_face_range
+      link(rel="prefetch",href="{{STATIC_URL}}img/about/{{image_num}}.jpg")
+      
+    for h in heroines
+      link(rel="prefetch",href="{{h.grid_image_thumbnail.url}}")
+      link(rel="prefetch",href="{{h.hero_image.url}}")
+      
+    
     //- TODO: favicon
     //-link(rel="icon",type="image/png",href="{{STATIC_URL}}moniverse/favicon.png",sizes='128x128')
     //-link(rel="icon",type="image/png",href="{{STATIC_URL}}moniverse/favicon-64.png",sizes='64x64')
@@ -27,7 +35,7 @@ html
     //-link(rel="icon",type="image/png",href="{{STATIC_URL}}moniverse/favicon-16.png",sizes='16x16')
     
     title
-      | Real Heroines - {% block title %}{% endblock %}
+      | Real Heroines - {% block title %}Notable Women{% endblock %}
 
     - compressed_css 'styles'
 
@@ -146,18 +154,20 @@ html
                 | Galaxy &#8470; 1. of 
                 a(href="http://200bg.com/",target="_blank") 200 Billion Galaxies
 
-      .old-browser.fullwidth(style='display: none;')
-        h5 We are disappoint.
-        p 
-          | Our content is a part of history, but the browser you use shouldn't be. 
-          | Real Heroines requires 
-          a(href="http://windows.microsoft.com/en-us/internet-explorer/download-ie",target='_blank') IE 10+ 
-          | or 
-          a(href="https://www.apple.com/safari/",target='_blank') Safari 7
-          | or 
-          a(href="https://www.google.com/chrome/browser/",target='_blank') Google Chrome
-          | or 
-          a(href="http://www.mozilla.org/en-US/firefox/new/",target='_blank') Firefox
+    #old-browser.fullwidth(style='display: none;')
+      img(src="{{STATIC_URL}}img/logo-icon-black.png")
+      h3 Oh no!
+      p 
+        | Our content is a part of history, but the browser you use shouldn't be. 
+      p
+        | Real Heroines requires 
+        a(href="http://windows.microsoft.com/en-us/internet-explorer/download-ie",target='_blank') IE 10+ 
+        |  or  
+        a(href="https://www.apple.com/safari/",target='_blank') Safari 7 
+        |  or  
+        a(href="https://www.google.com/chrome/browser/",target='_blank') Google Chrome 
+        |  or  
+        a(href="http://www.mozilla.org/en-US/firefox/new/",target='_blank') Firefox 
     script.
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -170,6 +180,13 @@ html
     script(src='{{STATIC_URL}}js/x-tag-components.js')
 
     script.
+      // if the browser is old IE
+      console.log(navigator)
+      if (navigator.userAgent.indexOf('MSIE 8') >= 0 || navigator.userAgent.indexOf('MSIE 7') >= 0) {
+        document.getElementById('old-browser').style.display = 'block';
+        document.getElementById('container').style.display = 'none';
+      }
+    
       document.addEventListener('DOMContentLoaded', function(e) {
         // force dom stuff
         //document.body.clientWidth;
@@ -180,9 +197,7 @@ html
         po.src = 'https://apis.google.com/js/platform.js';
         var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
       })();
-
-
-    script
+      
       (function(d, s, id) {
         var js, fjs = d.getElementsByTagName(s)[0];
         if (d.getElementById(id)) return;
