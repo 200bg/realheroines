@@ -726,6 +726,8 @@ class rh.App
         @placeFooter(@portraitView)
         if pushState
           history.pushState({'section': 'portrait', 'slug': heroine.slug}, null, "/portrait/#{heroine.slug}/")
+          if ga
+            ga('send', 'pageview')
       when 'about'
         @aboutView.element.classList.remove('animated-out')
         # @aboutFooter.style.bottom = (document.body.clientHeight - 105 - 112) + 'px'
@@ -739,6 +741,8 @@ class rh.App
         @placeFooter(@aboutView.element)
         if pushState
           history.pushState({'section': 'about'}, null, '/about/')
+          if ga
+            ga('send', 'pageview')
       when '', 'grid'
         @gridViewElement.classList.remove('animated-out')
         @aboutView.element.classList.add('animated-out')
@@ -752,6 +756,8 @@ class rh.App
         @placeFooter(@gridViewElement, @gridViewElement)
         if pushState
           history.pushState({'section': 'grid'}, null, '/')
+          if ga
+            ga('send', 'pageview')
     
     @pendingSection = section
 
