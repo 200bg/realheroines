@@ -147,20 +147,20 @@ class Heroine(models.Model):
       self.save(quick_save=True)
 
     # regen thumbs
-    if self.grid_image_thumbnail:
-      try:
-        logger.info('Deleting grid image thumbnail {0}.'.format(self.grid_image_thumbnail.path))
-        os.unlink(self.grid_image_thumbnail.path)
-      except:
-        logger.warning('Error deleting grid image thumbnail.')
+    # if self.grid_image_thumbnail:
+    #   try:
+    #     logger.info('Deleting grid image thumbnail {0}.'.format(self.grid_image_thumbnail.path))
+    #     os.unlink(self.grid_image_thumbnail.path)
+    #   except:
+    #     logger.warning('Error deleting grid image thumbnail.')
 
     
-    if self.timeline_image_thumbnail:
-      try:
-        logger.info('Deleting timeline image thumbnail {0}.'.format(self.timeline_image_thumbnail.path))
-        os.unlink(self.timeline_image_thumbnail.path)
-      except:
-        logger.warning('Error deleting timeline image thumbnail.')
+    # if self.timeline_image_thumbnail:
+    #   try:
+    #     logger.info('Deleting timeline image thumbnail {0}.'.format(self.timeline_image_thumbnail.path))
+    #     os.unlink(self.timeline_image_thumbnail.path)
+    #   except:
+    #     logger.warning('Error deleting timeline image thumbnail.')
 
     self.grid_image_thumbnail.generate()
     self.timeline_image_thumbnail.generate()
