@@ -14,7 +14,7 @@ from imagekit.processors import ResizeToFill
 from rh.compositer import composite_pack
 
 
-logger = logging.getLogger()
+logger = logging.getLogger('models')
 
 # la la la ladeez
 
