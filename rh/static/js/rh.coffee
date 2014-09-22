@@ -149,10 +149,10 @@ class rh.HeroineFace
     x = 1.0 + (breathProgress * @breathXScale)
     y = 1.0 + (breathProgress * @breathYScale)
     # firefox, you stupid. why I gotta rotate tiny bits?
-    @torsoImage.style.webkitTransform = "rotate(0.0001deg) scale(#{x}, #{y})"
-    @torsoImage.style.transform = "rotate(0.0001deg) scale(#{x}, #{y})"
+    @torsoImage.style.webkitTransform = "rotate(0.01deg) scale(#{x}, #{y})"
+    @torsoImage.style.transform = "rotate(0.01deg) scale(#{x}, #{y})"
 
-    translation = "rotate(0.0001deg) translate(0px, #{breathProgress*-4.00}px)"
+    translation = "rotate(0.01deg) translate(0px, #{breathProgress*-4.00}px)"
 
     @headImage.style.webkitTransform = translation
     @headImage.style.transform = translation
