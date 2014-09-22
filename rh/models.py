@@ -14,7 +14,7 @@ from imagekit.processors import ResizeToFill
 from rh.compositer import composite_pack
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger()
 
 # la la la ladeez
 
@@ -149,6 +149,7 @@ class Heroine(models.Model):
     # regen thumbs
     if self.grid_image_thumbnail:
       try:
+        logger.info('Deleting grid image thumbnail {0}.'.format(self.grid_image_thumbnail.path))
         os.unlink(self.grid_image_thumbnail.path)
       except:
         logger.warning('Error deleting grid image thumbnail.')
@@ -156,6 +157,7 @@ class Heroine(models.Model):
     
     if self.timeline_image_thumbnail:
       try:
+        logger.info('Deleting timeline image thumbnail {0}.'.format(self.timeline_image_thumbnail.path))
         os.unlink(self.timeline_image_thumbnail.path)
       except:
         logger.warning('Error deleting timeline image thumbnail.')
@@ -202,6 +204,9 @@ class Heroine(models.Model):
         'gridImageThumbnail': h.grid_image_thumbnail.url,
         'timelineImageThumbnail': h.timeline_image_thumbnail.url,
       }
+
+      logger.info('JSON using {0}.'.format(h.grid_image_thumbnail.path))
+
 
       if h.is_public:
         public_heroines.append(heroine_object)
