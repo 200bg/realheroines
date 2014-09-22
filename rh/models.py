@@ -4,6 +4,7 @@ import zipfile
 import os
 import os.path
 
+import logging
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -11,6 +12,9 @@ from django.utils.html import strip_tags
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from rh.compositer import composite_pack
+
+
+logger = logging.getLogger(__name__)
 
 # la la la ladeez
 
@@ -93,6 +97,7 @@ class Heroine(models.Model):
           should_resave = True
       except:
         # only delete it if it doesn't exist
+        logger.warning('Couldn\'t delete animation pack.')
         pass
 
       try:
@@ -145,14 +150,14 @@ class Heroine(models.Model):
       try:
         os.unlink(self.grid_image_thumbnail.path)
       except:
-        pass
+        logger.warning('Error deleting grid image thumbnail.')
 
     
     if self.timeline_image_thumbnail:
       try:
         os.unlink(self.timeline_image_thumbnail.path)
       except:
-        pass
+        logger.warning('Error deleting timeline image thumbnail.')
 
     self.grid_image_thumbnail.generate()
     self.timeline_image_thumbnail.generate()
@@ -161,6 +166,7 @@ class Heroine(models.Model):
     public_heroines = []
     all_heroines = []
 
+    logger.info('Generating heroines.json.')
     for h in heroines:
       birthdate_string = None
       if h.birthdate:
@@ -204,14 +210,14 @@ class Heroine(models.Model):
       public_heroines_json = json.dump(public_heroines, fh)
       fh.close()
     except IOError:
-      print('Failed to write json updates for heroines at {0}'.format(public_json_filename))
+      logger.warning('Failed to write json updates for heroines at {0}'.format(public_json_filename))
 
     try:
       fh = open(private_json_filename, 'w')
       private_json_filename = json.dump(all_heroines, fh)
       fh.close()
     except IOError:
-      print('Failed to write json updates for heroines at {0}'.format(private_json_filename))
+      logger.warning('Failed to write json updates for heroines at {0}'.format(private_json_filename))
 
 
   class Meta:
