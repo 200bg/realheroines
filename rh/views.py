@@ -39,7 +39,7 @@ def home(request, slug=None):
     url = reverse('heroine', kwargs={'slug':latest_heroine.slug})
     return HttpResponseRedirect(url)
 
-  if request.user.is_staff and request.GET.get('preview', False):
+  if request.user.is_staff:
     context['heroines'] = Heroine.objects.all()
     context['heroines_json'] = '/static/media/heroines-preview.json'
     # context['heroines_json'] = reverse('json_preview')
