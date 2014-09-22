@@ -34,6 +34,7 @@ class Heroine(models.Model):
   birthdate_is_approximate = models.BooleanField(default=False,help_text='Check to display the birthdate as "c. YYYY".')
   # what if they're not dead?
   deathdate = models.DateField(null=True,blank=True)
+  deathdate_is_approximate = models.BooleanField(default=False,help_text='Check to display the deathdate as "c. YYYY".')
   country = models.CharField(max_length=100)
   is_public = models.BooleanField(default=False)
 
@@ -176,7 +177,10 @@ class Heroine(models.Model):
           birthdate_string = h.birthdate.strftime('%Y-%m-%d')
       deathdate_string = None
       if h.deathdate:
-        deathdate_string = h.deathdate.strftime('%Y-%m-%d')
+        if h.deathdate_is_approximate:
+          deathdate_string = h.deathdate.strftime('c. %Y')
+        else:
+          deathdate_string = h.deathdate.strftime('%Y-%m-%d')
 
       try:
         hero_image_url = h.hero_image.url
