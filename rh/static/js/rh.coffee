@@ -19,10 +19,11 @@ class rh.HeroineFace
 
   START_ANGLE = Math.PI*1.5
 
-  constructor: (@element, @packName) ->
+  constructor: (@element, @packName, @heroine) ->
 
     @animation = @element.querySelector('.portrait-animation')
     @stillImage = @element.querySelector('.portrait-animation .portrait-still')
+    @clickMask = @element.querySelector('.pinnable-portrait')
     # generate dom elements
     @headImage = @element.querySelector('.portrait-animation .portrait-head')
     @eyesOpenedImage = @element.querySelector('.portrait-animation .portrait-eyes-opened')
@@ -98,10 +99,12 @@ class rh.HeroineFace
     @hairImage.addEventListener('load', @onImageLoadedProxy)
     @hairImage.addEventListener('error', @onImageErrorProxy)
     @hairImage.src = prefix + 'hair.png'
+    @clickMask.src = @heroine.pinnableImage
 
     @animation.style.display = 'none'
 
     @eyesOpenedImage.addEventListener('mouseenter', @forceBlinkProxy)
+    @clickMask.addEventListener('mouseenter', @forceBlinkProxy)
 
   unload: ->
     @headImage.removeEventListener('load', @onImageLoadedProxy)
@@ -117,6 +120,7 @@ class rh.HeroineFace
     @hairImage.removeEventListener('load', @onImageLoadedProxy)
     @hairImage.removeEventListener('error', @onImageErrorProxy)
     @eyesOpenedImage.removeEventListener('mouseenter', @forceBlinkProxy)
+    @clickMask.removeEventListener('mouseenter', @forceBlinkProxy)
 
     cancelAnimationFrame(@lastRequestId)
 
@@ -270,7 +274,7 @@ class rh.PortraitView
     @animationElement = @containerElement.querySelector('.portrait-animation')
     @animationElement.style.top = @heroine.topOffset + 'px'
     @currentFace = null
-    @currentFace = new rh.HeroineFace(@containerElement, @heroine.slug)
+    @currentFace = new rh.HeroineFace(@containerElement, @heroine.slug, @heroine)
     @currentFace.load()
 
     @nameElement = @element.querySelector('.portrait-details h1')
@@ -411,6 +415,7 @@ class rh.MugsView
 
         img = document.createElement('img')
         img.className = 'mug animated-out'
+        img.setAttribute('nopin', 'true')
         img.addEventListener('load', @onImageLoadedProxy)
         transitionTime = i
         # img.style.webkitTransitionDelay = (0.15*transitionTime) + 's'

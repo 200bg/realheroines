@@ -15,9 +15,22 @@ from django.utils.html import strip_tags
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from rh.compositer import composite_pack
+from PIL import Image
 
 
 logger = logging.getLogger('models')
+
+
+class AddYellowBackground(object):
+
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+    def process(self, img):
+        composite = Image.new('RGBA', (self.width, self.height), (252, 202, 43, 255))
+        composite = Image.alpha_composite(composite, img)
+        return composite
 
 # la la la ladeez
 
@@ -58,6 +71,14 @@ class Heroine(models.Model):
 
     timeline_image_thumbnail = ImageSpecField(source='hero_image',
         processors=[ResizeToFill(75, 75)],
+        format='PNG',
+        options={'quality': 100})
+
+    pinnable_image = ImageSpecField(source='hero_image',
+        processors=[
+            ResizeToFill(320, 320),
+            AddYellowBackground(320, 320),
+        ],
         format='PNG',
         options={'quality': 100})
 
@@ -170,6 +191,7 @@ class Heroine(models.Model):
 
         self.grid_image_thumbnail.generate()
         self.timeline_image_thumbnail.generate()
+        self.pinnable_image.generate()
 
         heroines = Heroine.objects.all()
         public_heroines = []
@@ -209,6 +231,7 @@ class Heroine(models.Model):
                 'heroImage': hero_image_url,
                 'gridImageThumbnail': h.grid_image_thumbnail.url,
                 'timelineImageThumbnail': h.timeline_image_thumbnail.url,
+                'pinnableImage': h.pinnable_image.url,
             }
 
             logger.info('JSON using {0}.'.format(h.grid_image_thumbnail.path))

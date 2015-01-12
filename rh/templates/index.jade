@@ -90,15 +90,16 @@ block content
             .portrait-circle
               canvas(width='340',height='340')
             .portrait-animation
-              img.portrait-still(src='{{selected_heroine.hero_image.url}}')
-              img.portrait-hair.part(style='display:none;')
-              img.portrait-torso.part(style='display:none;')
-              img.portrait-head.part(style='display:none;')
-              img.portrait-mouth.part(style='display:none;')
-              img.portrait-eyes-opened.part(style='display:none;')
-              img.portrait-eyes-closed.part(style='display:none;')
+              img.portrait-still(src='{{selected_heroine.hero_image.url}}',nopin='true')
+              img.portrait-hair.part(style='display:none;',nopin='true')
+              img.portrait-torso.part(style='display:none;',nopin='true')
+              img.portrait-head.part(style='display:none;',nopin='true')
+              img.portrait-mouth.part(style='display:none;',nopin='true')
+              img.portrait-eyes-opened.part(style='display:none;',nopin='true')
+              img.portrait-eyes-closed.part(style='display:none;',nopin='true')
+            img.pinnable-portrait(src='{{selected_heroine.pinnable_image.url}}')
             //- img(src='{{STATIC_URL}}img/sample.png')
-            img.portrait-ornament(src='{{STATIC_URL}}img/portrait-ornaments.png')
+            img.portrait-ornament(src='{{STATIC_URL}}img/portrait-ornaments.png',nopin='true')
           .portrait-details &nbsp;
             h1 {{selected_heroine.name}}
             .portrait-title {{selected_heroine.title}}
