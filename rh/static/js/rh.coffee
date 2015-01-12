@@ -724,6 +724,7 @@ class rh.App
         @currentHeroine = heroine
         @aboutView.stop()
         @placeFooter(@portraitView)
+        window.scrollTo(0,0);
         if pushState
           history.pushState({'section': 'portrait', 'slug': heroine.slug}, null, "/portrait/#{heroine.slug}/")
           if ga
@@ -739,6 +740,7 @@ class rh.App
         document.title = 'Real Heroines - About'
         @aboutView.listen()
         @placeFooter(@aboutView.element)
+        window.scrollTo(0,0);
         if pushState
           history.pushState({'section': 'about'}, null, '/about/')
           if ga
