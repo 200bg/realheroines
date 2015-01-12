@@ -13,6 +13,7 @@ PART_TYPES = [
 
 def composite_pack(path_to_pack):
     parts = OrderedDict({})
+    img = None
 
     for pt in PART_TYPES:
         try:
@@ -24,7 +25,10 @@ def composite_pack(path_to_pack):
             # if we can't find the image, it might have not been provided, skip it.
             continue
 
-    size = img.size
+    if img is not None:
+        size = img.size
+    else:
+        return None
 
     composite = Image.new('RGBA', size, (255, 0, 0 ,0))
 

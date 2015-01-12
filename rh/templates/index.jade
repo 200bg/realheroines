@@ -57,6 +57,8 @@ block content
           .portrait
             .circle
             .grid-portrait(style='background-image: url({{h.grid_image_thumbnail.url}});')
+          if h.is_new
+            .new-flag(title="New")
           canvas.grid-portrait-ornament(width='300',height='113')
           .diamonds
             .left-line.diamond-line

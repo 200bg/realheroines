@@ -35,6 +35,12 @@ body.grid {
         margin-top: 2.0em;
         opacity: 0.0;
       }
+
+      .new-flag {
+        opacity: 0.0;
+        background-position: -100px 0px;
+      }
+
       .nameplate {
         opacity: 0.0;
         margin-top: -1em;
@@ -53,6 +59,7 @@ body.grid {
   }
 
   .heroine-card {
+    position: relative;
     display: block;
     float: left;
     text-align: center;
@@ -64,6 +71,20 @@ body.grid {
     min-height: 300px;
     text-decoration: none;
     .transition(all 0.5s);
+
+    .new-flag {
+      background: transparent url('../img/new-flag.png') top left no-repeat;
+      background-size: contain;
+      width: 25%;
+      height: auto;
+      min-height: 50px;
+      position: absolute;
+      opacity: 1.0;
+      top: 10%;
+      left: 70%;
+      background-position: 0px 0px;
+      .transition(all 1.0s);
+    }
 
     .portrait {
       position: relative;
@@ -223,6 +244,10 @@ body.grid {
           -moz-filter: grayscale(0%);
           filter: grayscale(0%);
         }
+      }
+
+      .new-flag {
+        top: 3%;
       }
 
       .circle {
