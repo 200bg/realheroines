@@ -144,9 +144,9 @@ block content
                 .background
                 .quote-container
                   h3 
-                    span.datelike {{quote.publish_on|date:"m"|default:"08"}}
+                    span.datelike {% now "m" %}
                     | QUOTE OF THE MONTH 
-                    span.datelike '{{quote.publish_on|date:"y"|default:"14"}}
+                    span.datelike '{% now "y" %}
                   .quote(style='{{quote.styles}}')
                     | {{quote.quote|default:"I AM NOT AFRAID OF STORMS FOR I AM LEARNING TO SAIL MY SHIP."}}
                   .attribution
